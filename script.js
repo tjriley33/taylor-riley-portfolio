@@ -25,17 +25,35 @@ function initNav() {
     });
 
     // Mobile toggle
+    const overlay = document.getElementById('nav-overlay');
+
+    function closeMenu() {
+        links.classList.remove('open');
+        toggle.classList.remove('active');
+        overlay.classList.remove('visible');
+        document.body.style.overflow = '';
+    }
+
+    function openMenu() {
+        links.classList.add('open');
+        toggle.classList.add('active');
+        overlay.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+    }
+
     toggle.addEventListener('click', () => {
-        links.classList.toggle('open');
-        toggle.classList.toggle('active');
+        if (links.classList.contains('open')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
     });
+
+    overlay.addEventListener('click', closeMenu);
 
     // Close mobile menu on link click
     links.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            links.classList.remove('open');
-            toggle.classList.remove('active');
-        });
+        link.addEventListener('click', closeMenu);
     });
 }
 
