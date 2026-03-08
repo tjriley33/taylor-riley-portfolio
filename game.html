@@ -294,6 +294,9 @@
         player.webActive = true;
         player.webLength = 0;
 
+        // Cap particles
+        if (particles.length > 100) particles = particles.slice(-60);
+
         // Web particles
         for (let i = 0; i < 5; i++) {
             particles.push({
@@ -495,17 +498,17 @@
         // Blue glasses
         ctx.strokeStyle = '#3b82f6';
         ctx.lineWidth = 2;
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.15)';
         // Left lens
         ctx.beginPath();
-        ctx.roundRect(-12, -18, 10, 8, 2);
-        ctx.stroke();
-        ctx.fillStyle = 'rgba(59, 130, 246, 0.15)';
+        ctx.rect(-12, -18, 10, 8);
         ctx.fill();
+        ctx.stroke();
         // Right lens
         ctx.beginPath();
-        ctx.roundRect(2, -18, 10, 8, 2);
-        ctx.stroke();
+        ctx.rect(2, -18, 10, 8);
         ctx.fill();
+        ctx.stroke();
         // Bridge
         ctx.beginPath();
         ctx.moveTo(-2, -14);
@@ -797,36 +800,47 @@
 
         // Draw obstacles (TIE fighters flanking the gap)
         obstacles.forEach(obs => {
-            // Top column of TIE fighters
-            const topCount = Math.ceil(obs.gapY / 80);
-            for (let i = 0; i < topCount; i++) {
-                const ty = obs.gapY - 40 - i * 80;
-                if (ty > -50 && ty < H + 50) {
-                    drawTIE(obs.x, ty, obs.type);
-                }
+            // Top TIE (one near gap)
+            if (obs.gapY > 40) {
+                drawTIE(obs.x, obs.gapY - 45, obs.type);
+            }
+            if (obs.gapY > 120) {
+                drawTIE(obs.x, obs.gapY - 125, obs.type);
             }
 
-            // Bottom column
-            const botStart = obs.gapY + obs.gapSize;
-            const botCount = Math.ceil((H - botStart) / 80);
-            for (let i = 0; i < botCount; i++) {
-                const ty = botStart + 40 + i * 80;
-                if (ty > -50 && ty < H + 50) {
-                    drawTIE(obs.x, ty, obs.type);
-                }
+            // Bottom TIE (one near gap)
+            const botY = obs.gapY + obs.gapSize;
+            if (botY < H - 40) {
+                drawTIE(obs.x, botY + 45, obs.type);
+            }
+            if (botY < H - 120) {
+                drawTIE(obs.x, botY + 125, obs.type);
             }
 
-            // Gap indicators (force field edges)
+            // Barrier lines (top and bottom walls)
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)';
+            ctx.lineWidth = 2;
+            // Top barrier
             ctx.beginPath();
-            ctx.moveTo(obs.x - 30, obs.gapY);
-            ctx.lineTo(obs.x + 30, obs.gapY);
+            ctx.moveTo(obs.x, 0);
+            ctx.lineTo(obs.x, obs.gapY);
+            ctx.stroke();
+            // Bottom barrier
+            ctx.beginPath();
+            ctx.moveTo(obs.x, botY);
+            ctx.lineTo(obs.x, H);
+            ctx.stroke();
+
+            // Gap indicators
+            ctx.beginPath();
+            ctx.moveTo(obs.x - 25, obs.gapY);
+            ctx.lineTo(obs.x + 25, obs.gapY);
             ctx.strokeStyle = 'rgba(96, 165, 250, 0.3)';
             ctx.lineWidth = 1;
             ctx.stroke();
-
             ctx.beginPath();
-            ctx.moveTo(obs.x - 30, obs.gapY + obs.gapSize);
-            ctx.lineTo(obs.x + 30, obs.gapY + obs.gapSize);
+            ctx.moveTo(obs.x - 25, botY);
+            ctx.lineTo(obs.x + 25, botY);
             ctx.stroke();
         });
 
@@ -835,8 +849,12 @@
     }
 
     function loop() {
-        update();
-        draw();
+        try {
+            update();
+            draw();
+        } catch(e) {
+            console.error('Game error:', e);
+        }
         requestAnimationFrame(loop);
     }
 
