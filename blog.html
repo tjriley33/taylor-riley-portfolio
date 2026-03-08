@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thinking — Taylor Riley</title>
+    <meta name="description" content="Thoughts on AI in enterprise, platform modernization, and technical leadership from Taylor Riley.">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+    <nav class="nav scrolled" id="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">TR</a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#experience">Experience</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="index.html#contact" class="nav-cta">Get in Touch</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay"></div>
+
+    <section class="blog-hero">
+        <div class="container">
+            <span class="section-tag">Thinking Out Loud</span>
+            <h1 class="section-title">Notes on Building, Leading, and Figuring Things Out</h1>
+            <p class="blog-hero-sub">Lessons from 15 years in tax tech, building AI tooling, and leading teams through impossible-sounding projects.</p>
+        </div>
+    </section>
+
+    <section class="blog-posts">
+        <div class="container">
+            <article class="blog-card" id="mcp-servers">
+                <div class="blog-meta">
+                    <span class="blog-date">February 2026</span>
+                    <span class="blog-reading">8 min read</span>
+                </div>
+                <h2>Why I Built a Code Intelligence Platform in 6 Days (And What MCP Servers Actually Solve)</h2>
+                <p class="blog-excerpt">
+                    Everyone's talking about AI coding tools. But here's the problem nobody mentions: LLMs don't understand your codebase. They understand code in general. When your company has 63 repositories, a proprietary DSL, and calculation chains that span 15 files — "code in general" isn't enough.
+                </p>
+                <div class="blog-body">
+                    <p>
+                        At Taxwell, our tax calculation engine lives across two very different codebases: PowerBASIC (Drake) and MathMaster DSL (TaxAct). When we started using Claude Code for development work, we hit a wall immediately. The AI would confidently generate code using syntax that didn't exist. It would trace a calculation chain halfway and then fabricate the rest. It would suggest changes to functions without understanding that 47 other functions depended on them.
+                    </p>
+                    <p>
+                        The answer wasn't better prompts. The answer was <strong>giving the AI a structured knowledge layer</strong> it could query. That's what Model Context Protocol (MCP) servers do — they give LLMs tools to look things up instead of guessing.
+                    </p>
+                    <p>
+                        I built our code intelligence MCP server over a long weekend that turned into 6 days. The architecture is straightforward: an offline indexer parses all 63 repos and builds a SQLite database with FTS5 full-text search. Function definitions, call relationships, DSL field dependencies, cross-form references, include chains — all pre-computed and queryable. The MCP server exposes 37+ tools that Claude Code can call: <code>search_code</code>, <code>get_call_chain</code>, <code>get_calculation_flow</code>, <code>get_form_dependencies</code>, <code>find_references</code>.
+                    </p>
+                    <p>
+                        The result? Questions that used to take hours of manual file-hopping now take seconds. "What breaks if I change this function?" has a real answer. "Trace the Earned Income Credit calculation end to end" returns the complete chain instead of a hallucinated approximation.
+                    </p>
+                    <h3>The lesson for other technical leaders</h3>
+                    <p>
+                        If your team is using AI coding tools and getting mediocre results, the problem probably isn't the AI. The problem is that the AI doesn't have access to the relationships and context that live in your engineers' heads. An MCP server — even a simple one backed by SQLite — can be the difference between an AI that wastes time and an AI that multiplies your team's output.
+                    </p>
+                    <p>
+                        You don't need a vector database. You don't need embeddings. You need a well-indexed relational model of your codebase and a way for the AI to query it. Start there.
+                    </p>
+                </div>
+                <button class="blog-toggle" onclick="this.parentElement.classList.toggle('expanded')">
+                    <span class="show-more">Read full article</span>
+                    <span class="show-less">Show less</span>
+                </button>
+            </article>
+
+            <article class="blog-card" id="merging-teams">
+                <div class="blog-meta">
+                    <span class="blog-date">January 2026</span>
+                    <span class="blog-reading">6 min read</span>
+                </div>
+                <h2>What Nobody Tells You About Merging Two Engineering Teams</h2>
+                <p class="blog-excerpt">
+                    When Cinven acquired TaxAct and Drake Tax, someone had to figure out how to make two very different tax development teams work as one. Here's what I learned about the human side of M&A integration that no playbook covers.
+                </p>
+                <div class="blog-body">
+                    <p>
+                        The tech was the easy part. Different codebases? Fine — we can build abstraction layers. Different deployment processes? Fine — we can standardize. Different testing philosophies? Fine — we can align on quality gates.
+                    </p>
+                    <p>
+                        The hard part was that people had built their identities around their team. Drake developers were proud of being Drake developers. TaxAct developers had their own culture, their own inside jokes, their own way of doing things. Telling both groups "you're one team now" is about as effective as telling two families "you're one family now" at a forced reunion.
+                    </p>
+                    <h3>What actually worked</h3>
+                    <p>
+                        <strong>Shared problems, not shared mandates.</strong> Instead of reorganizing and hoping for the best, I gave both teams a shared problem to solve together. HappyFox ticket triage was the first one — everyone could see the customer pain, and fixing it required knowledge from both sides. Nothing bonds a team faster than a shared enemy, and "customer suffering" is a pretty compelling enemy.
+                    </p>
+                    <p>
+                        <strong>Transparent career architecture.</strong> One of the first things I did was build a unified career ladder — Analyst I through Principal — with written job descriptions for every level. When people can see where they're going and what it takes to get there, a lot of the political anxiety disappears.
+                    </p>
+                    <p>
+                        <strong>Let people grieve the old team.</strong> This sounds dramatic, but it's real. People had built careers on Team A or Team B. Acknowledging that something was being lost — not just something being gained — made the whole transition smoother.
+                    </p>
+                    <p>
+                        Two years in, the team operates as a genuine unit. But it didn't happen because of a reorg slide deck. It happened because we focused on the work, built trust through shared wins, and treated the humans like humans.
+                    </p>
+                </div>
+                <button class="blog-toggle" onclick="this.parentElement.classList.toggle('expanded')">
+                    <span class="show-more">Read full article</span>
+                    <span class="show-less">Show less</span>
+                </button>
+            </article>
+
+            <article class="blog-card" id="data-driven">
+                <div class="blog-meta">
+                    <span class="blog-date">November 2025</span>
+                    <span class="blog-reading">5 min read</span>
+                </div>
+                <h2>From 38% SLA Breach Rate to 5.6%: A Dashboard Is Not a Dashboard</h2>
+                <p class="blog-excerpt">
+                    We had zero visibility into our support operations. No one could tell you how many tickets were open, who was handling them, or whether we were meeting our SLAs. Six dashboards later, our breach rate dropped by 85%. Here's the framework.
+                </p>
+                <div class="blog-body">
+                    <p>
+                        When I took over federal tax development, I asked a simple question: "How are we doing on support ticket response times?" The answer was a combination of shrugs and someone pulling up an Excel file from three weeks ago. That was the moment I knew dashboards weren't optional — they were the foundation.
+                    </p>
+                    <p>
+                        But here's the thing about dashboards that most people get wrong: <strong>a dashboard that nobody looks at is worse than no dashboard at all</strong>, because it gives you the illusion of visibility. I've seen teams build beautiful Power BI reports that get opened twice and then forgotten.
+                    </p>
+                    <h3>The framework that worked</h3>
+                    <p>
+                        <strong>Start with one question, not one dataset.</strong> Our first dashboard answered exactly one question: "Which tickets are about to breach SLA?" Not a comprehensive ticket overview. Not a historical analysis. Just: what's on fire right now? That dashboard got used every single morning because it was immediately actionable.
+                    </p>
+                    <p>
+                        <strong>Automate the delivery, not just the data.</strong> This is where Power Automate changed the game. I built a flow that sends an AI-generated daily recap to our Teams channel every morning before anyone starts work. Nobody has to remember to check the dashboard. The insights come to you.
+                    </p>
+                    <p>
+                        <strong>Make it embarrassingly specific.</strong> Our dashboard shows which individual analyst handled which tickets and how long each one took. That felt uncomfortable at first. But when the top 5 analysts were handling 69% of tickets, that specificity led to redistribution that made the entire team healthier.
+                    </p>
+                    <p>
+                        The 38% to 5.6% SLA improvement didn't come from working harder. It came from knowing where to look. That's what dashboards actually do when they're built right.
+                    </p>
+                </div>
+                <button class="blog-toggle" onclick="this.parentElement.classList.toggle('expanded')">
+                    <span class="show-more">Read full article</span>
+                    <span class="show-less">Show less</span>
+                </button>
+            </article>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <span class="footer-logo">Taylor Riley</span>
+                <span class="footer-tagline">Builder. Leader. Problem Solver.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

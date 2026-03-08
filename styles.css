@@ -942,6 +942,134 @@ img { max-width: 100%; display: block; }
     color: var(--color-accent-light);
 }
 
+/* --- Testimonials Section --- */
+.testimonials {
+    background: var(--color-bg);
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.testimonial-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+}
+
+.testimonial-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow);
+}
+
+.testimonial-quote {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.quote-icon {
+    position: absolute;
+    top: -8px;
+    left: -4px;
+    color: var(--color-accent-light);
+}
+
+.testimonial-quote p {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+.testimonial-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-accent-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-accent-light);
+    flex-shrink: 0;
+}
+
+.testimonial-author h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 2px;
+}
+
+.testimonial-author span {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+}
+
+/* --- What I'm Looking For --- */
+.looking-for {
+    background: var(--color-bg-alt);
+}
+
+.looking-for-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.looking-for-content .about-lead {
+    margin-bottom: 32px;
+}
+
+.looking-for-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.lf-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    transition: var(--transition);
+}
+
+.lf-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow);
+}
+
+.lf-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-accent-light);
+    margin-bottom: 10px;
+}
+
+.lf-card p {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
 /* --- Education Section --- */
 .education {
     background: var(--color-bg-alt);
@@ -1319,6 +1447,15 @@ img { max-width: 100%; display: block; }
     .skill-category h3 { font-size: 0.95rem; margin-bottom: 12px; }
     .skill-icon { width: 40px; height: 40px; margin-bottom: 12px; }
     .skill-icon svg { width: 22px; height: 22px; }
+
+    /* --- Testimonials --- */
+    .testimonial-grid { grid-template-columns: 1fr; gap: 16px; }
+    .testimonial-card { padding: 24px; }
+    .testimonial-quote p { font-size: 0.9rem; }
+
+    /* --- Looking For --- */
+    .looking-for-grid { grid-template-columns: 1fr; }
+    .lf-card { padding: 20px; }
 
     /* --- Education --- */
     .education-grid { grid-template-columns: 1fr; gap: 16px; }

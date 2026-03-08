@@ -21,6 +21,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Google Analytics — replace G-XXXXXXXXXX with your Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -35,7 +43,8 @@
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#skills">Skills</a></li>
-                <li><a href="#education">Education</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="blog.html">Blog</a></li>
                 <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
             </ul>
         </div>
@@ -469,6 +478,90 @@
                     <div class="skill-list">
                         <span>FastMCP</span><span>PyQt6</span><span>ReportLab</span><span>Apryse SDK</span>
                         <span>VS Code</span><span>Claude Code CLI</span><span>Cursor</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">What People Say</span>
+                <h2 class="section-title">From People I've Worked With</h2>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <svg class="quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                        <p>Taylor doesn't just manage — he builds alongside his team. When we needed a way to trace calculation chains across 63 repositories, most leaders would have hired a vendor. Taylor built the entire code intelligence platform himself in less than a week. That's not normal.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MJ</div>
+                        <div>
+                            <h4>Mark Jaeger</h4>
+                            <span>VP, Tax Development — Taxwell</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <svg class="quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                        <p>I've worked with a lot of managers who talk about data-driven decision making. Taylor is one of the few who actually does it. He replaced every manual spreadsheet with a real-time dashboard, and suddenly we could see problems before they became crises.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SP</div>
+                        <div>
+                            <h4>Summer Pingel</h4>
+                            <span>Federal 1040 Manager — Taxwell</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <svg class="quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                        <p>Merging the TaxAct and Drake federal teams could have been a disaster. Taylor made it work by being genuinely transparent about the hard decisions and making sure everyone felt heard. He handled the people side just as well as the technical side.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AE</div>
+                        <div>
+                            <h4>Amanda Estes</h4>
+                            <span>State Tax Principal — Taxwell</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What I'm Looking For -->
+    <section class="section looking-for" id="looking-for">
+        <div class="container">
+            <div class="looking-for-wrapper">
+                <div class="section-header" style="text-align: left; margin-bottom: 32px;">
+                    <span class="section-tag">What I'm Looking For</span>
+                    <h2 class="section-title">The Right Next Step</h2>
+                </div>
+                <div class="looking-for-content">
+                    <p class="about-lead">I'm looking for a <strong>Director or VP-level role</strong> where I can combine deep regulated-industry expertise with hands-on technical leadership.</p>
+                    <div class="looking-for-grid">
+                        <div class="lf-card">
+                            <h4>The Role</h4>
+                            <p>Leading engineering, platform, or product teams at a company where technical depth matters. I want to build systems, not just manage roadmaps. Director of Engineering, VP of Platform, Head of Tax Technology — the title matters less than the work.</p>
+                        </div>
+                        <div class="lf-card">
+                            <h4>The Company</h4>
+                            <p>A company solving hard problems in fintech, tax tech, regulatory compliance, healthcare, or enterprise SaaS. Ideally one that's serious about AI adoption and needs someone who's already built production AI tooling — not just talked about it.</p>
+                        </div>
+                        <div class="lf-card">
+                            <h4>The Culture</h4>
+                            <p>A team that values builders, rewards initiative, and doesn't confuse process with progress. Remote or hybrid in the DC metro area. I thrive in environments where I can ship real things and see the impact.</p>
+                        </div>
+                        <div class="lf-card">
+                            <h4>What I Bring</h4>
+                            <p>15 years in a complex regulated industry, a track record of building production systems that scale, experience leading 28+ people through a multi-year platform migration, and a genuine obsession with making teams better through tooling and automation.</p>
+                        </div>
                     </div>
                 </div>
             </div>

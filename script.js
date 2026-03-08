@@ -121,6 +121,8 @@ function initRevealAnimations() {
         '.timeline-item',
         '.project-card',
         '.skill-category',
+        '.testimonial-card',
+        '.lf-card',
         '.education-card',
         '.contact-wrapper'
     ];
