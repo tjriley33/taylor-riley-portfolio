@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Owen's Web Swing — Star Wars Edition</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        canvas { display: block; }
+
+        #start-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            background: radial-gradient(ellipse at 50% 30%, #0a0a2e, #000);
+        }
+
+        #start-screen h1 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 900;
+            color: #fbbf24;
+            text-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        #start-screen .subtitle {
+            color: rgba(255,255,255,0.5);
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+
+        .start-btn {
+            padding: 16px 48px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 30px rgba(220, 38, 38, 0.6);
+        }
+
+        .high-score-display {
+            margin-top: 24px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.9rem;
+        }
+
+        .high-score-display strong {
+            color: #fbbf24;
+            font-size: 1.1rem;
+        }
+
+        #hud {
+            position: fixed;
+            top: 16px;
+            left: 0;
+            right: 0;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .hud-score {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .hud-best {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.4);
+            text-align: right;
+        }
+
+        .hud-best strong { color: #fbbf24; }
+
+        #game-over {
+            position: fixed;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        #game-over.show { display: flex; }
+
+        #game-over h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #ef4444;
+            margin-bottom: 16px;
+        }
+
+        #game-over .final-score {
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+        }
+
+        #game-over .final-label {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        #game-over .new-record {
+            color: #fbbf24;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 8px;
+            display: none;
+        }
+
+        #game-over .new-record.show { display: block; }
+
+        #game-over .restart-btn {
+            margin-top: 32px;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .all-time {
+            margin-top: 20px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.85rem;
+        }
+
+        .all-time strong { color: #fbbf24; }
+
+        #back-link {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.15);
+            font-size: 0.75rem;
+            text-decoration: none;
+            z-index: 200;
+        }
+        #back-link:hover { color: rgba(255,255,255,0.4); }
+    </style>
+</head>
+<body>
+    <canvas id="game"></canvas>
+
+    <div id="start-screen">
+        <h1>OWEN'S WEB SWING</h1>
+        <div class="subtitle">Star Wars Edition</div>
+        <button class="start-btn" id="start-btn">TAP TO PLAY</button>
+        <div class="high-score-display">
+            All-Time High Score: <strong id="start-best">0</strong>
+        </div>
+    </div>
+
+    <div id="hud" style="display:none;">
+        <div class="hud-score" id="score">0</div>
+        <div class="hud-best">Best: <strong id="hud-best">0</strong></div>
+    </div>
+
+    <div id="game-over">
+        <h2>GAME OVER</h2>
+        <div class="final-label">Score</div>
+        <div class="final-score" id="final-score">0</div>
+        <div class="new-record" id="new-record">NEW HIGH SCORE!</div>
+        <div class="all-time">All-Time Best: <strong id="go-best">0</strong></div>
+        <button class="restart-btn" id="restart-btn">PLAY AGAIN</button>
+    </div>
+
+    <a id="back-link" href="index.html">← back to dad's website</a>
+
+    <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+
+    let W, H;
+    function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // High score persistence
+    const SCORE_KEY = 'owen-web-swing-alltime';
+    let allTimeBest = parseInt(localStorage.getItem(SCORE_KEY) || '0');
+    document.getElementById('start-best').textContent = allTimeBest;
+    document.getElementById('hud-best').textContent = allTimeBest;
+
+    // Game state
+    let playing = false;
+    let gameOver = false;
+    let score = 0;
+    let frame = 0;
+    let speed = 3;
+    let gravity = 0.5;
+
+    // Player (Owen - blonde kid in Spidey suit)
+    const player = {
+        x: 0, y: 0, vy: 0, r: 22,
+        webY: 0, webActive: false, webLength: 0,
+        rotation: 0
+    };
+
+    // Obstacles (TIE fighters)
+    let obstacles = [];
+    let stars = [];
+    let particles = [];
+    let lasers = [];
+    let webTrails = [];
+
+    function initStars() {
+        stars = [];
+        for (let i = 0; i < 100; i++) {
+            stars.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                speed: Math.random() * 2 + 0.5,
+                r: Math.random() * 1.5 + 0.3,
+                brightness: Math.random()
+            });
+        }
+    }
+
+    function reset() {
+        player.x = W * 0.2;
+        player.y = H * 0.5;
+        player.vy = 0;
+        player.webActive = false;
+        player.rotation = 0;
+        obstacles = [];
+        particles = [];
+        lasers = [];
+        webTrails = [];
+        score = 0;
+        frame = 0;
+        speed = 3;
+        gameOver = false;
+        document.getElementById('score').textContent = '0';
+    }
+
+    // Spawn TIE fighters
+    function spawnObstacle() {
+        const gapSize = Math.max(160, 220 - score * 2);
+        const gapY = 80 + Math.random() * (H - 160 - gapSize);
+
+        obstacles.push({
+            x: W + 40,
+            gapY: gapY,
+            gapSize: gapSize,
+            scored: false,
+            type: Math.random() > 0.3 ? 'tie' : 'tie-advanced'
+        });
+    }
+
+    // Input
+    function swing() {
+        if (!playing || gameOver) return;
+        player.vy = -9;
+        player.webActive = true;
+        player.webLength = 0;
+
+        // Web particles
+        for (let i = 0; i < 5; i++) {
+            particles.push({
+                x: player.x - 10,
+                y: player.y - 15,
+                vx: -Math.random() * 3 - 1,
+                vy: -Math.random() * 5 - 3,
+                life: 1,
+                decay: 0.03,
+                r: Math.random() * 3 + 1,
+                color: 'white'
+            });
+        }
+    }
+
+    canvas.addEventListener('mousedown', swing);
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); swing(); }, { passive: false });
+
+    // Start button
+    document.getElementById('start-btn').addEventListener('click', () => {
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('hud').style.display = 'flex';
+        playing = true;
+        reset();
+        initStars();
+    });
+
+    document.getElementById('restart-btn').addEventListener('click', () => {
+        document.getElementById('game-over').classList.remove('show');
+        reset();
+        playing = true;
+    });
+
+    // Draw the kid (Owen) - blonde hair, blue glasses, Spidey suit
+    function drawPlayer() {
+        const px = player.x;
+        const py = player.y;
+        const r = player.r;
+
+        ctx.save();
+        ctx.translate(px, py);
+
+        // Slight rotation based on velocity
+        const tilt = Math.max(-0.4, Math.min(0.4, player.vy * 0.04));
+        ctx.rotate(tilt);
+
+        // Web line going up
+        if (player.webActive && player.webLength < 80) {
+            player.webLength += 8;
+            ctx.beginPath();
+            ctx.moveTo(0, -r);
+            ctx.lineTo(-5 - player.webLength * 0.3, -r - player.webLength);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Web splat at top
+            const wx = -5 - player.webLength * 0.3;
+            const wy = -r - player.webLength;
+            for (let i = 0; i < 4; i++) {
+                const a = (i / 4) * Math.PI * 2 + frame * 0.02;
+                ctx.beginPath();
+                ctx.moveTo(wx, wy);
+                ctx.lineTo(wx + Math.cos(a) * 12, wy + Math.sin(a) * 12);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            if (player.webLength >= 80) player.webActive = false;
+        }
+
+        // Body - Spidey red suit
+        ctx.beginPath();
+        ctx.ellipse(0, 6, r * 0.6, r * 0.75, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#dc2626';
+        ctx.fill();
+
+        // Blue parts of suit
+        ctx.beginPath();
+        ctx.ellipse(0, 12, r * 0.55, r * 0.45, 0, 0.2, Math.PI - 0.2);
+        ctx.fillStyle = '#2563eb';
+        ctx.fill();
+
+        // Web pattern on chest (subtle lines)
+        ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+        ctx.lineWidth = 0.5;
+        for (let i = -2; i <= 2; i++) {
+            ctx.beginPath();
+            ctx.moveTo(0, -4);
+            ctx.lineTo(i * 8, 18);
+            ctx.stroke();
+        }
+
+        // Spider emblem on chest
+        ctx.beginPath();
+        ctx.ellipse(0, 4, 3, 2, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#111';
+        ctx.fill();
+        // Spider legs
+        for (let side = -1; side <= 1; side += 2) {
+            for (let i = 0; i < 3; i++) {
+                const angle = (i - 1) * 0.4 + Math.PI * (side > 0 ? 0 : 1);
+                ctx.beginPath();
+                ctx.moveTo(0, 4);
+                ctx.lineTo(Math.cos(angle) * 7 * side, 4 + Math.sin(angle) * 5 - i);
+                ctx.strokeStyle = '#111';
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+            }
+        }
+
+        // Arms reaching forward
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 5;
+        ctx.lineCap = 'round';
+        // Right arm (shooting web)
+        ctx.beginPath();
+        ctx.moveTo(8, -2);
+        ctx.quadraticCurveTo(18, -12, 14, -20);
+        ctx.stroke();
+        // Hand
+        ctx.beginPath();
+        ctx.arc(14, -20, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#dc2626';
+        ctx.fill();
+        // Web-shooter fingers (Spidey hand pose)
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(14, -24);
+        ctx.lineTo(13, -28);
+        ctx.moveTo(16, -23);
+        ctx.lineTo(18, -27);
+        ctx.stroke();
+
+        // Left arm
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(-8, -2);
+        ctx.quadraticCurveTo(-14, 4, -16, 10);
+        ctx.stroke();
+
+        // Legs
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = '#2563eb';
+        // Right leg
+        ctx.beginPath();
+        ctx.moveTo(4, 16);
+        ctx.quadraticCurveTo(10, 24, 8, 30);
+        ctx.stroke();
+        // Left leg
+        ctx.beginPath();
+        ctx.moveTo(-4, 16);
+        ctx.quadraticCurveTo(-8, 26, -12, 30);
+        ctx.stroke();
+        // Red boots
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(8, 28);
+        ctx.lineTo(10, 33);
+        ctx.moveTo(-12, 28);
+        ctx.lineTo(-14, 33);
+        ctx.stroke();
+
+        // HEAD
+        // Head base
+        ctx.beginPath();
+        ctx.arc(0, -14, 14, 0, Math.PI * 2);
+        ctx.fillStyle = '#fcd8b1';
+        ctx.fill();
+
+        // Blonde hair (messy)
+        ctx.fillStyle = '#f2c94c';
+        // Main hair mass
+        ctx.beginPath();
+        ctx.ellipse(0, -24, 15, 8, 0, Math.PI, Math.PI * 2);
+        ctx.fill();
+        // Messy tufts
+        const hairTufts = [
+            [-10, -28, 7], [-3, -30, 6], [5, -29, 7], [12, -26, 6],
+            [-13, -24, 5], [8, -27, 5], [-6, -29, 5], [1, -31, 5]
+        ];
+        hairTufts.forEach(([hx, hy, hr]) => {
+            ctx.beginPath();
+            ctx.arc(hx, hy, hr, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        // Side hair
+        ctx.beginPath();
+        ctx.ellipse(-14, -18, 5, 8, -0.3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(14, -18, 5, 8, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Blue glasses
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineWidth = 2;
+        // Left lens
+        ctx.beginPath();
+        ctx.roundRect(-12, -18, 10, 8, 2);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.15)';
+        ctx.fill();
+        // Right lens
+        ctx.beginPath();
+        ctx.roundRect(2, -18, 10, 8, 2);
+        ctx.stroke();
+        ctx.fill();
+        // Bridge
+        ctx.beginPath();
+        ctx.moveTo(-2, -14);
+        ctx.lineTo(2, -14);
+        ctx.stroke();
+        // Arms of glasses
+        ctx.beginPath();
+        ctx.moveTo(-12, -14);
+        ctx.lineTo(-16, -15);
+        ctx.moveTo(12, -14);
+        ctx.lineTo(16, -15);
+        ctx.stroke();
+
+        // Eyes behind glasses
+        ctx.fillStyle = '#1e40af';
+        ctx.beginPath();
+        ctx.arc(-7, -14, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(7, -14, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        // Eye shine
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(-6, -15, 1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(8, -15, 1, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Smile
+        ctx.beginPath();
+        ctx.arc(0, -9, 6, 0.2, Math.PI - 0.2);
+        ctx.strokeStyle = '#b45309';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Ears
+        ctx.beginPath();
+        ctx.arc(-14, -13, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#fcd8b1';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(14, -13, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    // Draw TIE Fighter
+    function drawTIE(x, y, type) {
+        const s = 28;
+        ctx.save();
+        ctx.translate(x, y);
+
+        const bodyColor = type === 'tie-advanced' ? '#4a4a6a' : '#555';
+        const wingColor = type === 'tie-advanced' ? '#3a3a5a' : '#444';
+
+        // Wings (hexagonal panels)
+        ctx.fillStyle = wingColor;
+        ctx.strokeStyle = '#777';
+        ctx.lineWidth = 1;
+
+        // Left wing
+        ctx.beginPath();
+        ctx.moveTo(-s, -s * 1.2);
+        ctx.lineTo(-s - 6, 0);
+        ctx.lineTo(-s, s * 1.2);
+        ctx.lineTo(-s + 6, s * 1.2);
+        ctx.lineTo(-s + 6, -s * 1.2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Right wing
+        ctx.beginPath();
+        ctx.moveTo(s, -s * 1.2);
+        ctx.lineTo(s + 6, 0);
+        ctx.lineTo(s, s * 1.2);
+        ctx.lineTo(s - 6, s * 1.2);
+        ctx.lineTo(s - 6, -s * 1.2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Wing struts
+        ctx.strokeStyle = '#888';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(-s + 6, 0);
+        ctx.lineTo(-8, 0);
+        ctx.moveTo(s - 6, 0);
+        ctx.lineTo(8, 0);
+        ctx.stroke();
+
+        // Cockpit ball
+        ctx.beginPath();
+        ctx.arc(0, 0, 10, 0, Math.PI * 2);
+        ctx.fillStyle = bodyColor;
+        ctx.fill();
+        ctx.strokeStyle = '#888';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Cockpit window
+        ctx.beginPath();
+        ctx.arc(0, 0, 5, 0, Math.PI * 2);
+        ctx.fillStyle = type === 'tie-advanced' ? '#6366f1' : '#60a5fa';
+        ctx.fill();
+
+        // Window glow
+        const glow = ctx.createRadialGradient(0, 0, 2, 0, 0, 12);
+        glow.addColorStop(0, type === 'tie-advanced' ? 'rgba(99,102,241,0.3)' : 'rgba(96,165,250,0.3)');
+        glow.addColorStop(1, 'transparent');
+        ctx.beginPath();
+        ctx.arc(0, 0, 12, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    // Draw stars / space background
+    function drawSpace() {
+        // Background
+        const bg = ctx.createLinearGradient(0, 0, 0, H);
+        bg.addColorStop(0, '#000010');
+        bg.addColorStop(0.5, '#050520');
+        bg.addColorStop(1, '#0a0a30');
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, W, H);
+
+        // Stars
+        stars.forEach(s => {
+            s.x -= s.speed * (speed / 3);
+            if (s.x < 0) { s.x = W; s.y = Math.random() * H; }
+
+            const twinkle = 0.4 + Math.sin(frame * 0.05 + s.brightness * 10) * 0.3;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${twinkle})`;
+            ctx.fill();
+        });
+
+        // Occasional distant laser blasts in background
+        if (Math.random() < 0.005) {
+            lasers.push({
+                x: W, y: Math.random() * H,
+                speed: Math.random() * 8 + 5,
+                length: Math.random() * 60 + 30,
+                color: Math.random() > 0.5 ? '#22c55e' : '#ef4444'
+            });
+        }
+
+        lasers = lasers.filter(l => {
+            l.x -= l.speed;
+            ctx.beginPath();
+            ctx.moveTo(l.x, l.y);
+            ctx.lineTo(l.x + l.length, l.y);
+            ctx.strokeStyle = l.color;
+            ctx.lineWidth = 2;
+            ctx.shadowColor = l.color;
+            ctx.shadowBlur = 8;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+            return l.x + l.length > 0;
+        });
+    }
+
+    function drawParticles() {
+        particles = particles.filter(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.1;
+            p.life -= p.decay;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+            ctx.fillStyle = p.color === 'white'
+                ? `rgba(255,255,255,${p.life})`
+                : `rgba(255,100,50,${p.life})`;
+            ctx.fill();
+            return p.life > 0;
+        });
+    }
+
+    // Collision detection
+    function checkCollision(obs) {
+        const px = player.x;
+        const py = player.y;
+        const pr = player.r - 4; // Forgiving hitbox
+
+        // TIE fighters are at gap edges
+        const topTIEy = obs.gapY;
+        const bottomTIEy = obs.gapY + obs.gapSize;
+
+        // Check if player is in the X range of the obstacle column
+        if (px + pr > obs.x - 10 && px - pr < obs.x + 10) {
+            // Check if player is outside the gap
+            if (py - pr < topTIEy || py + pr > bottomTIEy) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function endGame() {
+        gameOver = true;
+        playing = false;
+
+        // Explosion particles
+        for (let i = 0; i < 30; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const spd = Math.random() * 8 + 2;
+            particles.push({
+                x: player.x, y: player.y,
+                vx: Math.cos(angle) * spd,
+                vy: Math.sin(angle) * spd,
+                life: 1, decay: 0.015,
+                r: Math.random() * 5 + 2,
+                color: 'fire'
+            });
+        }
+
+        let isNewRecord = false;
+        if (score > allTimeBest) {
+            allTimeBest = score;
+            localStorage.setItem(SCORE_KEY, allTimeBest.toString());
+            isNewRecord = true;
+        }
+
+        setTimeout(() => {
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('go-best').textContent = allTimeBest;
+            document.getElementById('hud-best').textContent = allTimeBest;
+            document.getElementById('start-best').textContent = allTimeBest;
+            document.getElementById('new-record').classList.toggle('show', isNewRecord);
+            document.getElementById('game-over').classList.add('show');
+        }, 500);
+    }
+
+    // Main game loop
+    function update() {
+        if (!playing) return;
+
+        frame++;
+        player.vy += gravity;
+        player.y += player.vy;
+
+        // Speed increases over time
+        speed = 3 + Math.min(score * 0.15, 5);
+
+        // Move obstacles
+        obstacles.forEach(obs => {
+            obs.x -= speed;
+
+            // Score when passing
+            if (!obs.scored && obs.x + 10 < player.x) {
+                obs.scored = true;
+                score++;
+                document.getElementById('score').textContent = score;
+            }
+        });
+
+        // Remove off-screen obstacles
+        obstacles = obstacles.filter(o => o.x > -80);
+
+        // Spawn new obstacles
+        const spawnRate = Math.max(80, 140 - score * 2);
+        if (frame % Math.round(spawnRate) === 0) {
+            spawnObstacle();
+        }
+
+        // Check collisions
+        for (const obs of obstacles) {
+            if (checkCollision(obs)) {
+                endGame();
+                return;
+            }
+        }
+
+        // Ceiling / floor death
+        if (player.y < -20 || player.y > H + 20) {
+            endGame();
+        }
+    }
+
+    function draw() {
+        drawSpace();
+
+        // Draw obstacles (TIE fighters flanking the gap)
+        obstacles.forEach(obs => {
+            // Top column of TIE fighters
+            const topCount = Math.ceil(obs.gapY / 80);
+            for (let i = 0; i < topCount; i++) {
+                const ty = obs.gapY - 40 - i * 80;
+                if (ty > -50 && ty < H + 50) {
+                    drawTIE(obs.x, ty, obs.type);
+                }
+            }
+
+            // Bottom column
+            const botStart = obs.gapY + obs.gapSize;
+            const botCount = Math.ceil((H - botStart) / 80);
+            for (let i = 0; i < botCount; i++) {
+                const ty = botStart + 40 + i * 80;
+                if (ty > -50 && ty < H + 50) {
+                    drawTIE(obs.x, ty, obs.type);
+                }
+            }
+
+            // Gap indicators (force field edges)
+            ctx.beginPath();
+            ctx.moveTo(obs.x - 30, obs.gapY);
+            ctx.lineTo(obs.x + 30, obs.gapY);
+            ctx.strokeStyle = 'rgba(96, 165, 250, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(obs.x - 30, obs.gapY + obs.gapSize);
+            ctx.lineTo(obs.x + 30, obs.gapY + obs.gapSize);
+            ctx.stroke();
+        });
+
+        if (!gameOver) drawPlayer();
+        drawParticles();
+    }
+
+    function loop() {
+        update();
+        draw();
+        requestAnimationFrame(loop);
+    }
+
+    initStars();
+    loop();
+    </script>
+</body>
+</html>

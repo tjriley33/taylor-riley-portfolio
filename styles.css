@@ -1234,6 +1234,17 @@ img { max-width: 100%; display: block; }
     font-size: 0.9rem;
 }
 
+.footer-easter-egg {
+    font-size: 1rem;
+    opacity: 0.15;
+    transition: opacity 0.3s;
+    text-decoration: none;
+}
+
+.footer-easter-egg:hover {
+    opacity: 1;
+}
+
 /* --- Animations --- */
 @keyframes fadeInDown {
     from { opacity: 0; transform: translateY(-20px); }
