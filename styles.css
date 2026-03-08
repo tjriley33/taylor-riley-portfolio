@@ -280,6 +280,8 @@ img { max-width: 100%; display: block; }
     display: flex;
     gap: 16px;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     margin-top: 40px;
     animation: fadeInDown 0.8s ease-out 0.5s both;
 }
@@ -322,6 +324,19 @@ img { max-width: 100%; display: block; }
     color: var(--color-text);
     border-color: var(--color-border-hover);
     transform: translateY(-2px);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid transparent;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+}
+
+.btn-ghost:hover {
+    color: var(--color-accent-light);
+    background: var(--color-accent-glow);
 }
 
 .hero-stats {
