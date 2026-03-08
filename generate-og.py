@@ -1,73 +1,69 @@
 """Generate Open Graph thumbnail image for taylor-riley.com"""
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from PIL import Image, ImageDraw, ImageFont
 import os
 
+DIR = os.path.dirname(__file__)
 W, H = 1200, 630
-bg = (10, 10, 15)
+
 accent = (99, 102, 241)
 accent_light = (129, 140, 248)
 white = (232, 232, 237)
 muted = (149, 149, 168)
+dark_muted = (107, 107, 128)
 
-img = Image.new("RGB", (W, H), bg)
+# Base image with smooth gradient background
+img = Image.new("RGB", (W, H), (10, 10, 15))
 draw = ImageDraw.Draw(img)
 
-# Background gradient overlay circles
+# Smooth radial glows (no grid lines)
 overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 odraw = ImageDraw.Draw(overlay)
 
-# Accent glow top-left
-for r in range(300, 0, -1):
-    alpha = int(25 * (r / 300))
-    odraw.ellipse([50 - r, -100 - r, 50 + r, -100 + r], fill=(99, 102, 241, alpha))
+for r in range(400, 0, -2):
+    a = int(20 * (r / 400))
+    odraw.ellipse([80 - r, -150 - r, 80 + r, -150 + r], fill=(99, 102, 241, a))
 
-# Accent glow bottom-right
-for r in range(250, 0, -1):
-    alpha = int(18 * (r / 250))
-    odraw.ellipse([W - 200 - r, H - 50 - r, W - 200 + r, H - 50 + r], fill=(139, 92, 246, alpha))
+for r in range(350, 0, -2):
+    a = int(12 * (r / 350))
+    odraw.ellipse([W - 150 - r, H + 50 - r, W - 150 + r, H + 50 + r], fill=(139, 92, 246, a))
 
-img.paste(Image.alpha_composite(Image.new("RGBA", (W, H), bg + (255,)), overlay).convert("RGB"))
+for r in range(200, 0, -2):
+    a = int(8 * (r / 200))
+    odraw.ellipse([W // 2 - r, H // 2 - r, W // 2 + r, H // 2 + r], fill=(59, 130, 246, a))
+
+img.paste(Image.alpha_composite(Image.new("RGBA", (W, H), (10, 10, 15, 255)), overlay).convert("RGB"))
 draw = ImageDraw.Draw(img)
 
-# Grid lines (subtle)
-for x in range(0, W, 60):
-    draw.line([(x, 0), (x, H)], fill=(255, 255, 255, 5) if hasattr(draw, 'textlength') else (18, 18, 26), width=1)
-for y in range(0, H, 60):
-    draw.line([(0, y), (W, y)], fill=(18, 18, 26), width=1)
-
-# Try to load headshot
-headshot_path = os.path.join(os.path.dirname(__file__), "headshot.png")
+# Load headshot
+headshot_path = os.path.join(DIR, "headshot.png")
+text_x = 80
 if os.path.exists(headshot_path):
     hs = Image.open(headshot_path)
-    # Crop to square from top
     size = min(hs.width, hs.height)
     left = (hs.width - size) // 2
     hs = hs.crop((left, 0, left + size, size))
-    hs = hs.resize((180, 180), Image.LANCZOS)
+    hs = hs.resize((160, 160), Image.LANCZOS)
 
-    # Create circular mask
-    mask = Image.new("L", (180, 180), 0)
-    ImageDraw.Draw(mask).ellipse([0, 0, 180, 180], fill=255)
+    mask = Image.new("L", (160, 160), 0)
+    ImageDraw.Draw(mask).ellipse([0, 0, 160, 160], fill=255)
 
-    # Place headshot
-    hx, hy = 80, H // 2 - 90
-    # Draw accent ring behind
-    ring = Image.new("RGBA", (196, 196), (0, 0, 0, 0))
-    ImageDraw.Draw(ring).ellipse([0, 0, 195, 195], outline=accent + (180,), width=3)
+    hx, hy = 80, H // 2 - 80
+
+    # Accent ring
+    ring = Image.new("RGBA", (176, 176), (0, 0, 0, 0))
+    ImageDraw.Draw(ring).ellipse([0, 0, 175, 175], outline=accent + (140,), width=2)
     img.paste(ring, (hx - 8, hy - 8), ring)
     img.paste(hs, (hx, hy), mask)
-    text_x = 300
-else:
-    text_x = 80
+    text_x = 280
 
-# Fonts - use system fonts
-font_paths = [
+# Fonts
+font_paths_bold = [
     "/System/Library/Fonts/SFNSDisplay.ttf",
     "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
     "/Library/Fonts/Arial Bold.ttf",
     "/System/Library/Fonts/Helvetica.ttc",
 ]
-font_path_regular = [
+font_paths_regular = [
     "/System/Library/Fonts/SFNSText.ttf",
     "/System/Library/Fonts/Supplemental/Arial.ttf",
     "/Library/Fonts/Arial.ttf",
@@ -82,48 +78,44 @@ def load_font(paths, size):
             continue
     return ImageFont.load_default()
 
-font_name = load_font(font_paths, 58)
-font_subtitle = load_font(font_path_regular, 24)
-font_tag = load_font(font_path_regular, 18)
-font_badge = load_font(font_path_regular, 16)
-font_url = load_font(font_paths, 20)
+font_name = load_font(font_paths_bold, 54)
+font_sub = load_font(font_paths_regular, 22)
+font_badge = load_font(font_paths_regular, 15)
+font_stat_num = load_font(font_paths_bold, 28)
+font_stat_label = load_font(font_paths_regular, 13)
+font_url = load_font(font_paths_bold, 18)
 
-# Available badge
+# Badge
 badge_text = "Available for Director / VP-level roles"
-badge_w = draw.textlength(badge_text, font=font_badge) + 24
-badge_h = 28
-bx, by = text_x, 148
-draw.rounded_rectangle([bx, by, bx + badge_w, by + badge_h], radius=14,
-                        fill=(20, 30, 25), outline=(52, 211, 153))
-draw.text((bx + 12, by + 5), badge_text, fill=(52, 211, 153), font=font_badge)
+bw = draw.textlength(badge_text, font=font_badge) + 24
+bx, by = text_x, 145
+draw.rounded_rectangle([bx, by, bx + bw, by + 26], radius=13,
+                        fill=(20, 35, 28), outline=(52, 211, 153))
+draw.text((bx + 12, by + 4), badge_text, fill=(52, 211, 153), font=font_badge)
 
 # Name
-draw.text((text_x, 195), "Taylor Riley", fill=white, font=font_name)
+draw.text((text_x, 190), "Taylor Riley", fill=white, font=font_name)
 
 # Subtitle
-draw.text((text_x, 270), "I build production systems and lead the", fill=muted, font=font_subtitle)
-draw.text((text_x, 300), "teams that ship them.", fill=muted, font=font_subtitle)
+draw.text((text_x, 258), "I build production systems and lead the", fill=muted, font=font_sub)
+draw.text((text_x, 286), "teams that ship them.", fill=muted, font=font_sub)
 
-# Stats bar
+# Thin separator
+draw.line([(text_x, 335), (text_x + 480, 335)], fill=(40, 40, 55), width=1)
+
+# Stats
 stats = [("15+", "Years"), ("28", "Team"), ("5M+", "Filers"), ("37+", "MCP Tools")]
-sx = text_x
-sy = 370
-stat_font_num = load_font(font_paths, 32)
-stat_font_label = load_font(font_path_regular, 14)
+sx, sy = text_x, 355
 for num, label in stats:
-    draw.text((sx, sy), num, fill=accent_light, font=stat_font_num)
-    draw.text((sx, sy + 38), label, fill=muted, font=stat_font_label)
-    sx += 140
+    draw.text((sx, sy), num, fill=accent_light, font=font_stat_num)
+    draw.text((sx, sy + 34), label, fill=dark_muted, font=font_stat_label)
+    sx += 130
 
-# Divider line
-draw.line([(text_x, 350), (text_x + 520, 350)], fill=(255, 255, 255, 20) if False else (30, 30, 42), width=1)
-
-# URL at bottom
-draw.text((text_x, H - 70), "taylor-riley.com", fill=accent_light, font=font_url)
+# URL bottom
+draw.text((text_x, H - 60), "taylor-riley.com", fill=accent_light, font=font_url)
 
 # Accent bar left edge
-draw.rectangle([0, 0, 4, H], fill=accent)
+draw.rectangle([0, 0, 3, H], fill=accent)
 
-out_path = os.path.join(os.path.dirname(__file__), "og-image.png")
-img.save(out_path, "PNG", quality=95)
-print(f"Saved {out_path} ({os.path.getsize(out_path) // 1024}KB)")
+img.save(os.path.join(DIR, "og-image.png"), "PNG", quality=95)
+print("Saved og-image.png")
