@@ -214,7 +214,29 @@
                 srcBox.appendChild(label);
                 sources.forEach(function(s) {
                     const line = document.createElement('div');
-                    line.textContent = (s.form || '?') + ' ' + (s.year || '') + ' ' + (s.status || '') + ' (' + (s.file || '?') + ')';
+                    line.style.marginTop = '6px';
+                    line.textContent = (s.form || '?') + ' ' + (s.year || '') + ' ' + (s.status || '');
+
+                    if (s.download_url) {
+                        var dlLink = document.createElement('a');
+                        dlLink.href = s.download_url;
+                        dlLink.target = '_blank';
+                        dlLink.textContent = ' [PDF]';
+                        dlLink.style.color = '#69f0ae';
+                        dlLink.style.marginLeft = '6px';
+                        line.appendChild(dlLink);
+                    }
+
+                    if (s.compare_url) {
+                        var cmpLink = document.createElement('a');
+                        cmpLink.href = s.compare_url;
+                        cmpLink.target = '_blank';
+                        cmpLink.textContent = ' [Compare]';
+                        cmpLink.style.color = '#ffab40';
+                        cmpLink.style.marginLeft = '6px';
+                        line.appendChild(cmpLink);
+                    }
+
                     srcBox.appendChild(line);
                 });
                 msg.appendChild(srcBox);
