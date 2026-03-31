@@ -149,7 +149,7 @@
 
     <header>
         <h1>Federal Tax Assistant</h1>
-        <span class="badge">Powered by Bedrock RAG</span>
+        <span class="badge" id="mode-badge" onclick="toggleMode()">Tax Q&A</span>
         <span class="user-info" id="user-email"></span>
         <button id="logout-btn" onclick="logout()">Sign Out</button>
     </header>
@@ -284,6 +284,26 @@
         document.getElementById('login-password').addEventListener('keypress', function(e) { if (e.key === 'Enter') login(); });
         document.getElementById('login-email').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('login-password').focus(); });
 
+        var adminMode = false;
+        var ADMIN_URL = 'https://l3dh3tplmc.execute-api.us-east-1.amazonaws.com/admin';
+
+        function toggleMode() {
+            adminMode = !adminMode;
+            var badge = document.getElementById('mode-badge');
+            var input = document.getElementById('user-input');
+            if (adminMode) {
+                badge.textContent = 'Admin Mode';
+                badge.style.background = 'rgba(239,83,80,0.15)';
+                badge.style.color = '#ef5350';
+                input.placeholder = 'Manage forms: "Add Form 8812 that TaxAct supports"';
+            } else {
+                badge.textContent = 'Tax Q&A';
+                badge.style.background = 'rgba(124,77,255,0.15)';
+                badge.style.color = '#b388ff';
+                input.placeholder = 'Ask a tax question...';
+            }
+        }
+
         function askSuggestion(btn) {
             document.getElementById('user-input').value = btn.textContent;
             sendMessage(new Event('submit'));
@@ -346,7 +366,8 @@
             document.getElementById('typing').classList.add('active');
             document.getElementById('send-btn').disabled = true;
             try {
-                var response = await fetch(API_URL, {
+                var endpoint = adminMode ? ADMIN_URL : API_URL;
+                var response = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ question: question, n_results: 5 })
