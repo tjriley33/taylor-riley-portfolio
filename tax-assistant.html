@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Federal Tax Assistant</title>
     <link rel="icon" href="/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #0c1220 0%, #1a1035 100%);
-            color: #e8eaf6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            color: #e8eaf6; min-height: 100vh; display: flex; flex-direction: column;
         }
         #login-overlay {
             position: fixed; inset: 0;
@@ -23,7 +21,7 @@
         .login-card {
             background: rgba(255,255,255,0.05); backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
-            padding: 40px; width: 360px; text-align: center;
+            padding: 40px; width: 380px; text-align: center;
         }
         .login-card h1 {
             font-size: 24px; margin-bottom: 8px;
@@ -35,16 +33,19 @@
             width: 100%; padding: 12px 16px;
             border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
             background: rgba(255,255,255,0.05); color: #e8eaf6;
-            font-size: 16px; margin-bottom: 16px; outline: none;
+            font-size: 16px; margin-bottom: 12px; outline: none;
         }
         .login-card input:focus { border-color: #7c4dff; }
-        .login-card button, #input-area button {
-            padding: 12px 24px; border: none; border-radius: 8px;
+        .login-card button {
+            width: 100%; padding: 12px; border: none; border-radius: 8px;
             background: linear-gradient(135deg, #7c4dff, #448aff);
             color: white; font-size: 16px; font-weight: 600; cursor: pointer;
         }
-        .login-card button { width: 100%; }
-        .login-error { color: #ef5350; font-size: 13px; margin-top: 12px; display: none; }
+        .login-card button:hover { opacity: 0.9; }
+        .login-card button:disabled { opacity: 0.5; }
+        .login-msg { font-size: 13px; margin-top: 12px; display: none; }
+        .login-error { color: #ef5350; }
+        .login-info { color: #69f0ae; }
         header {
             padding: 16px 24px; display: flex; align-items: center;
             justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -54,6 +55,7 @@
             background: rgba(124,77,255,0.15); color: #b388ff;
             padding: 4px 12px; border-radius: 20px; font-size: 12px;
         }
+        .user-info { color: #9fa8da; font-size: 13px; }
         #logout-btn {
             background: none; border: 1px solid rgba(255,255,255,0.1);
             color: #9fa8da; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px;
@@ -97,6 +99,11 @@
             background: rgba(255,255,255,0.05); color: #e8eaf6; font-size: 15px; outline: none;
         }
         #input-area input:focus { border-color: #7c4dff; }
+        #input-area button {
+            padding: 14px 24px; border: none; border-radius: 12px;
+            background: linear-gradient(135deg, #7c4dff, #448aff);
+            color: white; font-size: 15px; font-weight: 600; cursor: pointer;
+        }
         #input-area button:disabled { opacity: 0.5; cursor: not-allowed; }
         .welcome { text-align: center; padding: 60px 20px; }
         .welcome h2 {
@@ -111,9 +118,11 @@
             color: #b388ff; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer;
         }
         .suggestions button:hover { background: rgba(124,77,255,0.15); border-color: #7c4dff; }
+        #new-password-section { display: none; }
         @media (max-width: 600px) {
             .bubble { max-width: 95%; }
             .suggestions { flex-direction: column; }
+            header { flex-wrap: wrap; gap: 8px; }
         }
     </style>
 </head>
@@ -122,15 +131,26 @@
         <div class="login-card">
             <h1>Federal Tax Assistant</h1>
             <p>RAG-powered IRS form reference tool</p>
-            <input type="password" id="login-password" placeholder="Enter access code" autofocus>
-            <button onclick="login()">Sign In</button>
-            <div class="login-error" id="login-error">Invalid access code</div>
+            <div id="login-section">
+                <input type="email" id="login-email" placeholder="Email address" autofocus>
+                <input type="password" id="login-password" placeholder="Password">
+                <button onclick="login()" id="login-btn">Sign In</button>
+            </div>
+            <div id="new-password-section">
+                <p style="color: #ffab40; margin-bottom: 16px;">Please set a new password</p>
+                <input type="password" id="new-password" placeholder="New password (8+ chars, upper, lower, number)">
+                <input type="password" id="new-password-confirm" placeholder="Confirm new password">
+                <button onclick="completeNewPassword()" id="new-pw-btn">Set Password</button>
+            </div>
+            <div class="login-msg login-error" id="login-error"></div>
+            <div class="login-msg login-info" id="login-info"></div>
         </div>
     </div>
 
     <header>
         <h1>Federal Tax Assistant</h1>
         <span class="badge">Powered by Bedrock RAG</span>
+        <span class="user-info" id="user-email"></span>
         <button id="logout-btn" onclick="logout()">Sign Out</button>
     </header>
 
@@ -142,7 +162,7 @@
                 <button onclick="askSuggestion(this)">What is the filing threshold for Form 1041?</button>
                 <button onclick="askSuggestion(this)">When is Form 1065 due?</button>
                 <button onclick="askSuggestion(this)">What schedules are required with Form 1120-S?</button>
-                <button onclick="askSuggestion(this)">Explain Form 706 estate tax exemption</button>
+                <button onclick="askSuggestion(this)">What's new this month?</button>
             </div>
         </div>
         <div class="typing-indicator" id="typing">Searching tax documents...</div>
@@ -156,38 +176,113 @@
     </div>
 
     <script>
-        const ACCESS_CODE_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
-        const API_URL = 'https://l3dh3tplmc.execute-api.us-east-1.amazonaws.com/query';
+        var COGNITO_POOL_ID = 'us-east-1_F6AbkUr22';
+        var COGNITO_CLIENT_ID = '4ul0acfpr4r70sg9nbuj9th3mg';
+        var API_URL = 'https://l3dh3tplmc.execute-api.us-east-1.amazonaws.com/query';
 
-        async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        var poolData = { UserPoolId: COGNITO_POOL_ID, ClientId: COGNITO_CLIENT_ID };
+        var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+        var currentUser = null;
+        var cognitoUserForNewPw = null;
+
+        function showError(msg) {
+            var el = document.getElementById('login-error');
+            el.textContent = msg; el.style.display = 'block';
+            document.getElementById('login-info').style.display = 'none';
+        }
+        function showInfo(msg) {
+            var el = document.getElementById('login-info');
+            el.textContent = msg; el.style.display = 'block';
+            document.getElementById('login-error').style.display = 'none';
         }
 
-        async function login() {
-            const hash = await sha256(document.getElementById('login-password').value);
-            if (hash === ACCESS_CODE_HASH) {
-                sessionStorage.setItem('authenticated', 'true');
-                document.getElementById('login-overlay').style.display = 'none';
-            } else {
-                document.getElementById('login-error').style.display = 'block';
-            }
+        function login() {
+            var email = document.getElementById('login-email').value.trim();
+            var password = document.getElementById('login-password').value;
+            if (!email || !password) { showError('Please enter email and password'); return; }
+
+            document.getElementById('login-btn').disabled = true;
+
+            var authData = {
+                Username: email,
+                Password: password
+            };
+            var authDetails = new AmazonCognitoIdentity.AuthenticationDetails(authData);
+            var userData = { Username: email, Pool: userPool };
+            var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+            cognitoUser.authenticateUser(authDetails, {
+                onSuccess: function(result) {
+                    currentUser = cognitoUser;
+                    sessionStorage.setItem('taxAssistantEmail', email);
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.getElementById('user-email').textContent = email;
+                    document.getElementById('login-btn').disabled = false;
+                },
+                onFailure: function(err) {
+                    showError(err.message || 'Login failed');
+                    document.getElementById('login-btn').disabled = false;
+                },
+                newPasswordRequired: function(userAttributes) {
+                    cognitoUserForNewPw = cognitoUser;
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('new-password-section').style.display = 'block';
+                    showInfo('Your temporary password must be changed.');
+                    document.getElementById('login-btn').disabled = false;
+                }
+            });
+        }
+
+        function completeNewPassword() {
+            var newPw = document.getElementById('new-password').value;
+            var confirmPw = document.getElementById('new-password-confirm').value;
+            if (newPw !== confirmPw) { showError('Passwords do not match'); return; }
+            if (newPw.length < 8) { showError('Password must be at least 8 characters'); return; }
+
+            document.getElementById('new-pw-btn').disabled = true;
+
+            cognitoUserForNewPw.completeNewPasswordChallenge(newPw, {}, {
+                onSuccess: function(result) {
+                    currentUser = cognitoUserForNewPw;
+                    var email = document.getElementById('login-email').value.trim();
+                    sessionStorage.setItem('taxAssistantEmail', email);
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.getElementById('user-email').textContent = email;
+                    document.getElementById('new-pw-btn').disabled = false;
+                },
+                onFailure: function(err) {
+                    showError(err.message || 'Failed to set password');
+                    document.getElementById('new-pw-btn').disabled = false;
+                }
+            });
         }
 
         function logout() {
-            sessionStorage.removeItem('authenticated');
+            if (currentUser) currentUser.signOut();
+            currentUser = null;
+            sessionStorage.removeItem('taxAssistantEmail');
             document.getElementById('login-overlay').style.display = 'flex';
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('new-password-section').style.display = 'none';
             document.getElementById('login-password').value = '';
+            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('login-info').style.display = 'none';
         }
 
-        if (sessionStorage.getItem('authenticated') === 'true') {
-            document.getElementById('login-overlay').style.display = 'none';
+        // Check for existing session
+        var existingUser = userPool.getCurrentUser();
+        if (existingUser) {
+            existingUser.getSession(function(err, session) {
+                if (!err && session && session.isValid()) {
+                    currentUser = existingUser;
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.getElementById('user-email').textContent = sessionStorage.getItem('taxAssistantEmail') || '';
+                }
+            });
         }
 
-        document.getElementById('login-password').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') login();
-        });
+        document.getElementById('login-password').addEventListener('keypress', function(e) { if (e.key === 'Enter') login(); });
+        document.getElementById('login-email').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('login-password').focus(); });
 
         function askSuggestion(btn) {
             document.getElementById('user-input').value = btn.textContent;
@@ -195,28 +290,25 @@
         }
 
         function addMessage(text, role, sources) {
-            const container = document.getElementById('chat-container');
-            const typing = document.getElementById('typing');
-
-            const msg = document.createElement('div');
+            var container = document.getElementById('chat-container');
+            var typing = document.getElementById('typing');
+            var msg = document.createElement('div');
             msg.className = 'message ' + role;
-
-            const bubble = document.createElement('div');
+            var bubble = document.createElement('div');
             bubble.className = 'bubble';
             bubble.textContent = text;
             msg.appendChild(bubble);
 
             if (sources && sources.length > 0) {
-                const srcBox = document.createElement('div');
+                var srcBox = document.createElement('div');
                 srcBox.className = 'sources-box';
-                const label = document.createElement('strong');
+                var label = document.createElement('strong');
                 label.textContent = 'Sources:';
                 srcBox.appendChild(label);
                 sources.forEach(function(s) {
-                    const line = document.createElement('div');
+                    var line = document.createElement('div');
                     line.style.marginTop = '6px';
                     line.textContent = (s.form || '?') + ' ' + (s.year || '') + ' ' + (s.status || '');
-
                     if (s.download_url) {
                         var dlLink = document.createElement('a');
                         dlLink.href = s.download_url;
@@ -226,7 +318,6 @@
                         dlLink.style.marginLeft = '6px';
                         line.appendChild(dlLink);
                     }
-
                     if (s.compare_url) {
                         var cmpLink = document.createElement('a');
                         cmpLink.href = s.compare_url;
@@ -236,12 +327,10 @@
                         cmpLink.style.marginLeft = '6px';
                         line.appendChild(cmpLink);
                     }
-
                     srcBox.appendChild(line);
                 });
                 msg.appendChild(srcBox);
             }
-
             container.insertBefore(msg, typing);
             container.scrollTop = container.scrollHeight;
         }
@@ -251,13 +340,11 @@
             var input = document.getElementById('user-input');
             var question = input.value.trim();
             if (!question) return;
-
             document.getElementById('welcome').style.display = 'none';
             addMessage(question, 'user');
             input.value = '';
             document.getElementById('typing').classList.add('active');
             document.getElementById('send-btn').disabled = true;
-
             try {
                 var response = await fetch(API_URL, {
                     method: 'POST',
@@ -269,7 +356,6 @@
             } catch (err) {
                 addMessage('Error connecting to the tax assistant API. Please try again later.', 'assistant');
             }
-
             document.getElementById('typing').classList.remove('active');
             document.getElementById('send-btn').disabled = false;
         }
