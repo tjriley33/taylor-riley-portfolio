@@ -309,6 +309,16 @@
             sendMessage(new Event('submit'));
         }
 
+        function simpleMarkdown(text) {
+            // Convert **bold** to <strong>, *italic* to <em>, and \n to <br>
+            var safe = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            safe = safe.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            safe = safe.replace(/\n/g, '<br>');
+            safe = safe.replace(/- /g, '&bull; ');
+            return safe;
+        }
+
         function addMessage(text, role, sources) {
             var container = document.getElementById('chat-container');
             var typing = document.getElementById('typing');
@@ -316,7 +326,11 @@
             msg.className = 'message ' + role;
             var bubble = document.createElement('div');
             bubble.className = 'bubble';
-            bubble.textContent = text;
+            if (role === 'assistant') {
+                bubble.innerHTML = simpleMarkdown(text);
+            } else {
+                bubble.textContent = text;
+            }
             msg.appendChild(bubble);
 
             if (sources && sources.length > 0) {
