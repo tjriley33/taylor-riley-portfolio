@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forms Tracker - Federal Tax Assistant</title>
+<link rel="icon" href="/favicon.ico">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(135deg,#0c1220 0%,#1a1035 100%);color:#e8eaf6;min-height:100vh}nav{display:flex;align-items:center;gap:24px;padding:12px 24px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(12,18,32,.9);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}nav .brand{font-size:16px;font-weight:600;margin-right:auto}nav a{color:#9fa8da;text-decoration:none;font-size:14px;padding:6px 14px;border-radius:6px;transition:all .2s}nav a:hover,nav a.active{color:#e8eaf6;background:rgba(124,77,255,.15)}nav a.active{color:#b388ff}.container{max-width:1200px;margin:0 auto;padding:24px}h1{font-size:24px;margin-bottom:8px;background:linear-gradient(135deg,#7c4dff,#448aff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.subtitle{color:#9fa8da;margin-bottom:24px;font-size:14px}.filters{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}.filters input,.filters select{padding:10px 14px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.05);color:#e8eaf6;font-size:14px;outline:none}.filters input{flex:1;min-width:200px}.filters input:focus,.filters select:focus{border-color:#7c4dff}.filters select{min-width:140px}.filters select option{background:#1a1035}.stats{display:flex;gap:16px;margin-bottom:20px}.stat-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px 20px;flex:1;text-align:center}.stat-card .number{font-size:28px;font-weight:700;color:#7c4dff}.stat-card .label{font-size:12px;color:#9fa8da;margin-top:4px}#forms-table{width:100%;border-collapse:collapse;background:rgba(255,255,255,.03);border-radius:12px;overflow:hidden}#forms-table thead{background:rgba(124,77,255,.1)}#forms-table th{padding:12px 14px;text-align:left;font-size:12px;font-weight:600;color:#b388ff;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;user-select:none}#forms-table th:hover{color:#e8eaf6}#forms-table td{padding:10px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04)}#forms-table tr:hover{background:rgba(255,255,255,.03)}.status-draft{color:#ffab40}.status-final{color:#69f0ae}a{color:#448aff;text-decoration:none}a:hover{text-decoration:underline}.pagination{display:flex;justify-content:center;gap:8px;margin-top:20px}.pagination button{padding:8px 14px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:rgba(255,255,255,.05);color:#e8eaf6;cursor:pointer;font-size:13px}.pagination button:hover{background:rgba(124,77,255,.15)}.pagination button.active{background:#7c4dff;border-color:#7c4dff}.pagination button:disabled{opacity:.3;cursor:not-allowed}.loading{text-align:center;padding:60px;color:#9fa8da}.result-count{color:#9fa8da;font-size:12px;margin-top:8px}@media(max-width:768px){.stats{flex-direction:column}#forms-table{font-size:12px}#forms-table td,#forms-table th{padding:8px 10px}}
+</style>
+</head>
+<body>
+<nav>
+<span class="brand">Federal Tax Assistant</span>
+<a href="/tax-assistant">Tax Q&A</a>
+<a href="/tax-forms" class="active">Forms Tracker</a>
+<a href="/tax-assistant">Admin</a>
+</nav>
+<div class="container">
+<h1>IRS Forms Tracker</h1>
+<p class="subtitle">Supported federal forms - searchable, filterable, sortable</p>
+<div class="stats">
+<div class="stat-card"><div class="number" id="total-count">-</div><div class="label">Total Forms</div></div>
+<div class="stat-card"><div class="number" id="draft-count">-</div><div class="label">Drafts</div></div>
+<div class="stat-card"><div class="number" id="final-count">-</div><div class="label">Final</div></div>
+<div class="stat-card"><div class="number" id="recent-count">-</div><div class="label">Last 30 Days</div></div>
+</div>
+<div class="filters">
+<input type="text" id="search" placeholder="Search forms..." oninput="applyFilters()">
+<select id="filter-owner" onchange="applyFilters()"><option value="">All Teams</option><option value="FED1040">FED1040</option><option value="K1Fever">K1Fever</option><option value="Backlog Busters">Backlog Busters</option></select>
+<select id="filter-status" onchange="applyFilters()"><option value="">All Status</option><option value="Draft">Draft</option><option value="Final">Final</option></select>
+</div>
+<div id="table-container"><div class="loading">Loading forms data...</div></div>
+<div class="pagination" id="pagination"></div>
+</div>
+<script>
+var API='https://l3dh3tplmc.execute-api.us-east-1.amazonaws.com/forms',allForms=[],filtered=[],page=1,per=50,sField='date_released',sDir=-1;
+async function load(){try{var r=await fetch(API);allForms=await r.json();filtered=allForms;stats();applyFilters()}catch(e){document.getElementById('table-container').textContent='Error loading.'}}
+function stats(){document.getElementById('total-count').textContent=allForms.length;document.getElementById('draft-count').textContent=allForms.filter(f=>f.status==='Draft').length;document.getElementById('final-count').textContent=allForms.filter(f=>f.status==='Final').length;var d=new Date();d.setDate(d.getDate()-30);var c=d.toISOString().slice(0,10);document.getElementById('recent-count').textContent=allForms.filter(f=>(f.date_released||'')>c).length}
+function applyFilters(){var s=document.getElementById('search').value.toLowerCase(),o=document.getElementById('filter-owner').value,st=document.getElementById('filter-status').value;filtered=allForms.filter(f=>{if(s&&!(f.form_desc||'').toLowerCase().includes(s)&&!(f.owner||'').toLowerCase().includes(s))return false;if(o&&(f.owner||'').indexOf(o)===-1)return false;if(st&&f.status!==st)return false;return true});filtered.sort((a,b)=>{var va=a[sField]||'',vb=b[sField]||'';return va>vb?sDir:va<vb?-sDir:0});page=1;render();pager()}
+function sortBy(f){if(sField===f)sDir*=-1;else{sField=f;sDir=-1}applyFilters()}
+function render(){var st=(page-1)*per,pg=filtered.slice(st,st+per),c=document.getElementById('table-container');while(c.firstChild)c.removeChild(c.firstChild);var t=document.createElement('table');t.id='forms-table';var th=document.createElement('thead');var hr=document.createElement('tr');['Form','Released','Status','Owner','Link','1040','1065','1120','1041','990'].forEach(function(h,i){var td=document.createElement('th');td.textContent=h;var fields=['form_desc','date_released','status','owner','','is_1040','is_1065','is_1120','is_1041','is_990'];if(fields[i])td.onclick=function(){sortBy(fields[i])};hr.appendChild(td)});th.appendChild(hr);t.appendChild(th);var tb=document.createElement('tbody');pg.forEach(function(f){var r=document.createElement('tr');var desc=(f.form_desc||'?').replace(/ \(PDF\)/g,'').trim();var vals=[desc,(f.date_released||'').slice(0,10),f.status||'?',f.owner||'Unknown','link',f.is_1040||'',f.is_1065||'',f.is_1120||'',f.is_1041||'',f.is_990||''];vals.forEach(function(v,i){var td=document.createElement('td');if(i===2)td.className=v==='Draft'?'status-draft':'status-final';if(i===4){var a=document.createElement('a');a.href=f.url||'#';a.target='_blank';a.textContent=(f.url||'').split('/').pop();td.appendChild(a)}else{td.textContent=v}r.appendChild(td)});tb.appendChild(r)});t.appendChild(tb);c.appendChild(t);var p=document.createElement('p');p.className='result-count';p.textContent='Showing '+(st+1)+'-'+Math.min(st+per,filtered.length)+' of '+filtered.length+' forms';c.appendChild(p)}
+function pager(){var tp=Math.ceil(filtered.length/per),c=document.getElementById('pagination');while(c.firstChild)c.removeChild(c.firstChild);if(tp<=1)return;var pb=document.createElement('button');pb.textContent='Prev';pb.disabled=page===1;pb.onclick=function(){page--;render();pager()};c.appendChild(pb);var ms=Math.max(1,page-3),me=Math.min(tp,ms+6);for(var i=ms;i<=me;i++){var b=document.createElement('button');b.textContent=i;if(i===page)b.className='active';b.onclick=(function(p){return function(){page=p;render();pager()}})(i);c.appendChild(b)}var nb=document.createElement('button');nb.textContent='Next';nb.disabled=page===tp;nb.onclick=function(){page++;render();pager()};c.appendChild(nb)}
+load();
+</script>
+</body>
+</html>
