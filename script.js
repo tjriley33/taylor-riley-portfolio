@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initRevealAnimations();
     initSmoothScroll();
     initBlogProgress();
+    initTaxCompiler();
 });
 
 // --- Navigation ---
@@ -196,5 +197,79 @@ function initBlogProgress() {
         btn.addEventListener('click', () => {
             requestAnimationFrame(updateProgress);
         });
+    });
+}
+
+// --- Tax Compiler Terminal Simulation ---
+function initTaxCompiler() {
+    const terminal = document.getElementById('tax-compiler-terminal');
+    if (!terminal) return;
+
+    const screen = document.getElementById('terminal-screen');
+    const btnCompile = document.getElementById('btn-compile');
+    const btnPatch = document.getElementById('btn-patch');
+    const btnClear = document.getElementById('btn-clear');
+
+    const defaultLines = [
+        '<div class="terminal-line"><span class="prompt">$</span> taxc --compile --optimize -f form1040.xml</div>',
+        '<div class="terminal-line info">[INFO] Initializing IRC parser engine...</div>',
+        '<div class="terminal-line info">[INFO] Loaded 74,000 pages of logic guidelines.</div>',
+        '<div class="terminal-line warn">[WARN] Sec. 163(h): Deprecated mortgage interest deduction contains obsolete logic gates.</div>',
+        '<div class="terminal-line warn">[WARN] Sec. 199A: Qualified Business Income calculation pattern is highly unstable.</div>',
+        '<div class="terminal-line error">[ERR] Compilation failed: Circular dependency detected in state_federal_loop.o.</div>',
+        '<div class="terminal-line error">[ERR] Stack overflow. Please run manual iterative reconciliation or hire a CPA.</div>'
+    ];
+
+    const patchLines = [
+        '<div class="terminal-line"><span class="prompt">$</span> taxc --apply-patch omnibus_bill_2026.patch</div>',
+        '<div class="terminal-line info">[INFO] Applying Congress Omnibus patch...</div>',
+        '<div class="terminal-line info">[INFO] Injecting 4,500 new conditional clauses into Section 179.</div>',
+        '<div class="terminal-line info">[INFO] Rewriting phase-out schedules for 12 tax brackets.</div>',
+        '<div class="terminal-line warn">[WARN] Registry conflict: 43 state tax schemas failed validation.</div>',
+        '<div class="terminal-line info">[INFO] Executing regression unit tests...</div>',
+        '<div class="terminal-line error">[ERR] AssertFailed: taxpayer.sanity == true (Actual: false)</div>',
+        '<div class="terminal-line error">[ERR] Compilation aborted: 14,082 warnings, 1 error. Build failed.</div>'
+    ];
+
+    let typingTimeout;
+
+    function clearScreen() {
+        clearTimeout(typingTimeout);
+        screen.innerHTML = '';
+    }
+
+    function typeLines(linesArray, index = 0) {
+        if (index >= linesArray.length) return;
+
+        const lineEl = document.createElement('div');
+        lineEl.innerHTML = linesArray[index];
+        const actualLine = lineEl.firstElementChild;
+        actualLine.style.opacity = '0';
+        actualLine.style.animation = 'fadeInLine 0.15s forwards';
+        screen.appendChild(actualLine);
+
+        screen.scrollTop = screen.scrollHeight;
+
+        typingTimeout = setTimeout(() => {
+            typeLines(linesArray, index + 1);
+        }, 300);
+    }
+
+    btnCompile.addEventListener('click', () => {
+        clearScreen();
+        typeLines(defaultLines);
+    });
+
+    btnPatch.addEventListener('click', () => {
+        clearScreen();
+        typeLines(patchLines);
+    });
+
+    btnClear.addEventListener('click', () => {
+        clearScreen();
+        const cursorLine = document.createElement('div');
+        cursorLine.className = 'terminal-line';
+        cursorLine.innerHTML = '<span class="prompt">$</span> <span class="blink">_</span>';
+        screen.appendChild(cursorLine);
     });
 }
