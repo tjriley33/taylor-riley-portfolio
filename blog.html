@@ -43,69 +43,69 @@
 
     <section class="blog-posts">
         <div class="container">
-            <article class="blog-card blog-card-featured" id="less-technical">
+            <article class="blog-card blog-card-featured" id="technical-depth">
                 <div class="blog-progress" aria-hidden="true"><div class="blog-progress-bar"></div></div>
                 <div class="blog-meta">
                     <span class="blog-date">June 2026</span>
-                    <span class="blog-reading">7 min read</span>
+                    <span class="blog-reading">5 min read</span>
                 </div>
-                <h2>Why the Best Engineering Teams Are Quietly Becoming Less Technical</h2>
+                <h2>Why AI Coding Tools Make Deep Technical Fundamentals More Critical, Not Less</h2>
                 <p class="blog-excerpt">
-                    We spent a decade hiring engineers for depth. Depth in a language, depth in a framework, depth in a domain. That's exactly the kind of depth AI is about to make cheap. And the teams that understand this first are already winning.
+                    The lazy take on AI coding is that we are headed toward a future of less technical developers. The reality in a regulated, complex domain like tax tech is the exact opposite. AI does not replace technical depth; it raises the baseline, making systems architecture and deep engineering principles the ultimate competitive advantages.
                 </p>
                 <div class="blog-body">
                     <p>
-                        We used to interview senior engineers with questions like: "Walk me through Python's GIL" or "Explain the difference between a clustered and non-clustered index." We were testing for depth. Depth in a language, depth in a framework, depth in a domain. That made sense when depth was scarce and implementation was the hard part.
+                        We have all seen the predictions: "Natural language is the new programming language," and "Engineering teams will quietly become less technical as AI writes the code." It is a comforting narrative for observers who view software development as simply typing syntax.
                     </p>
                     <p>
-                        It's not the hard part anymore.
+                        But it is a fantasy.
                     </p>
                     <p>
-                        At Taxwell, our most productive engineers this year aren't the ones who can recite the PowerBASIC calling convention from memory. They're the ones who know <strong>which problem to solve</strong>, whether the solution is worth the complexity, and how to explain the trade-off to a product manager who doesn't care about syntax. The implementation? Claude Code and our MCP server handle most of it. The judgment? That's still human.
+                        If you work in a simple greenfield environment building basic CRUD apps, maybe you can get by with high-level prompting. But in a complex, regulated enterprise system, that approach collapses immediately.
                     </p>
                     <p>
-                        This is the part nobody wants to say out loud: <strong>deep implementation expertise is depreciating faster than most of us are willing to admit.</strong> Not disappearing. Depreciating. There's a difference. You still need someone who understands what the code does. But the premium we used to place on "this person can write this from scratch" is collapsing, because an AI can write it from scratch in thirty seconds.
+                        At Taxwell, our federal tax calculation engine lives across a massive surface area, spanning more than 50 repositories of legacy PowerBASIC and proprietary MathMaster DSL code. If you ask a modern LLM to write a complex depreciation calculation from scratch, it will confidently output beautiful, syntactically correct code for a compiler that does not exist. It has no way of knowing how our calculations chain across 15 different files.
+                    </p>
+                    <p>
+                        To make AI actually useful in this environment, our engineering team had to become <strong>more</strong> technical, not less. We needed to solve the context problem.
+                    </p>
+                    <p>
+                        This is why I built our custom code intelligence platform. Over a long weekend that turned into a six-day project, I designed a SQLite-backed code knowledge graph that parses all 63 repositories. It exposes 37 custom Model Context Protocol (MCP) tools that allow Claude Code to query function definitions, call relationships, and DSL dependencies.
+                    </p>
+                    <p>
+                        We did not build this to abstract away the engineering. We built it because tracing tax calculation chains across a multi-million-line codebase requires extreme technical precision. An engineer who does not understand compiler includes, database schemas, or AST parsing could never have designed that knowledge layer.
+                    </p>
+                    <p>
+                        So what does the future of technical depth look like?
+                    </p>
+                    <p>
+                        <strong>Designing context, not just prompts.</strong> The bottleneck in AI-assisted engineering is context delivery. The best engineers are not just writing better prompts; they are building the indexing pipelines, the relational models, and the MCP servers that feed the AI the ground truth.
                     </p>
                     <blockquote class="blog-pullquote">
-                        The premium we used to place on "this person can write this from scratch" is collapsing.
+                        AI does not replace the need to understand how computers work; it punishes you faster when you do not.
                     </blockquote>
                     <p>
-                        So what replaces it?
+                        <strong>Rigorous validation over simple consumption.</strong> When an AI generates a hundred lines of code in seconds, the reviewer must be capable of debugging it at a granular level. In tax tech, a single misplaced paren can break filing compliance for millions of users. If you do not understand the underlying system deeply, you cannot spot the logical hallucinations before they ship.
                     </p>
                     <p>
-                        <strong>Taste.</strong> The ability to look at five plausible implementations and know which one will survive contact with production. Which one fits the existing architecture. Which one the junior engineer can maintain in six months.
-                    </p>
-                    <p>
-                        <strong>Judgment under uncertainty.</strong> AI gives you answers with confidence. It does not give you certainty. Someone has to decide when the confident answer is wrong, and that someone needs to understand the system well enough to spot the hallucination before it ships.
-                    </p>
-                    <p>
-                        <strong>Constraint thinking.</strong> The best engineers I know don't ask "what can we build?" They ask "what should we not build?" Every line of code is a liability. The teams winning right now are the ones that treat code as a last resort, not a default.
+                        <strong>Systems thinking and constraints.</strong> When implementation becomes cheap, code volume explodes. The engineering challenge shifts from "how do we write this?" to "should we write this at all?" Managing code liability, architectural cohesion, and technical debt requires a high degree of senior judgment.
                     </p>
                     <aside class="blog-counter">
-                        <strong>Before you close this tab:</strong> I'm not saying fundamentals don't matter. You can't debug what you don't understand. You can't review code you can't read. You can't architect systems without knowing how they fail. What I'm saying is that the definition of "technical" is expanding to include the things we used to dismiss as soft skills.
+                        <strong>To be clear:</strong> soft skills, product taste, and project alignment are still critical. But they are multipliers of technical capability, not replacements for it. A leader who cannot build cannot direct an AI to build anything of lasting value.
                     </aside>
                     <p>
-                        The uncomfortable truth is that a lot of what we called "senior engineering" was actually just accumulated pattern-matching. Years of seeing the same bugs, the same edge cases, the same framework quirks. That kind of memory is exactly what LLMs are good at. Which means the value of having lived through it — the scar tissue — is dropping.
+                        This is the real shift: AI is not lowering the bar for technical depth; it is raising it. It frees our engineers from typing boilerplate, allowing them to operate as systems architects and hands-on tool builders. We are not hiring less technical staff. We are equipping highly technical builders to tackle problems at a scale that was previously impossible.
                     </p>
                     <p>
-                        What's rising in value is everything we pretended didn't matter. Communication. Product sense. The willingness to say "I don't know yet." The ability to hold a business goal and a technical constraint in your head at the same time and find the least-worst path forward.
-                    </p>
-                    <p>
-                        A few months ago, one of my engineers spent an afternoon trying to get an AI to generate a tricky tax form calculation. It kept producing plausible-looking garbage. The breakthrough didn't come from a better prompt. It came from her recognizing that the AI was solving the wrong problem — optimizing for code that looked right instead of code that matched the regulation. She rewrote the requirement, not the code. That's the job now.
-                    </p>
-                    <p>
-                        <strong>The teams that get this first are going to pull away from the teams that don't.</strong> Not because they have better AI. Because they have better humans using it.
-                    </p>
-                    <p>
-                        The question isn't whether your engineers can keep up with the technology. The question is whether your culture lets them stop pretending that implementation is the point.
+                        The teams that pull ahead will not be the ones that stop focusing on fundamentals. They will be the ones that use their deep technical expertise to build the platforms, tools, and guardrails that make AI-assisted engineering actually work.
                     </p>
                     <div class="blog-takeaways">
                         <h4>Key takeaways</h4>
                         <ul>
-                            <li>Deep implementation expertise still matters, but its market value is falling as AI handles more of the "from scratch" work.</li>
-                            <li>The new premium skills are taste, judgment, constraint thinking, and communication.</li>
-                            <li>Hire and promote for decision quality, not just code volume or language depth.</li>
-                            <li>The best teams treat code as a liability and AI as a tool for acceleration, not replacement.</li>
+                            <li>AI coding tools raise the baseline, making boilerplate cheap but architecture and context modeling highly valuable.</li>
+                            <li>Custom context-delivery tools, such as SQLite-backed MCP servers, require deep technical fundamentals to build and maintain.</li>
+                            <li>Increased code output makes granular validation, system constraints, and code review skills more critical than ever.</li>
+                            <li>The future belongs to hands-on builder-leaders who can orchestrate both human teams and AI systems.</li>
                         </ul>
                     </div>
                 </div>
