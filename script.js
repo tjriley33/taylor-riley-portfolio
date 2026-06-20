@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCounters();
     initRevealAnimations();
     initSmoothScroll();
+    initBlogProgress();
 });
 
 // --- Navigation ---
@@ -158,6 +159,42 @@ function initSmoothScroll() {
                 const top = target.getBoundingClientRect().top + window.scrollY - offset;
                 window.scrollTo({ top, behavior: 'smooth' });
             }
+        });
+    });
+}
+
+// --- Blog Reading Progress ---
+function initBlogProgress() {
+    const cards = document.querySelectorAll('.blog-card');
+    if (!cards.length) return;
+
+    function updateProgress() {
+        cards.forEach(card => {
+            const bar = card.querySelector('.blog-progress-bar');
+            const body = card.querySelector('.blog-body');
+            if (!bar || !body) return;
+
+            if (!card.classList.contains('expanded')) {
+                bar.style.width = '0%';
+                return;
+            }
+
+            const rect = body.getBoundingClientRect();
+            const bodyHeight = body.offsetHeight;
+            const viewportHeight = window.innerHeight;
+            const scrolled = -rect.top;
+            const total = bodyHeight - viewportHeight;
+            const progress = Math.max(0, Math.min(100, (scrolled / total) * 100));
+            bar.style.width = progress + '%';
+        });
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+
+    document.querySelectorAll('.blog-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+            requestAnimationFrame(updateProgress);
         });
     });
 }

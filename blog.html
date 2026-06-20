@@ -43,6 +43,78 @@
 
     <section class="blog-posts">
         <div class="container">
+            <article class="blog-card blog-card-featured" id="less-technical">
+                <div class="blog-progress" aria-hidden="true"><div class="blog-progress-bar"></div></div>
+                <div class="blog-meta">
+                    <span class="blog-date">June 2026</span>
+                    <span class="blog-reading">7 min read</span>
+                </div>
+                <h2>Why the Best Engineering Teams Are Quietly Becoming Less Technical</h2>
+                <p class="blog-excerpt">
+                    We spent a decade hiring engineers for depth. Depth in a language, depth in a framework, depth in a domain. That's exactly the kind of depth AI is about to make cheap. And the teams that understand this first are already winning.
+                </p>
+                <div class="blog-body">
+                    <p>
+                        We used to interview senior engineers with questions like: "Walk me through Python's GIL" or "Explain the difference between a clustered and non-clustered index." We were testing for depth. Depth in a language, depth in a framework, depth in a domain. That made sense when depth was scarce and implementation was the hard part.
+                    </p>
+                    <p>
+                        It's not the hard part anymore.
+                    </p>
+                    <p>
+                        At Taxwell, our most productive engineers this year aren't the ones who can recite the PowerBASIC calling convention from memory. They're the ones who know <strong>which problem to solve</strong>, whether the solution is worth the complexity, and how to explain the trade-off to a product manager who doesn't care about syntax. The implementation? Claude Code and our MCP server handle most of it. The judgment? That's still human.
+                    </p>
+                    <p>
+                        This is the part nobody wants to say out loud: <strong>deep implementation expertise is depreciating faster than most of us are willing to admit.</strong> Not disappearing. Depreciating. There's a difference. You still need someone who understands what the code does. But the premium we used to place on "this person can write this from scratch" is collapsing, because an AI can write it from scratch in thirty seconds.
+                    </p>
+                    <blockquote class="blog-pullquote">
+                        The premium we used to place on "this person can write this from scratch" is collapsing.
+                    </blockquote>
+                    <p>
+                        So what replaces it?
+                    </p>
+                    <p>
+                        <strong>Taste.</strong> The ability to look at five plausible implementations and know which one will survive contact with production. Which one fits the existing architecture. Which one the junior engineer can maintain in six months.
+                    </p>
+                    <p>
+                        <strong>Judgment under uncertainty.</strong> AI gives you answers with confidence. It does not give you certainty. Someone has to decide when the confident answer is wrong, and that someone needs to understand the system well enough to spot the hallucination before it ships.
+                    </p>
+                    <p>
+                        <strong>Constraint thinking.</strong> The best engineers I know don't ask "what can we build?" They ask "what should we not build?" Every line of code is a liability. The teams winning right now are the ones that treat code as a last resort, not a default.
+                    </p>
+                    <aside class="blog-counter">
+                        <strong>Before you close this tab:</strong> I'm not saying fundamentals don't matter. You can't debug what you don't understand. You can't review code you can't read. You can't architect systems without knowing how they fail. What I'm saying is that the definition of "technical" is expanding to include the things we used to dismiss as soft skills.
+                    </aside>
+                    <p>
+                        The uncomfortable truth is that a lot of what we called "senior engineering" was actually just accumulated pattern-matching. Years of seeing the same bugs, the same edge cases, the same framework quirks. That kind of memory is exactly what LLMs are good at. Which means the value of having lived through it — the scar tissue — is dropping.
+                    </p>
+                    <p>
+                        What's rising in value is everything we pretended didn't matter. Communication. Product sense. The willingness to say "I don't know yet." The ability to hold a business goal and a technical constraint in your head at the same time and find the least-worst path forward.
+                    </p>
+                    <p>
+                        A few months ago, one of my engineers spent an afternoon trying to get an AI to generate a tricky tax form calculation. It kept producing plausible-looking garbage. The breakthrough didn't come from a better prompt. It came from her recognizing that the AI was solving the wrong problem — optimizing for code that looked right instead of code that matched the regulation. She rewrote the requirement, not the code. That's the job now.
+                    </p>
+                    <p>
+                        <strong>The teams that get this first are going to pull away from the teams that don't.</strong> Not because they have better AI. Because they have better humans using it.
+                    </p>
+                    <p>
+                        The question isn't whether your engineers can keep up with the technology. The question is whether your culture lets them stop pretending that implementation is the point.
+                    </p>
+                    <div class="blog-takeaways">
+                        <h4>Key takeaways</h4>
+                        <ul>
+                            <li>Deep implementation expertise still matters, but its market value is falling as AI handles more of the "from scratch" work.</li>
+                            <li>The new premium skills are taste, judgment, constraint thinking, and communication.</li>
+                            <li>Hire and promote for decision quality, not just code volume or language depth.</li>
+                            <li>The best teams treat code as a liability and AI as a tool for acceleration, not replacement.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="blog-toggle" onclick="this.parentElement.classList.toggle('expanded')">
+                    <span class="show-more">Read full article</span>
+                    <span class="show-less">Show less</span>
+                </button>
+            </article>
+
             <article class="blog-card" id="mcp-servers">
                 <div class="blog-meta">
                     <span class="blog-date">February 2026</span>
