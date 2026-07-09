@@ -43,8 +43,82 @@
 
     <section class="blog-posts">
         <div class="container">
-            <article class="blog-card blog-card-featured" id="tax-programming-language">
+            <article class="blog-card blog-card-featured" id="two-years-of-bedtimes">
                 <div class="blog-progress" aria-hidden="true"><div class="blog-progress-bar"></div></div>
+                <div class="blog-meta">
+                    <span class="blog-date">July 2026</span>
+                    <span class="blog-reading">5 min read</span>
+                </div>
+                <h2>What Two Years of Bedtimes Taught Me That Fifteen Years of Engineering Didn't</h2>
+                <p class="blog-excerpt">
+                    I spent fifteen years learning to make systems predictable — to remove variance, to write the test before the bug, to design so that the same input always produces the same output. Then I had a kid. A toddler is the most beautifully non-deterministic system I have ever tried to operate, and two years of bedtimes have quietly rewired how I think about control, patience, and what "done" actually means.
+                </p>
+                <div class="blog-body">
+                    <p>
+                        My entire career has been an exercise in making things predictable. You write the failing test first. You design the API so the same input always returns the same output. You add logging so that when something breaks at 2 A.M., the system can tell you exactly why. Fifteen years of that trains a certain kind of brain: cause, effect, control, repeat.
+                    </p>
+                    <p>
+                        Then a small human arrives, and none of it applies.
+                    </p>
+                    <p>
+                        A toddler is the most gloriously non-deterministic system I have ever tried to operate. The same input — same dinner, same bath, same three books in the same order — produces a peaceful sleep one night and a full-scale negotiation the next. There is no stack trace. There is no changelog. There is just a very small person who has, overnight, decided that socks are now unacceptable.
+                    </p>
+
+                    <h3>1. You cannot debug a feeling</h3>
+                    <p>
+                        My first instinct, the engineer's instinct, was to treat the meltdowns as bugs. Isolate the variable. What changed? Was it the nap, the snack, the weather? I'd run the whole diagnostic tree in my head while my daughter cried on the kitchen floor.
+                    </p>
+                    <p>
+                        It took me embarrassingly long to realize the crying wasn't a defect to be fixed. It was just information — a two-year-old with a two-year-old's vocabulary trying to tell me something big with very small tools. The job was not to resolve the ticket. The job was to sit on the floor with her until the storm passed. Presence, it turns out, is not a patch. It's the whole feature.
+                    </p>
+
+                    <h3>2. "Done" is a lie I told myself at work</h3>
+                    <p>
+                        In software, "done" is a comforting fiction we all agree to. The story is closed, the PR is merged, we move on. Parenting has no merge. There is no state where the work is finished and you get to walk away from the repo. Every night resets. Every phase you finally understand is immediately replaced by a new one you don't.
+                    </p>
+                    <blockquote class="blog-pullquote">
+                        Fifteen years of engineering taught me to remove variance from a system. Two years of fatherhood taught me that the variance was the point.
+                    </blockquote>
+                    <p>
+                        Strangely, this has made me better at my actual job. I've stopped treating "done" as the goal and started treating "still standing, still showing up" as the metric that matters. Teams are like that too. There's no version of leadership where you finish caring about your people and get to close the tab.
+                    </p>
+
+                    <h3>3. Patience is not a virtue, it's a runtime</h3>
+                    <p>
+                        I used to think of patience as a personality trait — something you either had or didn't. Fatherhood reframed it as a runtime environment. Patience is the amount of latency you're willing to tolerate between an action and the result you wanted, without throwing an exception.
+                    </p>
+                    <p>
+                        A toddler will test that latency tolerance the way a load test hammers a server. Putting on shoes can take twenty minutes. Twenty minutes! For an operation that should take forty seconds. And the only two options are: raise your voice and poison the whole morning, or breathe, expand your timeout threshold, and let the small human do the small human thing. I am, slowly, learning to expand the timeout.
+                    </p>
+
+                    <aside class="blog-counter">
+                        <strong>The honest caveat:</strong> I don't want to romanticize this into a tidy productivity lesson, because that would be its own kind of engineer's disease. Some nights are just hard, and no framework makes them not-hard. Sleep deprivation is real, patience runs out, and I have absolutely been the dad who lost his cool over socks. The point isn't that fatherhood made me zen. It's that it humbled a very specific arrogance I didn't know I had.
+                    </aside>
+
+                    <p>
+                        Here's the thing nobody told me: the skills that made me good at building systems actively worked against me as a father, at least at first. The impulse to optimize, to control, to reduce everything to inputs and outputs — that impulse is a liability when the system you're caring for is a person who mostly needs you to slow down and be there.
+                    </p>
+                    <p>
+                        Two years in, I've stopped trying to debug my kid. I sit on the floor. I expand the timeout. I show up again the next night knowing the work is never done, and that this is the good news, not the bad. It's the best uptime commitment I've ever made.
+                    </p>
+
+                    <div class="blog-takeaways">
+                        <h4>Key Takeaways</h4>
+                        <ul>
+                            <li>The engineer's instinct to make everything deterministic actively backfires when the "system" is a small human.</li>
+                            <li>Not every hard moment is a bug to fix — sometimes presence is the entire solution.</li>
+                            <li>"Done" is a useful fiction in software and a harmful one in parenting and leadership; showing up consistently is the real metric.</li>
+                            <li>Patience is less a personality trait than a timeout threshold you can deliberately widen.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="blog-toggle" onclick="this.parentElement.classList.toggle('expanded')">
+                    <span class="show-more">Read full article</span>
+                    <span class="show-less">Show less</span>
+                </button>
+            </article>
+
+            <article class="blog-card" id="tax-programming-language">
                 <div class="blog-meta">
                     <span class="blog-date">June 2026</span>
                     <span class="blog-reading">6 min read</span>
