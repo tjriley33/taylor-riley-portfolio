@@ -1,0 +1,64 @@
+name: Auto Blog Poster
+
+on:
+  schedule:
+    # GitHub cron is UTC. 14:00 UTC ~= 10:00 AM Virginia time (EDT, summer).
+    # In winter (EST) this fires at 9:00 AM local. Adjust if you care about the hour.
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force a post now, bypassing the date/probability gate"
+        type: boolean
+        default: false
+
+# Allow the workflow to commit and push back to the repo.
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-blog
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Run auto-blogger
+        id: blog
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python auto_blog.py ${{ (github.event_name == 'workflow_dispatch' && inputs.force) && '--force' || '' }}
+
+      - name: Commit and push
+        if: steps.blog.outputs.posted == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog.html sitemap.xml script.js blog.css .github/last_post_date.txt
+          git commit -m "Auto blog post: ${{ steps.blog.outputs.title }}"
+          git push
+
+      - name: Send notification email
+        if: steps.blog.outputs.posted == 'true'
+        env:
+          SMTP_SERVER: smtp.gmail.com
+          SMTP_PORT: "587"
+          SMTP_USER: tjriley33@gmail.com
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: |
+          python send_notification.py \
+            "New blog post: ${{ steps.blog.outputs.title }}" \
+            "<p>A new article just went live on your blog:</p><p><strong>${{ steps.blog.outputs.title }}</strong></p><p>${{ steps.blog.outputs.excerpt }}</p><p><a href='${{ steps.blog.outputs.url }}'>Read it here</a></p>"
