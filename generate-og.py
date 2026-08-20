@@ -86,7 +86,7 @@ font_stat_label = load_font(font_paths_regular, 13)
 font_url = load_font(font_paths_bold, 18)
 
 # Badge
-badge_text = "Available for Director / VP-level roles"
+badge_text = "Director, Tax @ Taxwell  |  AI Ambassador"
 bw = draw.textlength(badge_text, font=font_badge) + 24
 bx, by = text_x, 145
 draw.rounded_rectangle([bx, by, bx + bw, by + 26], radius=13,
@@ -104,7 +104,7 @@ draw.text((text_x, 286), "teams that ship them.", fill=muted, font=font_sub)
 draw.line([(text_x, 335), (text_x + 480, 335)], fill=(40, 40, 55), width=1)
 
 # Stats
-stats = [("15+", "Years"), ("28", "Team"), ("5M+", "Filers"), ("37+", "MCP Tools")]
+stats = [("15+", "Years"), ("100+", "Forms"), ("5M+", "Filers"), ("37+", "MCP Tools")]
 sx, sy = text_x, 355
 for num, label in stats:
     draw.text((sx, sy), num, fill=accent_light, font=font_stat_num)
