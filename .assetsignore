@@ -1,0 +1,7 @@
+.git
+.wrangler
+.gitignore
+.assetsignore
+wrangler.jsonc
+generate-og.py
+node_modules

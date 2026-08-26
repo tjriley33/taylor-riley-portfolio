@@ -1234,6 +1234,26 @@ img { max-width: 100%; display: block; }
     font-size: 0.9rem;
 }
 
+.footer-legal {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+}
+
+.footer-legal a {
+    color: var(--color-text-muted);
+}
+
+.footer-legal a:hover {
+    color: var(--color-accent-light);
+}
+
+.footer-legal-sep {
+    color: var(--color-text-muted);
+    opacity: 0.5;
+}
+
 .footer-easter-egg {
     font-size: 1rem;
     opacity: 0.15;
