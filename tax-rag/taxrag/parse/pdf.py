@@ -143,6 +143,7 @@ def _extract_page(page: pymupdf.Page, pno: int) -> PageExtraction:
     cols = _columns(raw_blocks, width)
     blocks: list[Block] = []
     for col in cols:
+        col = [part for rb in col for part in _split_runin(rb)]
         for rb in col:
             spans = [s for l in rb["lines"] for s in l["spans"] if s["text"].strip()]
             if not spans:
@@ -164,6 +165,35 @@ def _extract_page(page: pymupdf.Page, pno: int) -> PageExtraction:
     _classify(blocks)
     text_chars = sum(len(b.text) for b in blocks)
     return PageExtraction(number=pno, blocks=blocks, text_chars=text_chars, has_images_only=bool(images) and text_chars < 40, links=links)
+
+
+def _split_runin(rb: dict) -> list[dict]:
+    """Split a block whose first line opens with a short bold lead ("Line 1", "Part I. Income") followed by
+    regular text. PyMuPDF merges run-in headings with their paragraph; without the split the heading can't anchor."""
+    lines = rb.get("lines") or []
+    if not lines:
+        return [rb]
+    spans = [sp for sp in lines[0]["spans"] if sp["text"].strip()]
+    if not spans or not _span_flags(spans[0])[0]:
+        return [rb]
+    lead, i = "", 0
+    while i < len(spans) and _span_flags(spans[i])[0] and len(lead) < 100:
+        lead += spans[i]["text"]; i += 1
+    rest_first = "".join(sp["text"] for sp in spans[i:]).strip()
+    rest_lines = lines[1:]
+    rest_len = len(rest_first) + sum(len(sp["text"]) for l in rest_lines for sp in l["spans"])
+    lead = lead.strip()
+    if not lead or len(lead) >= 100 or rest_len < 40 or i == len(spans) and not rest_lines:
+        return [rb]
+    if not (LINE_HEAD_RE.match(lead) or re.match(r"^(Part|Section|Step|Column|Schedule|Worksheet|Example|Note|Caution|Tip|Exception)\b", lead, re.I)
+            or lead.endswith(".") or lead.endswith(":")):
+        return [rb]
+    head_line = {"spans": spans[:i], "bbox": lines[0]["bbox"]}
+    rest_spans = spans[i:]
+    new_lines = ([{"spans": rest_spans, "bbox": lines[0]["bbox"]}] if rest_spans else []) + rest_lines
+    head = {"bbox": rb["bbox"], "lines": [head_line], "type": 0}
+    body = {"bbox": rb["bbox"], "lines": new_lines, "type": 0}
+    return [head, body]
 
 
 def _classify(blocks: list[Block]) -> None:

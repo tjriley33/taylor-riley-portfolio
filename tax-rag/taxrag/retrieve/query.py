@@ -167,8 +167,10 @@ def parse_query(question: str, jurisdiction: str | None = None, tax_year: int | 
     if document_types:
         plan.document_type = document_types[0] if len(document_types) == 1 else None
     else:
+        # "Form 1065" / "Schedule C" are identifiers, not a request for the form itself: strip them before type inference
+        low_wo_ids = IT_RE.sub(" ", FORM_RE.sub(" ", SCHED_RE.sub(" ", q))).lower()
         for rx, dt in DOC_TYPE_WORDS:
-            if rx.search(low):
+            if rx.search(low_wo_ids):
                 plan.document_type = dt
                 break
         if plan.schedule and plan.document_type == "instructions":

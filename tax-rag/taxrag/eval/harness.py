@@ -107,7 +107,9 @@ def run_eval(store: Store, strategy: str | None = None, gold_path: Path | None =
     summary = {k: {"mean": round(sum(v) / len(v), 3), "n": len(v)} for k, v in sorted(agg.items())}
     by_cat: dict[str, list] = {}
     for r in results:
-        by_cat.setdefault(r["category"], []).append(r["metrics"].get("chunk_hit@5", r["metrics"].get("abstained_correctly", r["metrics"].get("changes_found", False))))
+        m = r["metrics"]
+        primary = m["abstained_correctly"] if "abstained_correctly" in m else m["changes_found"] if "changes_found" in m else m.get("chunk_hit@5", False)
+        by_cat.setdefault(r["category"], []).append(primary)
     summary["by_category_primary"] = {c: round(sum(1 for x in v if x) / len(v), 3) for c, v in by_cat.items()}
     summary["strategy"] = strategy
     summary["run_id"] = run_id
