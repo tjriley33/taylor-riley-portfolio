@@ -9,3 +9,6 @@ data/*.sqlite-shm
 logs/
 eval_report*.json
 .env
+data/taxrag.sqlite
+data/experiment/
+dist/
