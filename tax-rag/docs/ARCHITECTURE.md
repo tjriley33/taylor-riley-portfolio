@@ -287,7 +287,9 @@ Primary strategy `hier_v1`:
 
 * Build the hierarchy from the PDF outline when present (IRS and most states),
   else from font-size/bold heading detection (14pt bold = section, 12pt bold =
-  subsection, `Line \d+` bold = line heading).
+  subsection, `Line \d+` bold = line heading). Run-in headings ("**Line 1** Enter
+  gross receipts…" in one PDF block) are split so they can anchor; TIP/CAUTION
+  icons are attached to the italic paragraph beside them, never to a heading.
 * Split pages into columns by x-position, read column-major, dehyphenate
   line-end hyphens, join lines into paragraphs, detect `TIP`/`CAUTION`/`Note.`
   /`Example.`/`Exception.` markers and emit them as `kind`-tagged blocks,
