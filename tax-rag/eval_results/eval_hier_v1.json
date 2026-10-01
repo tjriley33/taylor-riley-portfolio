@@ -17,15 +17,15 @@
       "n": 4
     },
     "chunk_hit@1": {
-      "mean": 0.875,
+      "mean": 0.9,
       "n": 40
     },
     "chunk_hit@5": {
-      "mean": 0.875,
+      "mean": 0.9,
       "n": 40
     },
     "citation_ok": {
-      "mean": 0.875,
+      "mean": 0.9,
       "n": 40
     },
     "completeness": {
@@ -66,7 +66,7 @@
     },
     "by_category_primary": {
       "exact_form_lookup": 0.857,
-      "line_specific": 0.75,
+      "line_specific": 1.0,
       "tax_year_specific": 1.0,
       "state_specific": 1.0,
       "federal_state_interaction": 1.0,
@@ -78,8 +78,8 @@
       "efile": 1.0
     },
     "strategy": "hier_v1",
-    "run_id": "eval_fa40f34c",
-    "mean_latency_ms": 4042
+    "run_id": "eval_18861c8a",
+    "mean_latency_ms": 1676
   },
   "results": [
     {
@@ -101,11 +101,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 5709,
+      "latency_ms": 2676,
       "top": [
         "US 2025 final ne 1b > Household Employee Wages Not Reported on Form(s) W-2 > CAUTION p.24",
-        "US 2025 final rivate Delivery Services > Chart C\u2014Other Situations When You Must File p.11",
-        "US 2025 final nts to Income > Additional Income > Line 7 > Unemployment Compensation p.89"
+        "US 2025 final  and 1040-SR > Income > Line 1a > Total Amount From Form(s) W-2, Box 1 p.23",
+        "US 2025 final al Taxes > Specific Instructions > Line 9 > Household Employment Taxes p.113"
       ]
     },
     {
@@ -126,11 +126,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 3454,
+      "latency_ms": 1477,
       "top": [
-        "US 2025 final Schedule 1 (Form 1040), Additional Income and Adjustments to Income p.1",
         "US 2025 final dule 1-A Additional Deductions > Part III No Tax on Overtime > Example p.107",
-        "US 2025 final e 1 Additional Income and Adjustments to Income > General Instructions p.88"
+        "US 2025 final  (Form 1040), Additional Income and Adjustments to Income > SCHEDULE 1 p.1",
+        "US 2025 final  Additional Deductions > Part IV No Tax on Car Loan Interest > Example p.109"
       ]
     },
     {
@@ -151,9 +151,9 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 2843,
+      "latency_ms": 1331,
       "top": [
-        "US 2025 final Instructions for Form 1065 > General Instructions > When To File p.6",
+        "US 2025 final Instructions for Form 1065 > Specific Instructions > TIP p.18",
         "US 2025 final 1065 > General Instructions > When To File > Any Partner or LLC Member p.6",
         "US 2025 final tions for Form 1065 > General Instructions > Extension of Time To File p.5"
       ]
@@ -175,10 +175,10 @@
         "explicit_ratio": 1.0,
         "completeness": 0.0
       },
-      "latency_ms": 3151,
+      "latency_ms": 1489,
       "top": [
         "US 2025 final  Specific Allocation Situations > Instructions for Form 8962 (2025) 21 p.21",
-        "US 2025 final Form 8962 > Allocation 1 p.2",
+        "US 2025 final  Specific Allocation Situations > Instructions for Form 8962 (2025) 19 p.19",
         "US 2025 final Form 8962 > Allocation 2 p.2"
       ]
     },
@@ -199,7 +199,7 @@
         "faithfulness": 1.0,
         "explicit_ratio": 1.0
       },
-      "latency_ms": 3387,
+      "latency_ms": 1463,
       "top": [
         "US 2025 final  and 1040-SR > Income > Line 1a > Total Amount From Form(s) W-2, Box 1 p.23",
         "US 2025 final ustments to Income > Additional Income > Lines 8a Through 8z > Line 8v p.92",
@@ -224,7 +224,7 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 5251,
+      "latency_ms": 1970,
       "top": [
         "US 2025 final 40 and 1040-SR > Income > Line 1c > Tip Income Not Reported on Line 1a p.24",
         "US 2025 final  and 1040-SR > Income > Line 1a > Total Amount From Form(s) W-2, Box 1 p.23",
@@ -248,7 +248,7 @@
         "faithfulness": 1.0,
         "explicit_ratio": 1.0
       },
-      "latency_ms": 3853,
+      "latency_ms": 1416,
       "top": [
         "US 2025 final > Tax and Credits > Line 12e Standard Deduction or Itemized Deductions p.34",
         "US 2025 final and Credits > Line 12e Standard Deduction or Itemized Deductions > TIP p.34",
@@ -263,20 +263,20 @@
         "doc_hit@1": true,
         "doc_hit@5": true,
         "doc_expected_indexed": true,
-        "chunk_hit@1": false,
-        "chunk_hit@5": false,
-        "citation_ok": false,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
         "jurisdiction_ok": true,
         "tax_year_ok": true,
         "answered": true,
         "faithfulness": 1.0,
         "explicit_ratio": 1.0
       },
-      "latency_ms": 4120,
+      "latency_ms": 1665,
       "top": [
-        "US 2025 final Form 1040), Profit or Loss From Business > Specific Instructions > TIP p.5",
-        "US 2025 final Schedule C (Form 1040), Profit or Loss From Business p.1",
-        "US 2025 final or Form 1120 > Specific Instructions > Line 1. Gross Receipts or Sales p.10"
+        "US 2025 final Profit or Loss From Business > Specific Instructions > Line H > Line 1 p.6",
+        "US 2025 final siness > Specific Instructions > Part II. Expenses > Line 30 > Line 1. p.11",
+        "US 2025 final Schedule C (Form 1040), Profit or Loss From Business > SCHEDULE C p.1"
       ]
     },
     {
@@ -296,7 +296,7 @@
         "faithfulness": 1.0,
         "explicit_ratio": 1.0
       },
-      "latency_ms": 4204,
+      "latency_ms": 1883,
       "top": [
         "US 2024 final -SR) > Line Instructions for Forms 1040 and 1040-SR > Income > Line 1a p.23",
         "US 2024 final e Instructions for Forms 1040 and 1040-SR > Income > Line 1a > CAUTION p.23",
@@ -321,11 +321,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 4393,
+      "latency_ms": 1892,
       "top": [
         "US 2023 final Instructions for Form 1040 (and Form 1040-SR) > What's New p.6",
         "US 2023 final s or Standard Deduction > Standard Deduction > Before you begin: > TIP p.32",
-        "US 2023 final Instructions for Form 1040 (and Form 1040-SR) > What's New p.6"
+        "US 2023 final R) > Line Instructions for Forms 1040 and 1040-SR > Standard Deduction p.16"
       ]
     },
     {
@@ -345,7 +345,7 @@
         "faithfulness": 1.0,
         "explicit_ratio": 1.0
       },
-      "latency_ms": 2576,
+      "latency_ms": 1208,
       "top": [
         "US 2025 final  Form 1040-SR) > Filing Requirements > When and Where Should You File? p.8",
         "US 2025 final  Form 1040-SR) > Line Instructions for Forms 1040 and 1040-SR > Income p.23",
@@ -370,11 +370,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 3287,
+      "latency_ms": 1714,
       "top": [
+        "VA 2025 final ) > What\u2019s New > Electronic Filing Requirements for Certain Taxpayers: p.8",
         "VA 2025 final Tax Booklet (instructions) > Refund Options > Tax Preparer Information p.23",
-        "VA 2025 final me Tax Booklet (instructions) > Itemized or Standard Deductions > Note p.17",
-        "VA 2025 final > Residency Status and Choosing the Right Form to File > Special Rules p.12"
+        "VA 2025 final ed Gross Income > Line 20 Estimated Payments for the 2025 Taxable Year p.19"
       ]
     },
     {
@@ -395,10 +395,10 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 3981,
+      "latency_ms": 1787,
       "top": [
         "NY 2025 final Form IT-201, Full-Year Resident Income Tax Return > E-file information p.2",
-        "NY 2025 final Instructions for Form IT-201, Full-Year Resident Income Tax Return p.1",
+        "NY 2025 final x Return > Additional information > Full-year New York State residents p.31",
         "NY 2025 final x Return > Additional information > Full-year New York State residents p.31"
       ]
     },
@@ -420,7 +420,7 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 3797,
+      "latency_ms": 1480,
       "top": [
         "WI 2025 final ructions > Part I \u2013 Line Instructions > Lines 1b and 2b - Depreciation p.2",
         "WI 2025 final in Income Tax > Wednesday April 15, 2026 > Tax Help / Resources > Code p.13",
@@ -445,11 +445,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 4704,
+      "latency_ms": 1377,
       "top": [
         "WI 2025 final m 1 Instructions, Wisconsin Income Tax > 2025 Standard Deduction Table p.37",
-        "WI 2025 final  Income Tax > 2025 Standard Deduction Table > $100,000 or over \u2013 > (b) p.44",
-        "WI 2025 final  Income Tax > 2025 Standard Deduction Table > $100,000 or over \u2013 > (b) p.44"
+        "WI 2025 final sconsin Income Tax > 2025 Standard Deduction Table > Section C \u2013 > (b) p.44",
+        "WI 2025 final tructions, Wisconsin Income Tax > 2025 Standard Deduction Table > Note p.45"
       ]
     },
     {
@@ -470,11 +470,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 5076,
+      "latency_ms": 2449,
       "top": [
+        "VA 2025 final klet (instructions) > Age 65 and Older Deduction Worksheet > FOR 2025: p.16",
         "VA 2025 final let (instructions) > Form 760 Line Instructions > Line 4 Age Deduction p.15",
-        "VA 2025 final come Tax Booklet (instructions) > Age 65 and Older Deduction Worksheet p.16",
-        "VA 2025 final come Tax Booklet (instructions) > Age 65 and Older Deduction Worksheet p.16"
+        "VA 2025 final ructions) > Age 65 and Older Deduction Worksheet > Line 7 Subtractions p.17"
       ]
     },
     {
@@ -494,11 +494,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 5398,
+      "latency_ms": 2019,
       "top": [
         "VA 2025 final  Tax Booklet (instructions) > Getting Started > Virginia Schedule ADJ? p.13",
-        "VA 2025 final esident Individual Income Tax Booklet (instructions) > Getting Started p.13",
-        "VA 2024 final esident Individual Income Tax Booklet (instructions) > Getting Started p.13"
+        "VA 2024 final or Determining Separate Virginia Adjusted Gross Income > HOW IT WORKS: p.19",
+        "VA 2024 final et for Determining Separate Virginia Adjusted Gross Income > Estimated p.21"
       ]
     },
     {
@@ -518,11 +518,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 5418,
+      "latency_ms": 2201,
       "top": [
-        "WI 2025 final rces > 16 Line Instructions > Line 13 Itemized Deduction Credit > Note p.16",
+        "WI 2024 final  Tax > Tuesday April 15, 2025 > Tax Help / Resources > Example: > Note p.16",
         "WI 2024 final 5 > Tax Help / Resources > Code > Line 1 Federal Adjusted Gross Income p.13",
-        "WI 2024 final rces > 16 Line Instructions > Line 13 Itemized Deduction Credit > Note p.16"
+        "WI 2025 final 6 > Tax Help / Resources > Code > Line 1 Federal Adjusted Gross Income p.13"
       ]
     },
     {
@@ -543,11 +543,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 5086,
+      "latency_ms": 2176,
       "top": [
         "NY 2025 final  Tax Return > Additional information > If your: and your then use the: p.32",
-        "NY 2025 final 1, Full-Year Resident Income Tax Return > Step 6: Calculate your taxes p.12",
-        "NY 2025 final Use these notes for New York State household credit tables 1 through 3 p.13"
+        "NY 2025 final lculate your taxes > Line 40: New York State household credit > Note 1 p.13",
+        "NY 2025 final x Return > Step 6: Calculate your taxes > Line 39 \u2013 New York State tax p.12"
       ]
     },
     {
@@ -568,11 +568,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 4494,
+      "latency_ms": 1347,
       "top": [
         "US 2025 final ns for Forms 1040 and 1040-SR > Income > Line 3a > Qualified Dividends p.25",
-        "US 2025 final  for Certain Federal Outlays > D > Reduction Act Notice 120 Dividends: p.123",
-        "US 2025 final  Forms 1040 and 1040-SR > Income > Line 3a > Qualified Dividends > TIP p.25"
+        "US 2025 final  Forms 1040 and 1040-SR > Income > Line 3a > Qualified Dividends > TIP p.25",
+        "US 2025 final  for Certain Federal Outlays > D > Reduction Act Notice 120 Dividends: p.123"
       ]
     },
     {
@@ -593,10 +593,10 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 5174,
+      "latency_ms": 1804,
       "top": [
         "US 2025 final chedule D (Form 1040), Capital Gains and Losses > General Instructions p.1",
-        "US 2025 final  Gains and Losses > General Instructions > Items for Special Treatment p.4",
+        "US 2025 final eral Instructions > Deferral of Gain Invested in a QOF > How To Report p.9",
         "US 2025 final  Gains and Losses > General Instructions > Items for Special Treatment p.4"
       ]
     },
@@ -618,11 +618,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 4816,
+      "latency_ms": 1729,
       "top": [
         "US 2025 final ctions > Net Earnings From Self-Employment > Statutory Employee Income p.4",
         "US 2025 final  > Income and Losses Not Included in Net Earnings From Self-Employment p.4",
-        "US 2025 final m Business > Specific Instructions > Part II. Expenses > Line 31 > TIP p.14"
+        "US 2025 final ss From Business > Specific Instructions > Part II. Expenses > Line 31 p.14"
       ]
     },
     {
@@ -643,7 +643,7 @@
         "explicit_ratio": 1.0,
         "changes_found": true
       },
-      "latency_ms": 7262,
+      "latency_ms": 2608,
       "top": [
         "US 2024 final e Instructions for Forms 1040 and 1040-SR > Income > Line 1a > CAUTION p.23",
         "US 2024 final -SR) > Line Instructions for Forms 1040 and 1040-SR > Income > Line 1a p.23",
@@ -668,11 +668,11 @@
         "explicit_ratio": 1.0,
         "changes_found": true
       },
-      "latency_ms": 6482,
+      "latency_ms": 2985,
       "top": [
         "WI 2024 final Schedule I Instructions > General Instructions p.2",
-        "WI 2024 final Schedule I Instructions > General Instructions p.2",
-        "WI 2024 final ructions > Part I \u2013 Line Instructions > Lines 1b and 2b - Depreciation p.3"
+        "WI 2024 final ructions > Part I \u2013 Line Instructions > Lines 1b and 2b - Depreciation p.3",
+        "WI 2024 final computing Federal Forms and Schedules for Wisconsin Purposes > CAUTION p.3"
       ]
     },
     {
@@ -693,11 +693,11 @@
         "explicit_ratio": 1.0,
         "changes_found": true
       },
-      "latency_ms": 8429,
+      "latency_ms": 3213,
       "top": [
         "VA 2024 final esident Individual Income Tax Booklet (instructions) > Getting Started p.13",
-        "VA 2024 final oklet (instructions) > Form 760 Line Instructions > Deceased Taxpayers p.14",
-        "VA 2024 final Table of Contents > Virginia\u2019s Conformity to the Internal Revenue Code p.7"
+        "VA 2024 final vidual Income Tax Booklet (instructions) > What\u2019s New > Credit Changes p.7",
+        "VA 2024 final me Tax Booklet (instructions) > Itemized or Standard Deductions > Note p.17"
       ]
     },
     {
@@ -718,11 +718,11 @@
         "explicit_ratio": 1.0,
         "changes_found": true
       },
-      "latency_ms": 7877,
+      "latency_ms": 3665,
       "top": [
         "US 2025 final uctions for Form 1040 (and Form 1040-SR) > INSTRUCTIONS > 2025 Changes p.1",
-        "US 2025 final Form 1040 p.1",
-        "US 2025 final  > Requirement To Reconcile Advance Payments of the Premium Tax Credit p.5"
+        "US 2025 final nstructions for Form 1040 (and Form 1040-SR) > 2025 Tax Table > 63,000 p.75",
+        "US 2025 final nstructions for Form 1040 (and Form 1040-SR) > 2025 Tax Table > 63,000 p.75"
       ]
     },
     {
@@ -743,11 +743,11 @@
         "faithfulness": 1.0,
         "explicit_ratio": 1.0
       },
-      "latency_ms": 3621,
+      "latency_ms": 1360,
       "top": [
         "US 2026 draft uities > Insurance Premiums for Retired Public Safety Officers > DRAFT p.30",
-        "US 2026 draft  Form 1040-SR) > Line Instructions for Forms 1040 and 1040-SR > Income p.24",
-        "US 2026 draft hedule 1-A Additional Deductions > Part III No Tax on Overtime > DRAFT p.107"
+        "US 2026 draft hedule 1-A Additional Deductions > Part III No Tax on Overtime > DRAFT p.107",
+        "US 2026 draft Deductions > Part II No Tax on Tips > Qualified Tips > DRAFT > Example p.105"
       ]
     },
     {
@@ -768,11 +768,11 @@
         "faithfulness": 1.0,
         "explicit_ratio": 1.0
       },
-      "latency_ms": 3693,
+      "latency_ms": 1341,
       "top": [
         "US 2025 final Instructions for Forms 1040 and 1040-SR > Filing Status > Single > TIP p.13",
         "US 2025 final 040-SR) > Line Instructions for Forms 1040 and 1040-SR > Filing Status p.13",
-        "US 2025 final ns for Forms 1040 and 1040-SR > Filing Status > Married Filing Jointly p.13"
+        "US 2025 final Form 1040 > You Spouse Filing Status p.1"
       ]
     },
     {
@@ -792,11 +792,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 3835,
+      "latency_ms": 1794,
       "top": [
         "US 2025 final Publication 974, Premium Tax Credit (PTC) > Introduction p.2",
         "US 2025 final lication 974, Premium Tax Credit (PTC) > Who Must File Form 8962 > TIP p.3",
-        "US 2025 final Publication 974, Premium Tax Credit (PTC) > Who Must File Form 8962 p.3"
+        "US 2025 final tion 974, Premium Tax Credit (PTC) > Who Must File Form 8962 > CAUTION p.3"
       ]
     },
     {
@@ -817,11 +817,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 3833,
+      "latency_ms": 1745,
       "top": [
         "US 2025 final C) > Chapter 1 Rules for Everyone > Rule 7\u2014You Must Have Earned Income p.8",
-        "US 2025 final 27b, and 27c\u2014 Earned Income Credit (EIC) > Qualifying Child > No. STOP p.41",
-        "US 2025 final  Definitions and Special Rules > EIC > Your credit is\u2013 Your credit is\u2013 p.52"
+        "US 2025 final  Definitions and Special Rules > EIC > Your credit is\u2013 Your credit is\u2013 p.52",
+        "US 2025 final 27b, and 27c\u2014 Earned Income Credit (EIC) > Qualifying Child > No. STOP p.41"
       ]
     },
     {
@@ -842,11 +842,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 3031,
+      "latency_ms": 1316,
       "top": [
         "US 2025 final 1, Dependents, Standard Deduction, and Filing Information > Dependents p.11",
-        "US 2025 final Qualifies as Your Dependent > Definitions and Special Rules > No. STOP p.20",
-        "US 2025 final ons for Forms 1040 and 1040-SR > Who Qualifies as Your Dependent > AND p.17"
+        "US 2025 final ying Child for Child Tax Credit, and Credit for Other Dependents > TIP p.17",
+        "US 2025 final Qualifies as Your Dependent > Definitions and Special Rules > No. STOP p.20"
       ]
     },
     {
@@ -862,7 +862,7 @@
         "citation_ok": false,
         "abstained_correctly": true
       },
-      "latency_ms": 233,
+      "latency_ms": 95,
       "top": []
     },
     {
@@ -878,7 +878,7 @@
         "citation_ok": false,
         "abstained_correctly": true
       },
-      "latency_ms": 218,
+      "latency_ms": 123,
       "top": []
     },
     {
@@ -894,7 +894,7 @@
         "citation_ok": false,
         "abstained_correctly": true
       },
-      "latency_ms": 270,
+      "latency_ms": 158,
       "top": []
     },
     {
@@ -910,7 +910,7 @@
         "citation_ok": true,
         "abstained_correctly": true
       },
-      "latency_ms": 2331,
+      "latency_ms": 1081,
       "top": [
         "US 2025 final itional Deductions > Part II No Tax on Tips > Qualified Tips > Example p.102",
         "US 2025 final eduction Act Notice. > Accommodation, Food Services, & Drinking Places p.18",
@@ -934,7 +934,7 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 2958,
+      "latency_ms": 999,
       "top": [
         "US 2026 final . XML Overview for MeF > 2.1 MeF XML Structure > 2.1.2 Submission Size p.38",
         "US 2026 final  The number of submissions in the transmission file is limited to 100. p.64",
@@ -957,7 +957,7 @@
         "faithfulness": 1.0,
         "explicit_ratio": 1.0
       },
-      "latency_ms": 3496,
+      "latency_ms": 1777,
       "top": [
         "US None final l Income Tax Returns > Chapter 2 \u2013 Must Read > Safeguarding IRS e-file p.7",
         "US None final -file Providers of Individual Income Tax Returns > IRS e-file Glossary p.39",
@@ -982,11 +982,11 @@
         "explicit_ratio": 1.0,
         "completeness": 0.0
       },
-      "latency_ms": 2856,
+      "latency_ms": 1259,
       "top": [
+        "US 2025 final al Instructions > When To File > Instructions for Form 1120-S (2025) 7 p.7",
         "US 2025 final e > year (Form 1120-S, page 1, item F) are: Use the following address: p.4",
-        "US 2025 final Instructions for Form 1120-S > General Instructions > When To File p.4",
-        "US 2025 final Instructions for Form 1120-S > Specific Instructions p.13"
+        "US 2025 final Instructions for Form 1120-S > General Instructions > When To File p.4"
       ]
     },
     {
@@ -1007,11 +1007,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 4004,
+      "latency_ms": 1672,
       "top": [
         "US 2025 final es A, B, G, J, and K-1 > U.S. Income Tax Return for Estates and Trusts p.1",
         "US 2025 final > Paperwork Reduction Act Notice. > W > Where to file 9 Who must file: p.55",
-        "US 2025 final d K-1 > General Instructions > Who Must Sign > Section 643(g) Election p.10"
+        "US 2025 final Credits, etc. > Part I. Information About the Estate or Trust > Item D p.45"
       ]
     },
     {
@@ -1032,11 +1032,11 @@
         "explicit_ratio": 1.0,
         "completeness": 1.0
       },
-      "latency_ms": 3060,
+      "latency_ms": 1308,
       "top": [
-        "US 2025 final for Form 990 > General Instructions > 2 2025 Instructions for Form 990 p.2",
+        "US 2025 final 90 > General Instructions > 2025 Instructions for Form 990 3 > CAUTION p.3",
         "US 2025 final Instructions for Form 990 > General Instructions p.2",
-        "US 2025 final Instructions for Form 990 > Specific Instructions p.8"
+        "US 2025 final for Form 990 > General Instructions > 2 2025 Instructions for Form 990 p.2"
       ]
     }
   ]

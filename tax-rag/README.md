@@ -51,6 +51,9 @@ answer: verbatim passages with citations, clearly labelled.
 | `taxrag diff <old_version_id> <new_version_id> [--path "Line 1a"]` | Section-level changes between two versions |
 | `taxrag evaluate [--strategy hier_v1|fixed_512|page_v1] [--report out.json]` | Run the gold-set evaluation |
 | `taxrag reindex [--strategies hier_v1,fixed_512] [--embeddings-only] [--reparse]` | Rebuild chunks/embeddings after code or model changes |
+| `taxrag rediff` | Recompute all stored section diffs (after a parser change) |
+| `taxrag fetch-raw` | Re-download original PDFs by hash for every indexed version |
+| `taxrag sync push|pull` | Index + originals to/from S3 (`TAXRAG_S3_BUCKET`) |
 | `taxrag docs`, `taxrag stats`, `taxrag quarantine [--release VID]`, `taxrag debug <query_id>` | Inspection |
 | `taxrag serve [--port 8000]` | API + analyst UI |
 

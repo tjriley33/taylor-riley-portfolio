@@ -134,6 +134,19 @@ def diff(old_version: str, new_version: str, path: Optional[str] = None):
 
 
 @app.command()
+def rediff():
+    """Drop and recompute all stored section diffs (after a parser change)."""
+    from .ingest import Ingester
+    from .ingest.pipeline import RunStats
+    s = _store()
+    s.execute("DELETE FROM document_changes")
+    ing, stats = Ingester(s), RunStats()
+    for r in s.q("SELECT version_id FROM document_versions WHERE quarantined=0"):
+        ing.diff_against_neighbors(r["version_id"], stats)
+    console.print(f"recomputed diffs for {stats.diffed} version pairs; {s.stats()['changes']} changes stored")
+
+
+@app.command()
 def evaluate(strategy: str = settings.chunk_strategy, gold: Optional[Path] = None, use_llm: bool = False, limit: Optional[int] = None,
              report: Optional[Path] = None):
     """Run the evaluation suite."""

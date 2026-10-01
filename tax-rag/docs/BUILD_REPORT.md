@@ -13,7 +13,7 @@ What was built, what the numbers say, and what is left. Companion to `ARCHITECTU
 | Ingestion | idempotent, hash-versioned, stage-tracked, retry + quarantine, validation, automatic section diffs vs prior year / superseded hash / same-year final |
 | Parsing | PyMuPDF layout extraction: column ordering, de-hyphenation, outline-anchored hierarchy, run-in heading split, TIP/CAUTION/Note/Example/Exception/Worksheet tagging, line-reference detection, OCR hook |
 | Chunking | `hier_v1` (section-leaf chunks with parent expansion) + `fixed_512` / `fixed_256` / `page_v1` baselines for the experiment |
-| Graph | 20k typed edges (form / schedule / publication / line / IRC / regulation / worksheet / state→federal conformity / instructions_for / schedule_of); dangling targets re-resolved after each run |
+| Graph | 20.5k typed edges (form / schedule / publication / line / IRC / regulation / worksheet / state→federal conformity / instructions_for / schedule_of); dangling targets re-resolved after each run |
 | Retrieval | filter-first BM25 (FTS5) ∥ vector (bge-small) → RRF → graph expansion → cross-encoder + deterministic tax score (hard demotion for wrong state / year / unrequested draft) → parent expansion → conflict detection |
 | Answering | research / taxdev / source / compare / evidence; LLM optional (Anthropic or Bedrock); claim validator (manufactured-citation rejection, quote verification, explicit / derived / not_established labelling); abstention on insufficient evidence |
 | API + UI | FastAPI (`/search /ask /compare /documents /versions /sections /chunks /sources /files /changes /graph /queries /feedback /admin/*`), single-page analyst console with PDF viewer at the cited page |
@@ -25,11 +25,44 @@ What was built, what the numbers say, and what is left. Companion to `ARCHITECTU
 ## Corpus indexed
 
 59 documents, 79 versions, 4 jurisdictions (US, VA, NY, WI), tax years 2023–2026 including
-five TY2026 early-release drafts. Full list in the appendix.
+five TY2026 early-release drafts. 15,989 sections, 14,698 chunks (all embedded), 20,490
+relationship edges, 5,005 stored section changes across 20 version pairs. Index file 133 MB
+(40 MB gzipped), raw originals 68 MB. Full list in the appendix.
 
 ## Evaluation (gold set, `hier_v1`, extractive mode, no LLM)
 
-EVAL_TABLE_PLACEHOLDER
+| metric | mean | n |
+|---|---|---|
+| document retrieval hit@1 | 0.9 | 40 |
+| document retrieval hit@5 | 0.9 | 40 |
+| chunk/section hit@1 | 0.9 | 40 |
+| chunk/section hit@5 | 0.9 | 40 |
+| citation accuracy (doc + section/page ±1) | 0.9 | 40 |
+| jurisdiction accuracy (top 5) | 1.0 | 36 |
+| tax-year accuracy (top 5) | 1.0 | 26 |
+| version (draft/final) accuracy | 1.0 | 3 |
+| compare mode retrieved both years | 1.0 | 4 |
+| compare mode surfaced stored diffs | 1.0 | 4 |
+| correct abstention (insufficient evidence) | 1.0 | 4 |
+| completeness (expected phrases in evidence) | 0.917 | 24 |
+| answer faithfulness (validated claims) | 1.0 | 36 |
+
+| category | primary metric |
+|---|---|
+| exact_form_lookup | 0.857 |
+| line_specific | 1.0 |
+| tax_year_specific | 1.0 |
+| state_specific | 1.0 |
+| federal_state_interaction | 1.0 |
+| cross_document | 1.0 |
+| prior_year_comparison | 1.0 |
+| draft_final_comparison | 1.0 |
+| multiple_sources | 1.0 |
+| insufficient_evidence | 1.0 |
+| efile | 1.0 |
+
+Run `eval_18861c8a`, 40 questions, mean latency 1676 ms on 4 CPU cores (cross-encoder on). Reports: `eval_results/`.
+The one remaining retrieval miss is `f03` ("Who must file Form 1065"): the right document is retrieved but neighbouring sections outrank the "Who Must File" section.
 
 Reading the numbers: jurisdiction, tax-year and version accuracy are 1.0 because they are
 enforced as filters and hard demotions, not learned. Faithfulness is 1.0 in extractive mode
