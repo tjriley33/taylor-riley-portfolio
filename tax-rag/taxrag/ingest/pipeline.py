@@ -75,7 +75,9 @@ class Ingester:
                     stats.errors.append(msg)
                     console.print(f"[red]FAIL[/red] {msg}")
                     self.store.log_item(run_id, "ingest", "failed", download_url=disc.download_url, error=traceback.format_exc())
-            self.store.finish_run(run_id, "ok" if not stats.failed else "partial", stats.as_dict())
+            resolved = self.store.resolve_relationships()
+            console.print(f"[blue]resolved[/blue] {resolved} dangling cross-reference targets")
+            self.store.finish_run(run_id, "ok" if not stats.failed else "partial", {**stats.as_dict(), "resolved_edges": resolved})
         except Exception as e:  # noqa: BLE001
             self.store.finish_run(run_id, "failed", {**stats.as_dict(), "fatal": str(e)})
             raise

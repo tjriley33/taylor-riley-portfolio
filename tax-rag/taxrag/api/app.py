@@ -63,6 +63,12 @@ def ui() -> str:
     return (Path(__file__).parent.parent / "ui" / "index.html").read_text()
 
 
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    from fastapi import Response
+    return Response(status_code=204)
+
+
 @app.get("/health")
 def health() -> dict:
     return {"ok": True, "db": str(settings.sqlite_path), **store().stats()}
@@ -230,6 +236,11 @@ def admin_stats() -> dict:
 @app.get("/admin/runs")
 def admin_runs(limit: int = 20) -> list[dict]:
     return store().runs(limit)
+
+
+@app.post("/admin/resolve-relationships")
+def admin_resolve() -> dict:
+    return {"resolved": store().resolve_relationships()}
 
 
 @app.post("/admin/reindex")

@@ -368,6 +368,33 @@ class Store:
                 [(r.src_type, r.src_id, r.rel_type, r.dst_type, r.dst_id, r.dst_label, r.dst_jurisdiction, r.confidence,
                   r.evidence_page, version_id) for r in rels])
 
+    def resolve_relationships(self) -> int:
+        """Fill dst_id for edges whose target document was ingested after the edge was extracted."""
+        import re
+        rows = self.q("SELECT rel_id, rel_type, dst_label, dst_jurisdiction FROM relationships WHERE dst_id IS NULL AND rel_type IN "
+                      "('references_form','references_schedule','references_publication','references_line','instructions_for','schedule_of','conforms_to_federal')")
+        n = 0
+        with self.conn() as c:
+            for r in rows:
+                label, jur = r["dst_label"], r["dst_jurisdiction"] or "US"
+                docs: list[dict] = []
+                m = re.match(r"^Schedule ([\w-]+) \(Form ([\w-]+)\)$", label)
+                if m:
+                    docs = self.find_documents(jurisdiction=jur, form_number=m.group(2), schedule=m.group(1), document_type="schedule")
+                elif label.startswith("Schedule "):
+                    docs = self.find_documents(jurisdiction=jur, schedule=label.split(" ", 1)[1], document_type="schedule")
+                elif label.startswith("Publication "):
+                    docs = self.find_documents(jurisdiction="US", publication_number=label.split(" ", 1)[1])
+                elif label.startswith("Form "):
+                    fn = label.split(" ", 1)[1].split(",")[0]
+                    docs = self.find_documents(jurisdiction=jur, form_number=fn, document_type="form")
+                elif label.startswith("Federal Form 1040"):
+                    docs = self.find_documents(jurisdiction="US", form_number="1040", document_type="form")
+                if docs:
+                    c.execute("UPDATE relationships SET dst_id=? WHERE rel_id=?", (docs[0]["document_id"], r["rel_id"]))
+                    n += 1
+        return n
+
     def relationships_from(self, src_ids: list[str]) -> list[dict]:
         if not src_ids:
             return []
