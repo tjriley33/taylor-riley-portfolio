@@ -40,7 +40,25 @@ smoke-level numbers until it is.
 
 ## Chunking experiment
 
-CHUNK_TABLE_PLACEHOLDER
+| metric | hier_v1 | fixed_512 | page_v1 |
+|---|---|---|---|
+| doc_hit@1 | 0.9 | 0.8 | 0.75 |
+| doc_hit@5 | 0.9 | 0.875 | 0.9 |
+| chunk_hit@1 | 0.875 | 0.675 | 0.65 |
+| chunk_hit@5 | 0.875 | 0.7 | 0.75 |
+| citation_ok | 0.875 | 0.675 | 0.65 |
+| changes_found | 1.0 | 0.5 | 0.75 |
+| completeness | 0.917 | 1.0 | 0.958 |
+| abstained_correctly | 1.0 | 1.0 | 1.0 |
+| line_specific (category) | 0.75 | 0.25 | 0.25 |
+| tax_year_specific (category) | 1.0 | 0.333 | 0.333 |
+| draft_final_comparison (category) | 1.0 | 0.333 | 0.333 |
+
+Same corpus, same retrieval stack, same gold set (run on a copy of the index with all three
+strategies embedded; `scripts/chunking_experiment.sh`). Hierarchical section chunks win on every
+retrieval metric that matters for citations; the naive window baseline collapses on
+line-specific and year-specific questions because windows straddle sections and lose the
+line heading that the reranker keys on. `hier_v1` is the shipped default.
 
 ## Known gaps found during the build
 
