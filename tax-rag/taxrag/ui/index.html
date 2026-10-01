@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TaxRAG Analyst</title>
+<style>
+  :root { --bg:#f6f7f9; --panel:#fff; --ink:#1b1f24; --muted:#5b6470; --line:#dfe3e8; --accent:#1d4ed8; --warn:#b45309; --bad:#b91c1c; --ok:#047857; --draft:#7c2d12; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.45 -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color:var(--ink); background:var(--bg); }
+  header { padding:10px 16px; background:#0f172a; color:#fff; display:flex; gap:16px; align-items:center; }
+  header h1 { font-size:16px; margin:0; font-weight:600; }
+  header .stats { color:#94a3b8; font-size:12px; }
+  .wrap { display:grid; grid-template-columns: 300px 1fr 1fr; gap:12px; padding:12px; height:calc(100vh - 44px); }
+  .col { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; overflow:auto; }
+  label { display:block; font-size:12px; color:var(--muted); margin-top:10px; }
+  select, input, textarea, button { font:inherit; }
+  select, input[type=text], textarea { width:100%; padding:6px 8px; border:1px solid var(--line); border-radius:6px; background:#fff; }
+  textarea { min-height:90px; resize:vertical; }
+  button { padding:7px 12px; border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:6px; cursor:pointer; margin-top:10px; }
+  button.secondary { background:#fff; color:var(--accent); }
+  .modes { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+  .modes button { margin:0; padding:5px 9px; font-size:12px; }
+  .modes button.on { background:var(--accent); color:#fff; }
+  .modes button.off { background:#fff; color:var(--accent); }
+  .pill { display:inline-block; padding:1px 7px; border-radius:999px; font-size:11px; border:1px solid var(--line); margin-right:4px; color:var(--muted); }
+  .pill.draft { border-color:var(--draft); color:var(--draft); background:#fff7ed; }
+  .pill.final { border-color:var(--ok); color:var(--ok); }
+  .pill.warn { border-color:var(--warn); color:var(--warn); background:#fffbeb; }
+  .pill.bad { border-color:var(--bad); color:var(--bad); background:#fef2f2; }
+  .answer { white-space:pre-wrap; margin:8px 0; padding:10px; background:#f8fafc; border-left:3px solid var(--accent); border-radius:4px; }
+  .cite { color:var(--accent); cursor:pointer; text-decoration:underline dotted; }
+  .ev { border:1px solid var(--line); border-radius:6px; padding:8px; margin:8px 0; cursor:pointer; }
+  .ev:hover, .ev.sel { border-color:var(--accent); background:#eff6ff; }
+  .ev .path { font-size:12px; color:var(--muted); }
+  .ev .txt { margin-top:6px; max-height:7em; overflow:hidden; white-space:pre-wrap; }
+  .ev.sel .txt { max-height:none; }
+  .ev .why { font-size:11px; color:var(--muted); margin-top:4px; }
+  .claim { margin:6px 0; padding:6px 8px; border-radius:4px; background:#fff; border:1px solid var(--line); }
+  .claim.explicit { border-left:3px solid var(--ok); } .claim.derived { border-left:3px solid var(--warn); } .claim.not_established { border-left:3px solid var(--bad); opacity:.75; }
+  .conflict { background:#fef2f2; border:1px solid #fecaca; padding:8px; border-radius:6px; margin:6px 0; }
+  .change { border-bottom:1px solid var(--line); padding:6px 0; font-size:13px; }
+  .change code { font-size:11px; color:var(--muted); }
+  iframe { width:100%; height:60vh; border:1px solid var(--line); border-radius:6px; background:#eee; }
+  h3 { margin:12px 0 6px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  details summary { cursor:pointer; color:var(--muted); font-size:12px; }
+  pre { font-size:11px; background:#0f172a; color:#e2e8f0; padding:8px; border-radius:6px; overflow:auto; max-height:300px; }
+  .muted { color:var(--muted); font-size:12px; }
+  .diff { font-family:ui-monospace, Menlo, monospace; font-size:11px; white-space:pre-wrap; background:#f8fafc; padding:6px; border-radius:4px; max-height:200px; overflow:auto; }
+</style>
+</head>
+<body>
+<header><h1>TaxRAG · analyst console</h1><span class="stats" id="stats">loading…</span><span class="stats" id="llm"></span></header>
+<div class="wrap">
+  <div class="col">
+    <label>Question</label>
+    <textarea id="q" placeholder="e.g. 2025 Form 1040 instructions line 1a wages"></textarea>
+    <div class="modes" id="modes"></div>
+    <label>Jurisdiction</label><select id="jur"><option value="">auto-detect</option></select>
+    <label>Tax year</label><select id="year"><option value="">auto-detect</option></select>
+    <label>Compare with year (compare mode)</label><select id="year2"><option value="">previous year</option></select>
+    <label>Tax type</label><select id="ttype"><option value="">any</option></select>
+    <label>Document types</label><select id="dtype" multiple size="5"></select>
+    <label>Draft / Final</label><select id="draft"><option value="">default (final; drafts only if asked)</option><option value="final">final only</option><option value="draft">drafts only</option><option value="all">include drafts</option></select>
+    <label>Evidence passages (k)</label><input type="text" id="k" value="8">
+    <button id="go">Run</button> <button class="secondary" id="clear">Clear</button>
+    <div class="muted" style="margin-top:12px">Modes: <b>research</b> answers with citations · <b>taxdev</b> focuses on changes/lines/impact · <b>source</b> passages only · <b>compare</b> two years/revisions · <b>evidence</b> full LLM bundle.</div>
+    <h3>Parsed query</h3><pre id="parsed">—</pre>
+    <h3>Recent queries</h3><div id="recent" class="muted"></div>
+  </div>
+  <div class="col" id="mid">
+    <div id="status" class="muted">Ask something.</div>
+    <div id="answer"></div>
+    <div id="conflicts"></div>
+    <div id="changes"></div>
+    <h3>Citations</h3><div id="cites"></div>
+    <h3>Retrieved evidence</h3><div id="evidence"></div>
+    <details><summary>Retrieval debug (why each chunk was retrieved)</summary><pre id="debug"></pre></details>
+    <details><summary>Raw JSON</summary><pre id="raw"></pre></details>
+  </div>
+  <div class="col">
+    <h3>Source passage</h3><div id="passage" class="muted">Click a citation or evidence card.</div>
+    <h3>Original document</h3><div id="doclinks" class="muted"></div>
+    <iframe id="pdf" src="about:blank"></iframe>
+  </div>
+</div>
+<script>
+const $ = s => document.querySelector(s);
+let mode = 'research', last = null;
+const MODES = ['research','taxdev','source','compare','evidence'];
+function renderModes(){ $('#modes').innerHTML = MODES.map(m=>`<button class="${m===mode?'on':'off'}" data-m="${m}">${m}</button>`).join(''); document.querySelectorAll('#modes button').forEach(b=>b.onclick=()=>{mode=b.dataset.m; renderModes();}); }
+renderModes();
+async function meta(){
+  const m = await (await fetch('/meta/filters')).json();
+  $('#jur').innerHTML += m.jurisdictions.map(j=>`<option>${j}</option>`).join('');
+  $('#year').innerHTML += m.tax_years.map(y=>`<option>${y}</option>`).join('');
+  $('#year2').innerHTML += m.tax_years.map(y=>`<option>${y}</option>`).join('');
+  $('#ttype').innerHTML += m.tax_types.map(y=>`<option>${y}</option>`).join('');
+  $('#dtype').innerHTML = m.document_types.map(y=>`<option>${y}</option>`).join('');
+  $('#llm').textContent = m.llm_available ? 'LLM: configured' : 'LLM: not configured (extractive answers)';
+  const h = await (await fetch('/health')).json();
+  $('#stats').textContent = `${h.documents} documents · ${h.versions} versions · ${h.chunks} chunks · ${h.relationships} relationships · ${h.changes} changes`;
+  recent();
+}
+async function recent(){
+  const r = await (await fetch('/queries?limit=8')).json();
+  $('#recent').innerHTML = r.map(x=>`<div><a href="#" data-q="${encodeURIComponent(x.question)}" class="cite">${x.question.slice(0,60)}</a> <span class="pill">${x.mode}</span></div>`).join('');
+  document.querySelectorAll('#recent a').forEach(a=>a.onclick=e=>{e.preventDefault(); $('#q').value=decodeURIComponent(a.dataset.q);});
+}
+function pill(e){ return `<span class="pill ${e.draft_or_final}">${e.draft_or_final}</span><span class="pill">${e.jurisdiction}</span><span class="pill">${e.tax_year||'no year'}</span>${e.version_status!=='current'?'<span class="pill warn">superseded</span>':''}${e.provenance_class!=='PUBLIC_AUTHORITY'?'<span class="pill bad">INTERNAL</span>':''}`; }
+function linkCites(text){ return (text||'').replace(/\[(C\d+(?:\s*,\s*C\d+)*)\]/g, (m,ids)=> '['+ids.split(/\s*,\s*/).map(i=>`<span class="cite" data-c="${i}">${i}</span>`).join(', ')+']').replace(/\[unsupported\]/g,'<span class="pill bad">unsupported</span>'); }
+async function run(){
+  const q = $('#q').value.trim(); if(!q) return;
+  $('#status').textContent = 'Running…'; $('#answer').innerHTML=''; $('#evidence').innerHTML=''; $('#cites').innerHTML=''; $('#conflicts').innerHTML=''; $('#changes').innerHTML='';
+  const body = { query:q, mode, jurisdiction: $('#jur').value||null, tax_year: $('#year').value? +$('#year').value:null, tax_type: $('#ttype').value||null,
+    document_types: [...$('#dtype').selectedOptions].map(o=>o.value), draft_filter: $('#draft').value||null, k: +$('#k').value||8 };
+  if(!body.document_types.length) body.document_types=null;
+  let url='/ask';
+  if(mode==='compare'){ url='/compare'; const y1=body.tax_year, y2=$('#year2').value? +$('#year2').value:null; body.years = (y1&&y2)?[Math.min(y1,y2),Math.max(y1,y2)]:null; body.include_drafts = body.draft_filter!=='final'; }
+  const t=performance.now();
+  const r = await fetch(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
+  const out = await r.json(); last=out;
+  render(out, performance.now()-t);
+  recent();
+}
+function render(out, ms){
+  const p = out.parsed||{};
+  $('#parsed').textContent = JSON.stringify({jurisdictions:p.jurisdictions, tax_year:p.tax_year, tax_years:p.tax_years, form:p.form, schedule:p.schedule, line:p.line, publication:p.publication, document_type:p.document_type, include_drafts:p.include_drafts, compare_intent:p.compare_intent, filters_used: out.filters_used, relaxations: out.relaxations, notes:p.notes}, null, 1);
+  const conf = out.confidence; const suff = out.sufficient_evidence;
+  $('#status').innerHTML = `<span class="pill ${suff?'final':'bad'}">${suff?'sufficient evidence':'INSUFFICIENT EVIDENCE'}</span> confidence ${conf} · ${Math.round(ms)} ms · query ${out.query_id}` + (out.relaxations||[]).map(r=>`<div class="pill warn">${r}</div>`).join('');
+  if(out.answer){
+    const a=out.answer;
+    let h = `<div class="answer">${linkCites(a.summary)}</div>`;
+    if(a.note) h += `<div class="muted">${a.note}</div>`;
+    if(a.insufficient) h += `<div class="conflict">The system declined to answer from general knowledge. ${a.gaps||''}</div>`;
+    if(a.claims&&a.claims.length) h += '<h3>Claims</h3>' + a.claims.map(c=>`<div class="claim ${c.label}"><span class="pill">${c.label.replace('_',' ')}</span> ${c.text} ${c.citation_ids.map(i=>`<span class="cite" data-c="${i}">${i}</span>`).join(' ')}${c.validation&&c.validation.length?`<div class="muted">${c.validation.join('; ')}</div>`:''}</div>`).join('');
+    if(a.gaps && !a.insufficient) h += `<div class="muted">Not established by retrieved authority: ${a.gaps}</div>`;
+    h += `<div class="muted">generated by: ${a.generated_by}${a.model?' · '+a.model:''}</div>`;
+    $('#answer').innerHTML = h;
+  } else { $('#answer').innerHTML = `<div class="muted">${mode==='evidence'?'Evidence bundle below (see Raw JSON → llm_input for the exact prompt).':'Source mode: passages only, no synthesized answer.'}</div>`; }
+  if(out.conflicts&&out.conflicts.length) $('#conflicts').innerHTML = '<h3>Potential conflicts (not resolved automatically)</h3>' + out.conflicts.map(c=>`<div class="conflict"><b>${c.type}</b>: ${c.explanation}<div class="muted">${c.sources.join(' ⟷ ')}</div></div>`).join('');
+  if(out.changes&&out.changes.length) $('#changes').innerHTML = `<h3>${out.changes.length} stored section changes</h3>` + out.changes.slice(0,40).map(c=>`<div class="change"><span class="pill">${c.change_type}</span> ${c.path_text.split(' > ').slice(1).join(' › ')} <code>p.${c.old_page||'—'} → p.${c.new_page||'—'}</code> <a class="cite" href="${c.old_local_url}" target="pdf">old</a> <a class="cite" href="${c.new_local_url}" target="pdf">new</a><div class="muted">${c.summary||''}</div>${c.diff_text?`<details><summary>diff</summary><div class="diff">${esc(c.diff_text)}</div></details>`:''}</div>`).join('');
+  $('#cites').innerHTML = (out.citations||[]).map(c=>`<div><span class="cite" data-c="${c.citation_id}"><b>${c.citation_id}</b></span> ${c.rendered} ${c.side?`<span class="pill">${c.side}</span>`:''} <a class="muted" href="${c.source_url}" target="_blank">official ↗</a></div>`).join('') || '<div class="muted">none</div>';
+  $('#evidence').innerHTML = (out.evidence||[]).map(e=>`<div class="ev" data-c="${e.citation_id}"><b>${e.citation_id}</b> ${pill(e)} <span class="pill">${e.document_type}</span> <span class="pill">${e.kind}</span> <span class="pill">p.${e.page_start}</span> <span class="pill">via ${e.via}</span> <span class="pill">score ${e.scores.final}</span><div class="path">${e.path_text}</div><div class="txt">${esc(e.text)}</div><div class="why">${e.reasons.join(' · ')}</div></div>`).join('');
+  $('#debug').textContent = JSON.stringify(out.retrieval_debug, null, 1);
+  $('#raw').textContent = JSON.stringify(out, null, 1);
+  document.querySelectorAll('[data-c]').forEach(el=>el.onclick=()=>show(el.dataset.c));
+}
+function esc(s){ return (s||'').replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function show(cid){
+  if(!last) return;
+  const e = (last.evidence||[]).find(x=>x.citation_id===cid); if(!e) return;
+  document.querySelectorAll('.ev').forEach(x=>x.classList.toggle('sel', x.dataset.c===cid));
+  const c = (last.citations||[]).find(x=>x.citation_id===cid)||{};
+  $('#passage').innerHTML = `<div>${pill(e)}</div><div class="muted">${e.path_text}</div><div><b>${c.rendered||''}</b></div>${c.quote?`<div class="answer">“${esc(c.quote)}”</div>`:''}<div style="white-space:pre-wrap;margin-top:6px">${esc(e.text)}</div>${e.parent_text?`<details><summary>enclosing section</summary><div style="white-space:pre-wrap">${esc(e.parent_text)}</div></details>`:''}`;
+  $('#doclinks').innerHTML = `<a href="${e.local_url}" target="_blank">stored original (page ${e.page_start}) ↗</a> · <a href="${e.source_url}" target="_blank">official source URL ↗</a> · <a href="/chunks/${e.chunk_id}" target="_blank">chunk JSON</a> · <a href="/documents/${e.document_id}" target="_blank">document + versions</a>`;
+  $('#pdf').src = e.local_url;
+}
+$('#go').onclick = run; $('#clear').onclick=()=>{ $('#q').value=''; };
+$('#q').addEventListener('keydown', e=>{ if(e.key==='Enter' && (e.metaKey||e.ctrlKey)) run(); });
+meta();
+</script>
+</body>
+</html>

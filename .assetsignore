@@ -5,3 +5,6 @@
 wrangler.jsonc
 generate-og.py
 node_modules
+
+# Tax RAG system lives in its own subtree; never publish as static assets
+tax-rag

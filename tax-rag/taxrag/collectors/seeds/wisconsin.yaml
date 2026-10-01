@@ -1,0 +1,8 @@
+documents:
+  - {url: https://www.revenue.wi.gov/TaxForms2025/2025-Form1f.pdf, document_type: form, form_number: "1", form_name: "Wisconsin Income Tax", tax_year: 2025, title: "Form 1, Wisconsin Income Tax"}
+  - {url: https://www.revenue.wi.gov/TaxForms2025/2025-Form1-Inst.pdf, document_type: instructions, form_number: "1", tax_year: 2025, title: "Form 1 Instructions, Wisconsin Income Tax"}
+  - {url: https://www.revenue.wi.gov/TaxForms2025/2025-ScheduleIf.pdf, document_type: schedule, form_number: "1", schedule: "I", tax_year: 2025, title: "Schedule I, Adjustments to Convert Federal Adjusted Gross Income and Itemized Deductions to the Amounts Allowable for Wisconsin"}
+  - {url: https://www.revenue.wi.gov/TaxForms2025/2025-ScheduleI-inst.pdf, document_type: schedule_instructions, form_number: "1", schedule: "I", tax_year: 2025, title: "Schedule I Instructions"}
+  - {url: https://www.revenue.wi.gov/TaxForms2024/2024-Form1-Inst.pdf, document_type: instructions, form_number: "1", tax_year: 2024, title: "Form 1 Instructions, Wisconsin Income Tax"}
+  - {url: https://www.revenue.wi.gov/TaxForms2024/2024-ScheduleI-inst.pdf, document_type: schedule_instructions, form_number: "1", schedule: "I", tax_year: 2024, title: "Schedule I Instructions"}
+  - {url: https://www.revenue.wi.gov/TaxForms2024/2024-Form1f.pdf, document_type: form, form_number: "1", tax_year: 2024, title: "Form 1, Wisconsin Income Tax"}

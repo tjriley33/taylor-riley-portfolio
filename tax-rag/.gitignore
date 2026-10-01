@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+data/raw/
+data/models/
+data/s3cache/
+data/*.sqlite-wal
+data/*.sqlite-shm
+logs/
+eval_report*.json
+.env
