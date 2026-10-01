@@ -1,9 +1,11 @@
 PY=.venv/bin/python
-.PHONY: venv install ingest ingest-live serve test eval stats reindex
+.PHONY: venv install pull-index ingest ingest-live serve test eval stats reindex
 venv:
 	python3.11 -m venv .venv || python3 -m venv .venv
 install: venv
 	.venv/bin/pip install -e ".[dev]"
+pull-index:
+	mkdir -p data && gunzip -c $$(ls dist/taxrag-index-*.sqlite.gz | tail -1) > data/taxrag.sqlite && $(PY) -m taxrag.cli fetch-raw && $(PY) -m taxrag.cli stats
 ingest:
 	$(PY) -m taxrag.cli ingest all
 ingest-live:

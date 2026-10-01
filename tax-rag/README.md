@@ -19,12 +19,16 @@ cd tax-rag
 python3.11 -m venv .venv && . .venv/bin/activate
 pip install -e ".[dev]"            # or: uv pip install -e ".[dev]"
 
-# If data/taxrag.sqlite is present (shipped index) you can query immediately:
+# Use the prebuilt index shipped in dist/ (59 documents / 79 versions, built 2026-10-01).
+# This unpacks it, re-downloads the original PDFs from irs.gov / state sites (hash-verified,
+# ~70 MB, a minute or two) so citations can open the source page, and prints stats:
+make pull-index                     # == gunzip dist/taxrag-index-*.sqlite.gz > data/taxrag.sqlite && taxrag fetch-raw
+
 taxrag stats
 taxrag ask "2025 Form 1040 instructions line 1a wages"
 taxrag serve                        # UI + API at http://localhost:8000  (docs at /docs)
 
-# Otherwise build the index (seeds only, ~45-90 min on 4 CPU cores, no API keys needed):
+# Or rebuild the index from scratch (seeds only, ~75 min on 4 CPU cores, no API keys needed):
 taxrag ingest all                   # IRS + Virginia + New York + Wisconsin seed corpora
 taxrag ingest irs --live            # also crawl irs.gov current/draft listing pages
 ```

@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.."
 STRATS=${1:-hier_v1,fixed_512,page_v1}
 EXP_DIR=data/experiment
 mkdir -p "$EXP_DIR" eval_results
-cp data/taxrag.sqlite "$EXP_DIR/taxrag.sqlite"
+.venv/bin/python -c "import sqlite3; s=sqlite3.connect('data/taxrag.sqlite'); d=sqlite3.connect('$EXP_DIR/taxrag.sqlite'); s.backup(d); d.close()"
 rm -f "$EXP_DIR/taxrag.sqlite-wal" "$EXP_DIR/taxrag.sqlite-shm"
 export TAXRAG_DB_PATH="$EXP_DIR/taxrag.sqlite"
 .venv/bin/python -m taxrag.cli reindex --strategies "$STRATS"

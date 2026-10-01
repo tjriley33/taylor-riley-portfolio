@@ -11,4 +11,5 @@ eval_report*.json
 .env
 data/taxrag.sqlite
 data/experiment/
-dist/
+dist/*
+!dist/taxrag-index-*.sqlite.gz

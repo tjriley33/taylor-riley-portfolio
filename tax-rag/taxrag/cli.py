@@ -159,6 +159,32 @@ def quarantine(release: Optional[str] = None):
 
 
 @app.command()
+def fetch_raw(limit: Optional[int] = None):
+    """Re-download any original PDFs missing from data/raw for versions in the index (hash-verified)."""
+    from .collectors import http
+    s = _store()
+    n_ok = n_bad = 0
+    for r in s.q("SELECT version_id, download_url, file_path FROM document_versions"):
+        dest = settings.raw_dir / f"{r['version_id']}.pdf"
+        if dest.exists():
+            continue
+        if limit and n_ok + n_bad >= limit:
+            break
+        try:
+            path, sha = http.download(r["download_url"], settings.raw_dir)
+            if sha != r["version_id"]:
+                console.print(f"[yellow]changed upstream[/yellow] {r['download_url']} (indexed {r['version_id'][:8]}, live {sha[:8]}); run `taxrag ingest` to version it")
+                n_bad += 1
+            else:
+                n_ok += 1
+        except Exception as e:  # noqa: BLE001
+            console.print(f"[red]failed[/red] {r['download_url']}: {e}")
+            n_bad += 1
+    s.execute("UPDATE document_versions SET file_path = ? || version_id || '.pdf'", (str(settings.raw_dir) + "/",))
+    console.print(f"fetched {n_ok} originals, {n_bad} problems; file_path rewritten to {settings.raw_dir}")
+
+
+@app.command()
 def sync(direction: str = typer.Argument(..., help="push | pull"), no_raw: bool = False):
     """Push/pull the index (+ raw PDFs) to/from s3://$TAXRAG_S3_BUCKET/$TAXRAG_S3_PREFIX."""
     from . import sync as s3sync
