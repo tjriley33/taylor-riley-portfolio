@@ -12,7 +12,14 @@ only you can make. The system runs without all of them.
 * Without either, answers are **extractive** (verbatim passages, labelled as such). Search, source, evidence,
   compare-with-diffs, citations and the UI all work.
 
-## 2. Existing IRS-Forms pipeline as upstream (DynamoDB `Forms` + S3 `forms123456`)
+## 2. AWS credentials for this build environment (and the backend)
+* The AWS keys present in the cloud session were not valid for your account (STS rejected them), so nothing could be
+  verified against S3/DynamoDB tonight. Add real credentials as environment variables in the cloud environment settings
+  (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION=us-east-1`, or `AWS_PROFILE`) and `ANTHROPIC_API_KEY` the same
+  way; a new session picks them up. Minimum IAM for the adapter: `dynamodb:Scan` on `Forms`, `s3:GetObject`/`s3:ListBucket`
+  on `forms123456`. For deployment see `deploy/aws/README.md` (ECS Fargate + S3 index bucket + nightly ingest task).
+
+## 3. Existing IRS-Forms pipeline as upstream (DynamoDB `Forms` + S3 `forms123456`)
 * The adapter `taxrag/adapters/irs_pipeline.py` is validated against the JSON export in the IRS-Forms repo
   (`ezya7xfym45tteatsyctr5iysa.json`). To run it:
   ```bash
@@ -26,38 +33,38 @@ only you can make. The system runs without all of them.
   `taxrag ingest irs_pipeline` (or `POST /admin/ingest/irs_pipeline`) on that event. Until then a nightly cron works.
 * Rotate the SQL Server `sa` password committed in `IRS-Forms/IRS Forms/setupdb.py` (flagged in that repo's README).
 
-## 3. Arkansas (and other bot-protected state sites)
+## 4. Arkansas (and other bot-protected state sites)
 * `dfa.arkansas.gov` returns HTTP 403 to non-browser clients. Options:
   (a) fetch with the pre-installed Playwright/Chromium (`taxrag/collectors/arkansas.py` has the hook),
   (b) drop PDFs into `data/inbox/arkansas/` and add them to `taxrag/collectors/seeds/arkansas.yaml`,
   (c) ask DFA for a bulk-download arrangement.
 * Decide the crawling posture per state (rate limits, UA string in `TAXRAG_HTTP_USER_AGENT`).
 
-## 4. OCR
+## 5. OCR
 * No tesseract in the build container. `pip install pytesseract` + `apt install tesseract-ocr` and pass `ocr=True`
   to `extract_pdf`; pages with no text layer are already flagged (`document_versions.needs_ocr`).
 
-## 5. Human review of the gold set
+## 6. Human review of the gold set
 * `taxrag/eval/gold.yaml` has 40 questions written by the builder, **not yet reviewed by a tax analyst**.
   Review expected documents/sections/pages, add real analyst questions, then re-run `taxrag evaluate`.
 
-## 6. Scale-out storage (when the corpus passes ~500k chunks or needs multi-user writes)
+## 7. Scale-out storage (when the corpus passes ~500k chunks or needs multi-user writes)
 * Postgres + pgvector: see `docs/POSTGRES_MIGRATION.md`. The schema is portable; only `fts_search` and `vector_search`
   in `taxrag/store/sqlite.py` need a Postgres implementation.
 * OpenSearch for BM25 at >5M chunks.
 
-## 7. Scheduling / refresh
+## 8. Scheduling / refresh
 * Any scheduler works because ingestion is idempotent: cron `taxrag ingest all --live`, GitHub Actions
   (like `auto-blog.yml`), or EventBridge → ECS task. Suggested: nightly for drafts during Jul–Jan, weekly otherwise.
 
-## 8. Auth in front of the API
+## 9. Auth in front of the API
 * None included. Reuse the Cognito user pool from the `tax-assistant` backend or put the FastAPI app behind an ALB with OIDC.
 
-## 9. Internal TaxDev knowledge
+## 10. Internal TaxDev knowledge
 * Collector interface supports `provenance_class=INTERNAL_TAXDEV`; implement a collector for your internal
   docs (Confluence/SharePoint/ADO exports) and pass `include_internal=true` on `/ask`. Internal passages are never
   rendered as government authority (hard filter + `INTERNAL:` citation prefix).
 
-## 10. Repo placement
+## 11. Repo placement
 * Built inside `taylor-riley-portfolio/tax-rag/` because that was the session's repository. It is self-contained;
   `git subtree split -P tax-rag` moves it to its own repo. `.assetsignore` excludes it from the Cloudflare deploy.

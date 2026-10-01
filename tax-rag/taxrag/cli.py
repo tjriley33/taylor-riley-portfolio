@@ -159,6 +159,14 @@ def quarantine(release: Optional[str] = None):
 
 
 @app.command()
+def sync(direction: str = typer.Argument(..., help="push | pull"), no_raw: bool = False):
+    """Push/pull the index (+ raw PDFs) to/from s3://$TAXRAG_S3_BUCKET/$TAXRAG_S3_PREFIX."""
+    from . import sync as s3sync
+    fn = {"push": s3sync.push, "pull": s3sync.pull}[direction]
+    console.print(json.dumps(fn(include_raw=not no_raw)))
+
+
+@app.command()
 def debug(query_id: str):
     """Explain why each chunk was retrieved for a logged query."""
     from .observability import debug_view
