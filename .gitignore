@@ -4,3 +4,8 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# Editorial drafts stay local even though this repository is public.
+posts/drafts/*
+!posts/drafts/.gitkeep
+__pycache__/

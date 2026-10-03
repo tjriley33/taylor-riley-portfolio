@@ -5,3 +5,14 @@
 wrangler.jsonc
 generate-og.py
 node_modules
+.claude
+.github
+scripts
+posts
+BRAND.md
+CLAUDE.md
+README.md
+AUTO_BLOG_SETUP.md
+auto_blog.py
+send_notification.py
+__pycache__
