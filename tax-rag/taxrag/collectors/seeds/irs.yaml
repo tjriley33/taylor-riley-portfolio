@@ -1,0 +1,69 @@
+# Curated federal seed corpus. Live discovery adds to this; seeds guarantee the
+# evaluation corpus exists. URLs under irs-prior are year-stamped and stable;
+# irs-pdf URLs are overwritten each year (hash versioning handles that).
+documents:
+  # ---------------- 1040 family, TY2025 final
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040.pdf, document_type: form, form_number: "1040", form_name: "U.S. Individual Income Tax Return", tax_type: ["1040"], tax_year: 2025, title: "Form 1040"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1040gi.pdf, document_type: instructions, form_number: "1040", tax_type: ["1040"], tax_year: 2025, title: "Instructions for Form 1040 (and Form 1040-SR)"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040s1.pdf, document_type: schedule, form_number: "1040", schedule: "1", tax_type: ["1040"], tax_year: 2025, title: "Schedule 1 (Form 1040), Additional Income and Adjustments to Income"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040s2.pdf, document_type: schedule, form_number: "1040", schedule: "2", tax_type: ["1040"], tax_year: 2025, title: "Schedule 2 (Form 1040), Additional Taxes"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040s3.pdf, document_type: schedule, form_number: "1040", schedule: "3", tax_type: ["1040"], tax_year: 2025, title: "Schedule 3 (Form 1040), Additional Credits and Payments"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040sa.pdf, document_type: schedule, form_number: "1040", schedule: "A", tax_type: ["1040"], tax_year: 2025, title: "Schedule A (Form 1040), Itemized Deductions"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1040sca.pdf, document_type: schedule_instructions, form_number: "1040", schedule: "A", tax_type: ["1040"], tax_year: 2025, title: "Instructions for Schedule A (Form 1040), Itemized Deductions"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040sb.pdf, document_type: schedule, form_number: "1040", schedule: "B", tax_type: ["1040"], tax_year: 2025, title: "Schedule B (Form 1040), Interest and Ordinary Dividends"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040sc.pdf, document_type: schedule, form_number: "1040", schedule: "C", tax_type: ["1040"], tax_year: 2025, title: "Schedule C (Form 1040), Profit or Loss From Business"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1040sc.pdf, document_type: schedule_instructions, form_number: "1040", schedule: "C", tax_type: ["1040"], tax_year: 2025, title: "Instructions for Schedule C (Form 1040), Profit or Loss From Business"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040sd.pdf, document_type: schedule, form_number: "1040", schedule: "D", tax_type: ["1040"], tax_year: 2025, title: "Schedule D (Form 1040), Capital Gains and Losses"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1040sd.pdf, document_type: schedule_instructions, form_number: "1040", schedule: "D", tax_type: ["1040"], tax_year: 2025, title: "Instructions for Schedule D (Form 1040), Capital Gains and Losses"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040se.pdf, document_type: schedule, form_number: "1040", schedule: "E", tax_type: ["1040"], tax_year: 2025, title: "Schedule E (Form 1040), Supplemental Income and Loss"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1040se.pdf, document_type: schedule_instructions, form_number: "1040", schedule: "E", tax_type: ["1040"], tax_year: 2025, title: "Instructions for Schedule E (Form 1040), Supplemental Income and Loss"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040sse.pdf, document_type: schedule, form_number: "1040", schedule: "SE", tax_type: ["1040"], tax_year: 2025, title: "Schedule SE (Form 1040), Self-Employment Tax"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1040sse.pdf, document_type: schedule_instructions, form_number: "1040", schedule: "SE", tax_type: ["1040"], tax_year: 2025, title: "Instructions for Schedule SE (Form 1040), Self-Employment Tax"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1040s8.pdf, document_type: schedule, form_number: "1040", schedule: "8812", tax_type: ["1040"], tax_year: 2025, title: "Schedule 8812 (Form 1040), Credits for Qualifying Children and Other Dependents"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1040s8.pdf, document_type: schedule_instructions, form_number: "1040", schedule: "8812", tax_type: ["1040"], tax_year: 2025, title: "Instructions for Schedule 8812 (Form 1040)"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f8949.pdf, document_type: form, form_number: "8949", form_name: "Sales and Other Dispositions of Capital Assets", tax_type: ["1040", "1065", "1120", "1120S", "1041"], tax_year: 2025, title: "Form 8949"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i8949.pdf, document_type: instructions, form_number: "8949", tax_type: ["1040", "1065", "1120", "1120S", "1041"], tax_year: 2025, title: "Instructions for Form 8949"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f8962.pdf, document_type: form, form_number: "8962", form_name: "Premium Tax Credit (PTC)", tax_type: ["1040"], tax_year: 2025, title: "Form 8962"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i8962.pdf, document_type: instructions, form_number: "8962", tax_type: ["1040"], tax_year: 2025, title: "Instructions for Form 8962"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f2441.pdf, document_type: form, form_number: "2441", form_name: "Child and Dependent Care Expenses", tax_type: ["1040"], tax_year: 2025, title: "Form 2441"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i2441.pdf, document_type: instructions, form_number: "2441", tax_type: ["1040"], tax_year: 2025, title: "Instructions for Form 2441"}
+  # ---------------- Publications (TY2025 editions unless noted)
+  - {url: https://www.irs.gov/pub/irs-pdf/p17.pdf, document_type: publication, publication_number: "17", tax_type: ["1040"], tax_year: 2025, title: "Publication 17, Your Federal Income Tax"}
+  - {url: https://www.irs.gov/pub/irs-pdf/p525.pdf, document_type: publication, publication_number: "525", tax_type: ["1040"], tax_year: 2025, title: "Publication 525, Taxable and Nontaxable Income"}
+  - {url: https://www.irs.gov/pub/irs-pdf/p501.pdf, document_type: publication, publication_number: "501", tax_type: ["1040"], tax_year: 2025, title: "Publication 501, Dependents, Standard Deduction, and Filing Information"}
+  - {url: https://www.irs.gov/pub/irs-pdf/p596.pdf, document_type: publication, publication_number: "596", tax_type: ["1040"], tax_year: 2025, title: "Publication 596, Earned Income Credit (EIC)"}
+  - {url: https://www.irs.gov/pub/irs-pdf/p590a.pdf, document_type: publication, publication_number: "590-A", tax_type: ["1040"], tax_year: 2025, title: "Publication 590-A, Contributions to Individual Retirement Arrangements (IRAs)"}
+  - {url: https://www.irs.gov/pub/irs-pdf/p974.pdf, document_type: publication, publication_number: "974", tax_type: ["1040"], tax_year: 2025, title: "Publication 974, Premium Tax Credit (PTC)"}
+  # ---------------- e-file / MeF
+  - {url: https://www.irs.gov/pub/irs-pdf/p4164.pdf, document_type: efile_spec, publication_number: "4164", tax_type: ["1040", "1065", "1120", "1120S", "1041", "990"], title: "Publication 4164, Modernized e-File (MeF) Guide for Software Developers and Transmitters"}
+  - {url: https://www.irs.gov/pub/irs-pdf/p1345.pdf, document_type: efile_spec, publication_number: "1345", tax_type: ["1040"], title: "Publication 1345, Handbook for Authorized IRS e-file Providers of Individual Income Tax Returns"}
+  # ---------------- Business / fiduciary / exempt, TY2025
+  - {url: https://www.irs.gov/pub/irs-pdf/f1065.pdf, document_type: form, form_number: "1065", form_name: "U.S. Return of Partnership Income", tax_type: ["1065"], tax_year: 2025, title: "Form 1065"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1065.pdf, document_type: instructions, form_number: "1065", tax_type: ["1065"], tax_year: 2025, title: "Instructions for Form 1065"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1065sk1.pdf, document_type: schedule, form_number: "1065", schedule: "K-1", tax_type: ["1065"], tax_year: 2025, title: "Schedule K-1 (Form 1065), Partner's Share of Income, Deductions, Credits, etc."}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1065sk1.pdf, document_type: schedule_instructions, form_number: "1065", schedule: "K-1", tax_type: ["1065"], tax_year: 2025, title: "Partner's Instructions for Schedule K-1 (Form 1065)"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1120.pdf, document_type: form, form_number: "1120", form_name: "U.S. Corporation Income Tax Return", tax_type: ["1120"], tax_year: 2025, title: "Form 1120"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1120.pdf, document_type: instructions, form_number: "1120", tax_type: ["1120"], tax_year: 2025, title: "Instructions for Form 1120"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1120s.pdf, document_type: form, form_number: "1120-S", form_name: "U.S. Income Tax Return for an S Corporation", tax_type: ["1120S"], tax_year: 2025, title: "Form 1120-S"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1120s.pdf, document_type: instructions, form_number: "1120-S", tax_type: ["1120S"], tax_year: 2025, title: "Instructions for Form 1120-S"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1120ssk.pdf, document_type: schedule, form_number: "1120-S", schedule: "K-1", tax_type: ["1120S"], tax_year: 2025, title: "Schedule K-1 (Form 1120-S), Shareholder's Share of Income, Deductions, Credits, etc."}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1120ssk.pdf, document_type: schedule_instructions, form_number: "1120-S", schedule: "K-1", tax_type: ["1120S"], tax_year: 2025, title: "Shareholder's Instructions for Schedule K-1 (Form 1120-S)"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f1041.pdf, document_type: form, form_number: "1041", form_name: "U.S. Income Tax Return for Estates and Trusts", tax_type: ["1041"], tax_year: 2025, title: "Form 1041"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i1041.pdf, document_type: instructions, form_number: "1041", tax_type: ["1041"], tax_year: 2025, title: "Instructions for Form 1041 and Schedules A, B, G, J, and K-1"}
+  - {url: https://www.irs.gov/pub/irs-pdf/f990.pdf, document_type: form, form_number: "990", form_name: "Return of Organization Exempt From Income Tax", tax_type: ["990"], tax_year: 2025, title: "Form 990"}
+  - {url: https://www.irs.gov/pub/irs-pdf/i990.pdf, document_type: instructions, form_number: "990", tax_type: ["990"], tax_year: 2025, title: "Instructions for Form 990"}
+  # ---------------- Prior-year finals (stable irs-prior URLs) for temporal comparison
+  - {url: https://www.irs.gov/pub/irs-prior/f1040--2024.pdf, document_type: form, form_number: "1040", tax_type: ["1040"], tax_year: 2024, title: "Form 1040"}
+  - {url: https://www.irs.gov/pub/irs-prior/i1040gi--2024.pdf, document_type: instructions, form_number: "1040", tax_type: ["1040"], tax_year: 2024, title: "Instructions for Form 1040 (and Form 1040-SR)"}
+  - {url: https://www.irs.gov/pub/irs-prior/i1040gi--2023.pdf, document_type: instructions, form_number: "1040", tax_type: ["1040"], tax_year: 2023, title: "Instructions for Form 1040 (and Form 1040-SR)"}
+  - {url: https://www.irs.gov/pub/irs-prior/f1040s1--2024.pdf, document_type: schedule, form_number: "1040", schedule: "1", tax_type: ["1040"], tax_year: 2024, title: "Schedule 1 (Form 1040), Additional Income and Adjustments to Income"}
+  - {url: https://www.irs.gov/pub/irs-prior/f1040sc--2024.pdf, document_type: schedule, form_number: "1040", schedule: "C", tax_type: ["1040"], tax_year: 2024, title: "Schedule C (Form 1040), Profit or Loss From Business"}
+  - {url: https://www.irs.gov/pub/irs-prior/i1040sc--2024.pdf, document_type: schedule_instructions, form_number: "1040", schedule: "C", tax_type: ["1040"], tax_year: 2024, title: "Instructions for Schedule C (Form 1040), Profit or Loss From Business"}
+  - {url: https://www.irs.gov/pub/irs-prior/i1065--2024.pdf, document_type: instructions, form_number: "1065", tax_type: ["1065"], tax_year: 2024, title: "Instructions for Form 1065"}
+  - {url: https://www.irs.gov/pub/irs-prior/p17--2024.pdf, document_type: publication, publication_number: "17", tax_type: ["1040"], tax_year: 2024, title: "Publication 17, Your Federal Income Tax"}
+  # ---------------- Early-release drafts (TY2026) for draft/final comparison
+  - {url: https://www.irs.gov/pub/irs-dft/f1040--dft.pdf, document_type: form, form_number: "1040", tax_type: ["1040"], tax_year: 2026, draft_or_final: draft, title: "Form 1040 (early release draft)"}
+  - {url: https://www.irs.gov/pub/irs-dft/i1040gi--dft.pdf, document_type: instructions, form_number: "1040", tax_type: ["1040"], tax_year: 2026, draft_or_final: draft, title: "Instructions for Form 1040 (early release draft)"}
+  - {url: https://www.irs.gov/pub/irs-dft/f1040s1--dft.pdf, document_type: schedule, form_number: "1040", schedule: "1", tax_type: ["1040"], tax_year: 2026, draft_or_final: draft, title: "Schedule 1 (Form 1040) (early release draft)"}
+  - {url: https://www.irs.gov/pub/irs-dft/i1040se--dft.pdf, document_type: schedule_instructions, form_number: "1040", schedule: "E", tax_type: ["1040"], tax_year: 2026, draft_or_final: draft, title: "Instructions for Schedule E (Form 1040) (early release draft)"}
+  - {url: https://www.irs.gov/pub/irs-dft/f1040sc--dft.pdf, document_type: schedule, form_number: "1040", schedule: "C", tax_type: ["1040"], tax_year: 2026, draft_or_final: draft, title: "Schedule C (Form 1040) (early release draft)"}

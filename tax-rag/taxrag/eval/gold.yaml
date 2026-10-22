@@ -1,0 +1,181 @@
+# Human-review status: DRAFTED by the system builder on 2026-10-01 from the indexed corpus.
+# NOT YET reviewed by a tax analyst. Each item records what a correct retrieval must contain.
+# expected.documents entries resolve to document_ids via (jurisdiction, document_type, form_number, schedule, publication_number).
+questions:
+  # ---- exact form lookup
+  - id: f01
+    category: exact_form_lookup
+    question: "Where do I report wages on Form 1040 for 2025?"
+    expected: {jurisdiction: US, tax_year: 2025, draft_or_final: final, path_contains: ["line 1"], documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], must_mention: ["Form(s) W-2"]}
+  - id: f02
+    category: exact_form_lookup
+    question: "What is Schedule 1 (Form 1040) used for in 2025?"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: schedule, form_number: "1040", schedule: "1"}, {jurisdiction: US, document_type: instructions, form_number: "1040"}], must_mention: ["Additional Income"]}
+  - id: f03
+    category: exact_form_lookup
+    question: "Who must file Form 1065 for 2025?"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "1065"}], path_contains: ["who must file"], must_mention: ["partnership"]}
+  - id: f04
+    category: exact_form_lookup
+    question: "What does Form 8962 compute?"
+    expected: {jurisdiction: US, documents: [{jurisdiction: US, document_type: instructions, form_number: "8962"}, {jurisdiction: US, document_type: form, form_number: "8962"}], must_mention: ["premium tax credit"]}
+  # ---- line-specific
+  - id: l01
+    category: line_specific
+    question: "2025 Form 1040 instructions line 1a wages"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], path_contains: ["line 1a"], pages: [23, 24]}
+  - id: l02
+    category: line_specific
+    question: "How do I report tip income not reported on line 1a of Form 1040 (2025)?"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], path_contains: ["tip income"], must_mention: ["allocated tips"]}
+  - id: l03
+    category: line_specific
+    question: "Form 1040 line 12e standard deduction or itemized deductions 2025"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], path_contains: ["line 12"]}
+  - id: l04
+    category: line_specific
+    question: "What goes on Schedule C line 1 gross receipts for 2025?"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: schedule_instructions, form_number: "1040", schedule: "C"}], path_contains: ["line 1"]}
+  # ---- tax-year specific
+  - id: y01
+    category: tax_year_specific
+    question: "What did the 2024 Form 1040 instructions say about line 1a?"
+    expected: {jurisdiction: US, tax_year: 2024, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], path_contains: ["line 1a"]}
+  - id: y02
+    category: tax_year_specific
+    question: "What is the 2023 Form 1040 instructions standard deduction amount for single filers?"
+    expected: {jurisdiction: US, tax_year: 2023, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], must_mention: ["standard deduction"]}
+  - id: y03
+    category: tax_year_specific
+    question: "What do the current Form 1040 instructions say about who must file?"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], path_contains: ["file"]}
+  # ---- state specific
+  - id: s01
+    category: state_specific
+    question: "What are the filing requirements for Virginia Form 760 in 2025?"
+    expected: {jurisdiction: VA, tax_year: 2025, documents: [{jurisdiction: VA, document_type: instructions, form_number: "760"}], must_mention: ["Virginia"]}
+  - id: s02
+    category: state_specific
+    question: "New York IT-201 2025 instructions: who must file a resident return?"
+    expected: {jurisdiction: NY, tax_year: 2025, documents: [{jurisdiction: NY, document_type: instructions, form_number: "IT-201"}], must_mention: ["New York"]}
+  - id: s03
+    category: state_specific
+    question: "What is Wisconsin Schedule I for tax year 2025?"
+    expected: {jurisdiction: WI, tax_year: 2025, documents: [{jurisdiction: WI, document_type: schedule_instructions, form_number: "1", schedule: "I"}, {jurisdiction: WI, document_type: schedule, form_number: "1", schedule: "I"}], must_mention: ["federal"]}
+  - id: s04
+    category: state_specific
+    question: "Wisconsin Form 1 instructions 2025 standard deduction"
+    expected: {jurisdiction: WI, tax_year: 2025, documents: [{jurisdiction: WI, document_type: instructions, form_number: "1"}], must_mention: ["standard deduction"]}
+  - id: s05
+    category: state_specific
+    question: "Virginia 760 instructions age deduction 2025"
+    expected: {jurisdiction: VA, tax_year: 2025, documents: [{jurisdiction: VA, document_type: instructions, form_number: "760"}], must_mention: ["age deduction"]}
+  # ---- federal/state interaction
+  - id: x01
+    category: federal_state_interaction
+    question: "How does Virginia Form 760 start from federal adjusted gross income?"
+    expected: {jurisdiction: VA, documents: [{jurisdiction: VA, document_type: instructions, form_number: "760"}, {jurisdiction: VA, document_type: form, form_number: "760"}], must_mention: ["federal adjusted gross income"]}
+  - id: x02
+    category: federal_state_interaction
+    question: "Which federal AGI line does Wisconsin Form 1 reference?"
+    expected: {jurisdiction: WI, documents: [{jurisdiction: WI, document_type: instructions, form_number: "1"}, {jurisdiction: WI, document_type: form, form_number: "1"}], must_mention: ["federal"]}
+  - id: x03
+    category: federal_state_interaction
+    question: "New York IT-201 federal adjusted gross income line 2025"
+    expected: {jurisdiction: NY, tax_year: 2025, documents: [{jurisdiction: NY, document_type: instructions, form_number: "IT-201"}, {jurisdiction: NY, document_type: form, form_number: "IT-201"}], must_mention: ["federal adjusted gross income"]}
+  # ---- cross-document references
+  - id: r01
+    category: cross_document
+    question: "Which publication do the 2025 Form 1040 instructions point to for details on qualified dividends?"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], must_mention: ["Pub. 550"]}
+  - id: r02
+    category: cross_document
+    question: "Form 1040 2025 instructions: where are capital gains reported and which form feeds Schedule D?"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}, {jurisdiction: US, document_type: schedule_instructions, form_number: "1040", schedule: "D"}, {jurisdiction: US, document_type: instructions, form_number: "8949"}], must_mention: ["8949"]}
+  - id: r03
+    category: cross_document
+    question: "Schedule C 2025 instructions self-employment tax Schedule SE reference"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: schedule_instructions, form_number: "1040", schedule: "C"}, {jurisdiction: US, document_type: schedule_instructions, form_number: "1040", schedule: "SE"}], must_mention: ["Schedule SE"]}
+  # ---- prior-year comparison
+  - id: c01
+    category: prior_year_comparison
+    mode: compare
+    question: "What changed in the Form 1040 instructions for line 1a between 2024 and 2025?"
+    expected: {jurisdiction: US, years_both: [2024, 2025], documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], changes_expected: true}
+  - id: c02
+    category: prior_year_comparison
+    mode: compare
+    question: "Compare the Wisconsin Schedule I instructions 2024 vs 2025"
+    expected: {jurisdiction: WI, years_both: [2024, 2025], documents: [{jurisdiction: WI, document_type: schedule_instructions, form_number: "1", schedule: "I"}], changes_expected: true}
+  - id: c03
+    category: prior_year_comparison
+    mode: compare
+    question: "Did the Virginia 760 instructions change between 2024 and 2025?"
+    expected: {jurisdiction: VA, years_both: [2024, 2025], documents: [{jurisdiction: VA, document_type: instructions, form_number: "760"}], changes_expected: true}
+  # ---- draft/final comparison
+  - id: d01
+    category: draft_final_comparison
+    mode: compare
+    question: "What changed in the 2026 draft Form 1040 instructions compared with the 2025 final?"
+    expected: {jurisdiction: US, years_both: [2025, 2026], documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], changes_expected: true}
+  - id: d02
+    category: draft_final_comparison
+    question: "Show me the 2026 draft Form 1040 line 1 instructions"
+    draft_filter: draft
+    expected: {jurisdiction: US, tax_year: 2026, draft_or_final: draft, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}]}
+  - id: d03
+    category: draft_final_comparison
+    question: "Form 1040 2025 instructions filing status"
+    expected: {jurisdiction: US, tax_year: 2025, draft_or_final: final, documents: [{jurisdiction: US, document_type: instructions, form_number: "1040"}], path_contains: ["filing status"]}
+  # ---- multi-source
+  - id: m01
+    category: multiple_sources
+    question: "Premium tax credit: what do Form 8962 instructions and Publication 974 say about who can take the credit?"
+    expected: {jurisdiction: US, documents: [{jurisdiction: US, document_type: instructions, form_number: "8962"}, {jurisdiction: US, document_type: publication, publication_number: "974"}], must_mention: ["premium tax credit"]}
+  - id: m02
+    category: multiple_sources
+    question: "Earned income credit rules in Publication 596 and Form 1040 instructions 2025"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: publication, publication_number: "596"}, {jurisdiction: US, document_type: instructions, form_number: "1040"}], must_mention: ["earned income credit"]}
+  - id: m03
+    category: multiple_sources
+    question: "Dependents: Publication 501 and Form 1040 instructions 2025 qualifying child"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: publication, publication_number: "501"}, {jurisdiction: US, document_type: instructions, form_number: "1040"}], must_mention: ["qualifying child"]}
+  # ---- insufficient evidence (correct behavior is to abstain)
+  - id: n01
+    category: insufficient_evidence
+    question: "What is the California Form 540 standard deduction for 2025?"
+    expected: {answer_type: insufficient_evidence}
+  - id: n02
+    category: insufficient_evidence
+    question: "What does Texas franchise tax Form 05-158 require?"
+    expected: {answer_type: insufficient_evidence}
+  - id: n03
+    category: insufficient_evidence
+    question: "What were the Form 1040 instructions for tax year 2019 regarding line 1?"
+    expected: {answer_type: insufficient_evidence}
+  - id: n04
+    category: insufficient_evidence
+    question: "What is the best restaurant near the IRS building?"
+    expected: {answer_type: insufficient_evidence}
+  # ---- e-file / MeF
+  - id: e01
+    category: efile
+    question: "What does Publication 4164 say about MeF transmission file size limits?"
+    expected: {jurisdiction: US, documents: [{jurisdiction: US, document_type: efile_spec, publication_number: "4164"}], must_mention: ["MeF"]}
+  - id: e02
+    category: efile
+    question: "Publication 1345 authorized e-file provider responsibilities"
+    expected: {jurisdiction: US, documents: [{jurisdiction: US, document_type: efile_spec, publication_number: "1345"}]}
+  # ---- business returns
+  - id: b01
+    category: exact_form_lookup
+    question: "Form 1120-S 2025 instructions who must file"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "1120-S"}], must_mention: ["S corporation"]}
+  - id: b02
+    category: exact_form_lookup
+    question: "Form 1041 instructions 2025 who must file for an estate"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "1041"}], must_mention: ["estate"]}
+  - id: b03
+    category: exact_form_lookup
+    question: "Form 990 2025 instructions which organizations must file"
+    expected: {jurisdiction: US, tax_year: 2025, documents: [{jurisdiction: US, document_type: instructions, form_number: "990"}], must_mention: ["organization"]}
