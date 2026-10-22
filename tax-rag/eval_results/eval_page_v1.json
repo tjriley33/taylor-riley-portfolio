@@ -1,0 +1,1041 @@
+{
+  "summary": {
+    "abstained_correctly": {
+      "mean": 1.0,
+      "n": 4
+    },
+    "answered": {
+      "mean": 0.972,
+      "n": 36
+    },
+    "both_years_retrieved": {
+      "mean": 1.0,
+      "n": 4
+    },
+    "changes_found": {
+      "mean": 0.75,
+      "n": 4
+    },
+    "chunk_hit@1": {
+      "mean": 0.65,
+      "n": 40
+    },
+    "chunk_hit@5": {
+      "mean": 0.75,
+      "n": 40
+    },
+    "citation_ok": {
+      "mean": 0.65,
+      "n": 40
+    },
+    "completeness": {
+      "mean": 0.958,
+      "n": 24
+    },
+    "doc_expected_indexed": {
+      "mean": 0.9,
+      "n": 40
+    },
+    "doc_hit@1": {
+      "mean": 0.75,
+      "n": 40
+    },
+    "doc_hit@5": {
+      "mean": 0.9,
+      "n": 40
+    },
+    "explicit_ratio": {
+      "mean": 1.0,
+      "n": 35
+    },
+    "faithfulness": {
+      "mean": 1.0,
+      "n": 35
+    },
+    "jurisdiction_ok": {
+      "mean": 1.0,
+      "n": 36
+    },
+    "tax_year_ok": {
+      "mean": 1.0,
+      "n": 26
+    },
+    "version_ok": {
+      "mean": 1.0,
+      "n": 3
+    },
+    "by_category_primary": {
+      "exact_form_lookup": 0.857,
+      "line_specific": 0.25,
+      "tax_year_specific": 0.333,
+      "state_specific": 1.0,
+      "federal_state_interaction": 1.0,
+      "cross_document": 1.0,
+      "prior_year_comparison": 1.0,
+      "draft_final_comparison": 0.333,
+      "multiple_sources": 1.0,
+      "insufficient_evidence": 1.0,
+      "efile": 1.0
+    },
+    "strategy": "page_v1",
+    "run_id": "eval_f3db90b5",
+    "mean_latency_ms": 3893
+  },
+  "results": [
+    {
+      "id": "f01",
+      "category": "exact_form_lookup",
+      "question": "Where do I report wages on Form 1040 for 2025?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "version_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3905,
+      "top": [
+        "US 2025 final ne 1b > Household Employee Wages Not Reported on Form(s) W-2 > CAUTION p.24",
+        "US 2025 final  Form 1040-SR) > Line Instructions for Forms 1040 and 1040-SR > Income p.23",
+        "US 2025 final ule G\u2014Tax Computation and Payments > Line 7\u2014Household Employment Taxes p.36"
+      ]
+    },
+    {
+      "id": "f02",
+      "category": "exact_form_lookup",
+      "question": "What is Schedule 1 (Form 1040) used for in 2025?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4349,
+      "top": [
+        "US 2025 final Schedule 1 (Form 1040), Additional Income and Adjustments to Income p.1",
+        "US 2025 final for Form 1040 (and Form 1040-SR) > Form 1040 and 1040-SR Helpful Hints p.3",
+        "US 2025 final s > 2025 Instructions for Schedule A (Form 1040) > Itemized Deductions p.1"
+      ]
+    },
+    {
+      "id": "f03",
+      "category": "exact_form_lookup",
+      "question": "Who must file Form 1065 for 2025?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3880,
+      "top": [
+        "US 2025 final Instructions for Form 1065 > General Instructions > When To File p.6",
+        "US 2025 final Form 1065 p.1",
+        "US 2025 final Instructions for Form 1065 > Specific Instructions > TIP p.18"
+      ]
+    },
+    {
+      "id": "f04",
+      "category": "exact_form_lookup",
+      "question": "What does Form 8962 compute?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4362,
+      "top": [
+        "US 2025 final Instructions for Form 8962 > Purpose of Form p.2",
+        "US 2025 final Form 8962 p.1",
+        "US 2025 final guous States and the District of Columbia > Table 2. Applicable Figure p.11"
+      ]
+    },
+    {
+      "id": "l01",
+      "category": "line_specific",
+      "question": "2025 Form 1040 instructions line 1a wages",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0
+      },
+      "latency_ms": 3356,
+      "top": [
+        "US 2025 final ne 1b > Household Employee Wages Not Reported on Form(s) W-2 > CAUTION p.24",
+        "US 2025 final  Form 1040-SR) > Line Instructions for Forms 1040 and 1040-SR > Income p.23",
+        "US 2025 final ing Status > Digital Assets > How To Report Digital Asset Transactions p.16"
+      ]
+    },
+    {
+      "id": "l02",
+      "category": "line_specific",
+      "question": "How do I report tip income not reported on line 1a of Form 1040 (2025)?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3493,
+      "top": [
+        "US 2025 final ne 1b > Household Employee Wages Not Reported on Form(s) W-2 > CAUTION p.24",
+        "US 2025 final ing Status > Digital Assets > How To Report Digital Asset Transactions p.16",
+        "US 2025 final Schedule 1 (Form 1040), Additional Income and Adjustments to Income p.1"
+      ]
+    },
+    {
+      "id": "l03",
+      "category": "line_specific",
+      "question": "Form 1040 line 12e standard deduction or itemized deductions 2025",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0
+      },
+      "latency_ms": 3474,
+      "top": [
+        "US 2025 final > Tax and Credits > Line 12e Standard Deduction or Itemized Deductions p.34",
+        "US 2025 final ds > Foreign Earned Income Tax Worksheet\u2014Line 16 Keep for Your Records p.37",
+        "US 2025 final Schedule A (Form 1040), Itemized Deductions > SCHEDULE A (Form 1040) p.1"
+      ]
+    },
+    {
+      "id": "l04",
+      "category": "line_specific",
+      "question": "What goes on Schedule C line 1 gross receipts for 2025?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0
+      },
+      "latency_ms": 4126,
+      "top": [
+        "US 2025 final or Form 1120 > Specific Instructions > Line 1. Gross Receipts or Sales p.10",
+        "US 2025 final orm 1040), Profit or Loss From Business > Specific Instructions > Note p.5",
+        "US 2025 final Schedule C (Form 1040), Profit or Loss From Business p.1"
+      ]
+    },
+    {
+      "id": "y01",
+      "category": "tax_year_specific",
+      "question": "What did the 2024 Form 1040 instructions say about line 1a?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0
+      },
+      "latency_ms": 3981,
+      "top": [
+        "US 2024 final Qualifying Surviving Spouse > How To Report Digital Asset Transactions p.16",
+        "US 2024 final Form 1040 p.1",
+        "US 2024 final ustments to Income > Additional Income > Lines 8a Through 8z > Line 8s p.88"
+      ]
+    },
+    {
+      "id": "y02",
+      "category": "tax_year_specific",
+      "question": "What is the 2023 Form 1040 instructions standard deduction amount for single filers?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4249,
+      "top": [
+        "US 2023 final Instructions for Form 1040 (and Form 1040-SR) > What's New p.6",
+        "US 2023 final Income > Line 21 > Student Loan Interest Deduction > Before you begin: p.95",
+        "US 2023 final Instructions for Form 1040 (and Form 1040-SR) > 2023 Tax Table p.65"
+      ]
+    },
+    {
+      "id": "y03",
+      "category": "tax_year_specific",
+      "question": "What do the current Form 1040 instructions say about who must file?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0
+      },
+      "latency_ms": 3361,
+      "top": [
+        "US 2025 final n project property. Provide the > Instructions for Form 1041 (2025) 53 p.53",
+        "US 2025 final Publication 974, Premium Tax Credit (PTC) > Introduction p.2",
+        "US 2025 final -SR) > Line Instructions for Forms 1040 and 1040-SR > Name and Address p.12"
+      ]
+    },
+    {
+      "id": "s01",
+      "category": "state_specific",
+      "question": "What are the filing requirements for Virginia Form 760 in 2025?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": true,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4126,
+      "top": [
+        "VA 2025 final Schedule CR, Credit Computation Schedule p.1",
+        "VA 2025 final come Tax Booklet (instructions) > Age 65 and Older Deduction Worksheet p.16",
+        "VA 2025 final  Choosing the Right Form to File > Exceptions for Certain Nonresidents p.13"
+      ]
+    },
+    {
+      "id": "s02",
+      "category": "state_specific",
+      "question": "New York IT-201 2025 instructions: who must file a resident return?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4833,
+      "top": [
+        "NY 2025 final Instructions for Form IT-201, Full-Year Resident Income Tax Return p.1",
+        "NY 2025 final ate your taxes > Filing status \uf083 only (Married filing separate return) p.14",
+        "NY 2025 final 1, Full-Year Resident Income Tax Return > When to file/Important dates p.41"
+      ]
+    },
+    {
+      "id": "s03",
+      "category": "state_specific",
+      "question": "What is Wisconsin Schedule I for tax year 2025?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3216,
+      "top": [
+        "WI 2025 final Schedule I Instructions > General Instructions p.1",
+        "WI 2025 final e I Instructions > Other Differences Between Federal and Wisconsin Law p.5",
+        "WI 2025 final Schedule I Instructions > General Instructions > CAUTION p.2"
+      ]
+    },
+    {
+      "id": "s04",
+      "category": "state_specific",
+      "question": "Wisconsin Form 1 instructions 2025 standard deduction",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4425,
+      "top": [
+        "WI 2025 final Wednesday April 15, 2026 > Tax Help / Resources > 16 Line Instructions p.16",
+        "WI 2025 final m 1 Instructions, Wisconsin Income Tax > 2025 Standard Deduction Table p.37",
+        "WI 2025 final Wednesday April 15, 2026 > Tax Help / Resources > 15 Line Instructions p.15"
+      ]
+    },
+    {
+      "id": "s05",
+      "category": "state_specific",
+      "question": "Virginia 760 instructions age deduction 2025",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4522,
+      "top": [
+        "VA 2025 final come Tax Booklet (instructions) > Age 65 and Older Deduction Worksheet p.16",
+        "VA 2025 final Credit for Low-Income Individuals or Virginia Earned Income Tax Credit p.30",
+        "VA 2025 final Schedule ADJ, Virginia Schedule of Adjustments p.1"
+      ]
+    },
+    {
+      "id": "x01",
+      "category": "federal_state_interaction",
+      "question": "How does Virginia Form 760 start from federal adjusted gross income?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4013,
+      "top": [
+        "VA 2024 final al Income Tax Booklet (instructions) > Spouse Tax Adjustment Worksheet p.18",
+        "VA 2024 final dule ADJ, Line 2a........ C._ _______________ > Line 3 Total Additions p.24",
+        "VA 2025 final Schedule ADJ, Virginia Schedule of Adjustments p.1"
+      ]
+    },
+    {
+      "id": "x02",
+      "category": "federal_state_interaction",
+      "question": "Which federal AGI line does Wisconsin Form 1 reference?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 2712,
+      "top": [
+        "WI 2025 final > Homeowner\u2019s School Property Tax Credit Table* > 27 Line Instructions p.27",
+        "WI 2024 final > Homeowner\u2019s School Property Tax Credit Table* > 27 Line Instructions p.27",
+        "WI 2025 final Wednesday April 15, 2026 > Tax Help / Resources > 16 Line Instructions p.16"
+      ]
+    },
+    {
+      "id": "x03",
+      "category": "federal_state_interaction",
+      "question": "New York IT-201 federal adjusted gross income line 2025",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3813,
+      "top": [
+        "NY 2025 final  Tax Return > Additional information > If your: and your then use the: p.32",
+        "NY 2025 final Use these notes for New York State household credit tables 1 through 3 p.13",
+        "NY 2025 final 1, Full-Year Resident Income Tax Return > Step 6: Calculate your taxes p.12"
+      ]
+    },
+    {
+      "id": "r01",
+      "category": "cross_document",
+      "question": "Which publication do the 2025 Form 1040 instructions point to for details on qualified dividends?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": true,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 0.0
+      },
+      "latency_ms": 4099,
+      "top": [
+        "US 2025 final Schedule B (Form 1040), Interest and Ordinary Dividends p.1",
+        "US 2025 final er Information > Instructions for Schedule K-1 (Form 1120-S) (2025) 17 p.17",
+        "US 2025 final ds > Foreign Earned Income Tax Worksheet\u2014Line 16 Keep for Your Records p.37"
+      ]
+    },
+    {
+      "id": "r02",
+      "category": "cross_document",
+      "question": "Form 1040 2025 instructions: where are capital gains reported and which form feeds Schedule D?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4037,
+      "top": [
+        "US 2025 final 025 Instructions for Schedule D (Form 1040) > Capital Gains and Losses p.1",
+        "US 2025 final edule D (Form 1040), Capital Gains and Losses > SCHEDULE D (Form 1040) p.1",
+        "US 2025 final  Capital Loss Carryover Worksheet\u2014Lines 6 and 14 Keep for Your Records p.10"
+      ]
+    },
+    {
+      "id": "r03",
+      "category": "cross_document",
+      "question": "Schedule C 2025 instructions self-employment tax Schedule SE reference",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 4491,
+      "top": [
+        "US 2025 final Instructions for Schedule C (Form 1040) > Profit or Loss From Business p.1",
+        "US 2025 final  > Income and Losses Not Included in Net Earnings From Self-Employment p.4",
+        "US 2025 final Schedule SE (Form 1040), Self-Employment Tax > SCHEDULE SE (Form 1040) p.1"
+      ]
+    },
+    {
+      "id": "c01",
+      "category": "prior_year_comparison",
+      "question": "What changed in the Form 1040 instructions for line 1a between 2024 and 2025?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "both_years_retrieved": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "changes_found": true
+      },
+      "latency_ms": 7182,
+      "top": [
+        "US 2024 final  > Adjustments to Income > Line 20 > IRA Deduction > Before you begin: p.92",
+        "US 2024 final Qualifying Surviving Spouse > How To Report Digital Asset Transactions p.16",
+        "US 2024 final Schedule 1 (Form 1040), Additional Income and Adjustments to Income p.1"
+      ]
+    },
+    {
+      "id": "c02",
+      "category": "prior_year_comparison",
+      "question": "Compare the Wisconsin Schedule I instructions 2024 vs 2025",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "both_years_retrieved": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "changes_found": true
+      },
+      "latency_ms": 6008,
+      "top": [
+        "WI 2024 final Schedule I Instructions > General Instructions p.2",
+        "WI 2024 final come Tax > Tuesday April 15, 2025 > Tax Help / Resources > Code > Note p.14",
+        "WI 2024 final > Tuesday April 15, 2025 > Tax Help / Resources > 13 Line Instructions p.13"
+      ]
+    },
+    {
+      "id": "c03",
+      "category": "prior_year_comparison",
+      "question": "Did the Virginia 760 instructions change between 2024 and 2025?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": true,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "both_years_retrieved": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "changes_found": true
+      },
+      "latency_ms": 8708,
+      "top": [
+        "VA 2024 final come Tax Return File by May 1, 2025 \u2014 USE BLACK INK 2601031 Rev. 11/24 p.1",
+        "VA 2024 final structions) > Schedule ADJ Line Instructions > Poverty Guideline Table p.31",
+        "VA 2024 final Table of Contents > Virginia\u2019s Conformity to the Internal Revenue Code p.7"
+      ]
+    },
+    {
+      "id": "d01",
+      "category": "draft_final_comparison",
+      "question": "What changed in the 2026 draft Form 1040 instructions compared with the 2025 final?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": true,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "both_years_retrieved": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "changes_found": false
+      },
+      "latency_ms": 6719,
+      "top": [
+        "US 2025 final for Form 990 > General Instructions > 2025 Instructions for Form 990 5 p.5",
+        "US 2025 final Your Tax > Publication 17 (2025) Chapter 13 How To Figure Your Tax 107 p.109",
+        "US 2025 final d Management > Section B. Policies > 24 2025 Instructions for Form 990 p.24"
+      ]
+    },
+    {
+      "id": "d02",
+      "category": "draft_final_comparison",
+      "question": "Show me the 2026 draft Form 1040 line 1 instructions",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "version_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0
+      },
+      "latency_ms": 4020,
+      "top": [
+        "US 2026 draft in or (Loss) > TREASURY/IRS AND OMB USE ONLY DRAFT > Before you begin: p.33",
+        "US 2026 draft ibutions Credit (Saver\u2019s Credit) > TREASURY/IRS AND OMB USE ONLY DRAFT p.117",
+        "US 2026 draft st Deduction > TREASURY/IRS AND OMB USE ONLY DRAFT > Before you begin: p.100"
+      ]
+    },
+    {
+      "id": "d03",
+      "category": "draft_final_comparison",
+      "question": "Form 1040 2025 instructions filing status",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "version_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0
+      },
+      "latency_ms": 3749,
+      "top": [
+        "US 2025 final orm 1040-SR) > 2025 Tax Table > 2025 Tax Computation Worksheet\u2014Line 16 p.80",
+        "US 2025 final art One. The Income Tax Return > Chapter 1 Filing Information > Single p.24",
+        "US 2025 final e Instructions for Forms 1040 and 1040-SR > Income > Line 7a > Line 7b p.33"
+      ]
+    },
+    {
+      "id": "m01",
+      "category": "multiple_sources",
+      "question": "Premium tax credit: what do Form 8962 instructions and Publication 974 say about who can take the credit?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3098,
+      "top": [
+        "US 2025 final Publication 974, Premium Tax Credit (PTC) > Introduction p.2",
+        "US 2025 final Publication 974, Premium Tax Credit (PTC) > Introduction > 1095-A p.3",
+        "US 2025 final Instructions for Form 8962 > Purpose of Form p.2"
+      ]
+    },
+    {
+      "id": "m02",
+      "category": "multiple_sources",
+      "question": "Earned income credit rules in Publication 596 and Form 1040 instructions 2025",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3501,
+      "top": [
+        "US 2025 final ne > Rule 6\u2014Your Investment Income Must Be $11,950 or Less > Worksheet p.8",
+        "US 2025 final Publication 596, Earned Income Credit (EIC) > Future Developments p.2",
+        "US 2025 final edit (EIC) > Definitions and Special Rules > Your Earned Income Credit p.48"
+      ]
+    },
+    {
+      "id": "m03",
+      "category": "multiple_sources",
+      "question": "Dependents: Publication 501 and Form 1040 instructions 2025 qualifying child",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3051,
+      "top": [
+        "US 2025 final Qualifying Child for Child Tax Credit, and Credit for Other Dependents p.17",
+        "US 2025 final r Forms 1040 and 1040-SR > Filing Status > Qualifying Surviving Spouse p.15",
+        "US 2025 final Lines 27a, 27b, and 27c\u2014 Earned Income Credit (EIC) > Qualifying Child p.41"
+      ]
+    },
+    {
+      "id": "n01",
+      "category": "insufficient_evidence",
+      "question": "What is the California Form 540 standard deduction for 2025?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": false,
+        "doc_expected_indexed": false,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "abstained_correctly": true
+      },
+      "latency_ms": 225,
+      "top": []
+    },
+    {
+      "id": "n02",
+      "category": "insufficient_evidence",
+      "question": "What does Texas franchise tax Form 05-158 require?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": false,
+        "doc_expected_indexed": false,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "abstained_correctly": true
+      },
+      "latency_ms": 222,
+      "top": []
+    },
+    {
+      "id": "n03",
+      "category": "insufficient_evidence",
+      "question": "What were the Form 1040 instructions for tax year 2019 regarding line 1?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": false,
+        "doc_expected_indexed": false,
+        "chunk_hit@1": false,
+        "chunk_hit@5": false,
+        "citation_ok": false,
+        "abstained_correctly": true
+      },
+      "latency_ms": 267,
+      "top": []
+    },
+    {
+      "id": "n04",
+      "category": "insufficient_evidence",
+      "question": "What is the best restaurant near the IRS building?",
+      "metrics": {
+        "doc_hit@1": false,
+        "doc_hit@5": false,
+        "doc_expected_indexed": false,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "abstained_correctly": true
+      },
+      "latency_ms": 2865,
+      "top": [
+        "US 2023 final 1040-SR) > What's New > Why have millions of Americans used Free File? p.7",
+        "US 2024 final siness > Reminders > Principal Business or Professional Activity Codes p.19",
+        "US 2025 final uction Act Notice. > Principal Business or Professional Activity Codes p.18"
+      ]
+    },
+    {
+      "id": "e01",
+      "category": "efile",
+      "question": "What does Publication 4164 say about MeF transmission file size limits?",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "answered": false,
+        "completeness": 1.0
+      },
+      "latency_ms": 4482,
+      "top": [
+        "US 2026 final he Transmission and Return Data > 5.6 Generating Acknowledgement Files p.171",
+        "US 2026 final e Acknowledgement File > FIGURE 5-1: CRC VALUE IN THE ZIP ARCHIVE FILE p.166",
+        "US 2026 final rn > 5.3.1 Schema Validation > Error Category Severity Tax Type > Note p.163"
+      ]
+    },
+    {
+      "id": "e02",
+      "category": "efile",
+      "question": "Publication 1345 authorized e-file provider responsibilities",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0
+      },
+      "latency_ms": 4024,
+      "top": [
+        "US None final Chapter 2 \u2013 Must Read > Publications for Individual Income Tax Returns p.7",
+        "US None final  Returns > Chapter 5 \u2013 Other Authorized IRS e-file Provider Activities p.31",
+        "US None final  Returns > Chapter 1 \u2013 Stay Informed > What\u2019s New in Publication 1345? p.5"
+      ]
+    },
+    {
+      "id": "b01",
+      "category": "exact_form_lookup",
+      "question": "Form 1120-S 2025 instructions who must file",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3717,
+      "top": [
+        "US 2025 final Instructions for Form 1120-S > General Instructions p.2",
+        "US 2025 final  (Schedules K and K-1, Part III) > Credits > Low-Income Housing Credit p.34",
+        "US 2025 final  1120-S > Specific Instructions > Schedule L. Balance Sheets per Books p.49"
+      ]
+    },
+    {
+      "id": "b02",
+      "category": "exact_form_lookup",
+      "question": "Form 1041 instructions 2025 who must file for an estate",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3665,
+      "top": [
+        "US 2025 final d K-1 > General Instructions > Who Must Sign > Section 643(g) Election p.10",
+        "US 2025 final nd Schedules A, B, G, J, and K-1 > General Instructions > When To File p.9",
+        "US 2025 final ons > Abusive Trust Arrangements > Instructions for Form 1041 (2025) 7 p.7"
+      ]
+    },
+    {
+      "id": "b03",
+      "category": "exact_form_lookup",
+      "question": "Form 990 2025 instructions which organizations must file",
+      "metrics": {
+        "doc_hit@1": true,
+        "doc_hit@5": true,
+        "doc_expected_indexed": true,
+        "chunk_hit@1": true,
+        "chunk_hit@5": true,
+        "citation_ok": true,
+        "jurisdiction_ok": true,
+        "tax_year_ok": true,
+        "answered": true,
+        "faithfulness": 1.0,
+        "explicit_ratio": 1.0,
+        "completeness": 1.0
+      },
+      "latency_ms": 3375,
+      "top": [
+        "US 2025 final Instructions for Form 990 > General Instructions p.2",
+        "US 2025 final for Form 990 > General Instructions > 2025 Instructions for Form 990 3 p.3",
+        "US 2025 final  Periods and Methods > Assembling Form 990, Schedules, and Attachments p.8"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  TaxRAG on AWS: S3 bucket for index + raw PDFs, ECS Fargate service for the API/UI,
+  scheduled Fargate task for ingestion (EventBridge), optional SQS hook from the existing
+  New_IRS_Forms Lambda. Single-container, no vendor lock-in beyond S3/ECS.
+Parameters:
+  ImageUri: { Type: String, Description: ECR image URI built from tax-rag/Dockerfile }
+  VpcId: { Type: AWS::EC2::VPC::Id }
+  SubnetIds: { Type: List<AWS::EC2::Subnet::Id> }
+  AnthropicApiKeySecretArn: { Type: String, Default: "", Description: Secrets Manager ARN holding ANTHROPIC_API_KEY (optional) }
+  ExistingFormsBucket: { Type: String, Default: forms123456 }
+  ExistingFormsTable: { Type: String, Default: Forms }
+  IngestSchedule: { Type: String, Default: "cron(0 9 * * ? *)", Description: UTC; nightly 09:00 }
+Conditions:
+  HasLlmKey: !Not [!Equals [!Ref AnthropicApiKeySecretArn, ""]]
+Resources:
+  DataBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration: { Status: Enabled }   # index history is free insurance
+      PublicAccessBlockConfiguration: { BlockPublicAcls: true, BlockPublicPolicy: true, IgnorePublicAcls: true, RestrictPublicBuckets: true }
+  Cluster: { Type: AWS::ECS::Cluster }
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties: { RetentionInDays: 30 }
+  TaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument: { Version: "2012-10-17", Statement: [{ Effect: Allow, Principal: { Service: ecs-tasks.amazonaws.com }, Action: sts:AssumeRole }] }
+      Policies:
+        - PolicyName: taxrag
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [s3:GetObject, s3:PutObject, s3:ListBucket]
+                Resource: [!GetAtt DataBucket.Arn, !Sub "${DataBucket.Arn}/*", !Sub "arn:aws:s3:::${ExistingFormsBucket}", !Sub "arn:aws:s3:::${ExistingFormsBucket}/*"]
+              - Effect: Allow
+                Action: [dynamodb:Scan, dynamodb:DescribeTable]
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ExistingFormsTable}"
+              - Effect: Allow
+                Action: [bedrock:InvokeModel]
+                Resource: "*"
+              - !If
+                - HasLlmKey
+                - { Effect: Allow, Action: [secretsmanager:GetSecretValue], Resource: !Ref AnthropicApiKeySecretArn }
+                - !Ref AWS::NoValue
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument: { Version: "2012-10-17", Statement: [{ Effect: Allow, Principal: { Service: ecs-tasks.amazonaws.com }, Action: sts:AssumeRole }] }
+      ManagedPolicyArns: [arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy]
+      Policies:
+        - !If
+          - HasLlmKey
+          - PolicyName: secrets
+            PolicyDocument: { Version: "2012-10-17", Statement: [{ Effect: Allow, Action: secretsmanager:GetSecretValue, Resource: !Ref AnthropicApiKeySecretArn }] }
+          - !Ref AWS::NoValue
+  ApiTask:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: "1024"
+      Memory: "4096"
+      TaskRoleArn: !GetAtt TaskRole.Arn
+      ExecutionRoleArn: !GetAtt ExecutionRole.Arn
+      EphemeralStorage: { SizeInGiB: 50 }
+      ContainerDefinitions:
+        - Name: api
+          Image: !Ref ImageUri
+          PortMappings: [{ ContainerPort: 8000 }]
+          Environment:
+            - { Name: TAXRAG_S3_BUCKET, Value: !Ref DataBucket }
+            - { Name: TAXRAG_IRS_S3_BUCKET, Value: !Ref ExistingFormsBucket }
+            - { Name: TAXRAG_IRS_DYNAMO_TABLE, Value: !Ref ExistingFormsTable }
+            - { Name: TAXRAG_LLM_PROVIDER, Value: !If [HasLlmKey, anthropic, bedrock] }
+          Secrets: !If
+            - HasLlmKey
+            - [{ Name: ANTHROPIC_API_KEY, ValueFrom: !Ref AnthropicApiKeySecretArn }]
+            - !Ref AWS::NoValue
+          LogConfiguration: { LogDriver: awslogs, Options: { awslogs-group: !Ref LogGroup, awslogs-region: !Ref AWS::Region, awslogs-stream-prefix: api } }
+  IngestTask:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: "2048"
+      Memory: "8192"
+      TaskRoleArn: !GetAtt TaskRole.Arn
+      ExecutionRoleArn: !GetAtt ExecutionRole.Arn
+      EphemeralStorage: { SizeInGiB: 100 }
+      ContainerDefinitions:
+        - Name: ingest
+          Image: !Ref ImageUri
+          Command: ["sh", "-c", "taxrag sync pull; taxrag ingest all --live; taxrag ingest irs_pipeline; taxrag sync push"]
+          Environment:
+            - { Name: TAXRAG_S3_BUCKET, Value: !Ref DataBucket }
+            - { Name: TAXRAG_IRS_S3_BUCKET, Value: !Ref ExistingFormsBucket }
+            - { Name: TAXRAG_IRS_DYNAMO_TABLE, Value: !Ref ExistingFormsTable }
+          LogConfiguration: { LogDriver: awslogs, Options: { awslogs-group: !Ref LogGroup, awslogs-region: !Ref AWS::Region, awslogs-stream-prefix: ingest } }
+  ServiceSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: TaxRAG API (put an ALB with OIDC/Cognito in front before exposing publicly)
+      VpcId: !Ref VpcId
+      SecurityGroupIngress: [{ IpProtocol: tcp, FromPort: 8000, ToPort: 8000, CidrIp: 10.0.0.0/8 }]
+  ApiService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      DesiredCount: 1
+      TaskDefinition: !Ref ApiTask
+      NetworkConfiguration: { AwsvpcConfiguration: { Subnets: !Ref SubnetIds, SecurityGroups: [!Ref ServiceSG], AssignPublicIp: ENABLED } }
+  SchedulerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument: { Version: "2012-10-17", Statement: [{ Effect: Allow, Principal: { Service: events.amazonaws.com }, Action: sts:AssumeRole }] }
+      Policies:
+        - PolicyName: run-task
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - { Effect: Allow, Action: ecs:RunTask, Resource: !Ref IngestTask }
+              - { Effect: Allow, Action: iam:PassRole, Resource: [!GetAtt TaskRole.Arn, !GetAtt ExecutionRole.Arn] }
+  NightlyIngest:
+    Type: AWS::Events::Rule
+    Properties:
+      ScheduleExpression: !Ref IngestSchedule
+      Targets:
+        - Id: ingest
+          Arn: !GetAtt Cluster.Arn
+          RoleArn: !GetAtt SchedulerRole.Arn
+          EcsParameters:
+            TaskDefinitionArn: !Ref IngestTask
+            LaunchType: FARGATE
+            NetworkConfiguration: { AwsVpcConfiguration: { Subnets: !Ref SubnetIds, SecurityGroups: [!Ref ServiceSG], AssignPublicIp: ENABLED } }
+Outputs:
+  DataBucketName: { Value: !Ref DataBucket }
+  ClusterName: { Value: !Ref Cluster }
+  IngestTaskDefinition: { Value: !Ref IngestTask }

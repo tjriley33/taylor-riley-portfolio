@@ -1,0 +1,7 @@
+documents:
+  - {url: https://www.tax.ny.gov/pdf/2025/inc/it201i_2025.pdf, document_type: instructions, form_number: "IT-201", tax_year: 2025, title: "Instructions for Form IT-201, Full-Year Resident Income Tax Return"}
+  - {url: https://www.tax.ny.gov/pdf/current_forms/it/it201_fill_in.pdf, document_type: form, form_number: "IT-201", form_name: "Resident Income Tax Return", tax_year: 2025, title: "Form IT-201, Resident Income Tax Return"}
+  - {url: https://www.tax.ny.gov/pdf/2024/inc/it201i_2024.pdf, document_type: instructions, form_number: "IT-201", tax_year: 2024, title: "Instructions for Form IT-201, Full-Year Resident Income Tax Return"}
+  - {url: https://www.tax.ny.gov/pdf/2024/inc/it201_2024_fill_in.pdf, document_type: form, form_number: "IT-201", tax_year: 2024, title: "Form IT-201, Resident Income Tax Return"}
+  - {url: https://www.tax.ny.gov/pdf/current_forms/it/it225i.pdf, document_type: instructions, form_number: "IT-225", tax_year: 2025, title: "Instructions for Form IT-225, New York State Modifications"}
+  - {url: https://www.tax.ny.gov/pdf/current_forms/it/it201att_fill_in.pdf, document_type: form, form_number: "IT-201-ATT", tax_year: 2025, title: "Form IT-201-ATT, Other Tax Credits and Taxes"}
