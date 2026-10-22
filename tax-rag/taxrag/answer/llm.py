@@ -24,8 +24,14 @@ def generate(system: str, user: str, max_tokens: int = 1800) -> Optional[dict]:
     if settings.llm_provider == "anthropic":
         import anthropic
         client = anthropic.Anthropic(api_key=settings.anthropic_api_key or os.environ.get("ANTHROPIC_API_KEY"))
-        resp = client.messages.create(model=settings.llm_model, max_tokens=max_tokens, temperature=0, system=system,
-                                      messages=[{"role": "user", "content": user}])
+        kwargs = dict(model=settings.llm_model, max_tokens=max_tokens, temperature=0, system=system,
+                      messages=[{"role": "user", "content": user}])
+        try:
+            resp = client.messages.create(**kwargs)
+        except TypeError:
+            # Some anthropic SDK versions (e.g. 2.x) dropped the temperature kwarg.
+            kwargs.pop("temperature", None)
+            resp = client.messages.create(**kwargs)
         text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
         return {"text": text, "model": resp.model, "usage": {"input": resp.usage.input_tokens, "output": resp.usage.output_tokens}}
     if settings.llm_provider == "bedrock":
