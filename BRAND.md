@@ -6,7 +6,7 @@ I build reliable tax software and AI development tools, connecting domain expert
 
 ## Foundation
 
-The through-line is translating difficult domain rules into working systems. Taylor's trajectory runs from taxpayer support and hands-on tax development to Principal, Manager, Senior Manager, and Director, Tax at Taxwell (July 2026). Leadership expands the reach of the building work; it does not replace it. His distinguishing work connects tax calculations, developer context, validation, and the operational handoff.
+The through-line is translating difficult domain rules into working systems. Taylor's trajectory runs from taxpayer support and hands-on tax development to Principal, Manager, Senior Manager, Director, Tax at Taxwell (July 2026), and Principal AI Engineer, Tax (October 19, 2026). Leadership expands the reach of the building work; it does not replace it. His distinguishing work connects tax calculations, developer context, validation, and the operational handoff.
 
 Write for engineers, technical leaders, and domain experts who need to understand what changed and why it works. Lead with the constraint, explain the decision, and show evidence. Do not turn career exploration into public job-search positioning.
 
